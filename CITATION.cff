@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use this specification, please cite it using the metadata below."
+title: "P10 Underdetermination Profile"
+type: software
+authors:
+  - family-names: "Nestorov"
+    given-names: "Ivan"
+version: 0.1.0
+date-released: 2026-09-26
+license: MIT
+repository-code: "https://github.com/VolMax-Studio/p10-underdetermination-profile"
+abstract: >-
+  A profile for third-party-verifiable, witness-carrying underdetermination
+  receipts over SCITT and in-toto, with frozen semantics, checkpoint-bounded
+  evidence coverage, canonical witnesses, and explicit limitations.
