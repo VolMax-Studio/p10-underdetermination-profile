@@ -1,13 +1,13 @@
-# P10 v0.1.0 Source Snapshot
+# P10 v0.1.1 Source Snapshot
 
-**Inspection date:** 2026-09-23  
-**Snapshot date:** 2026-09-26  
-**Scope:** sources and verification boundaries supporting the P10 Underdetermination Profile v0.1.0 publication candidate.
+**Inspection dates:** 2026-09-23 and 2026-09-27
+**Snapshot date:** 2026-09-27
+**Scope:** sources and verification boundaries supporting the P10 Underdetermination Profile v0.1.1 publication candidate.
 
 ## Publication artifact
 
-- File: `P10_Underdetermination_Profile_v0.1.0.md`
-- SHA-256: `415b976580fc58b0557ae3705aac219e2dd722fb474d6e6bb80d83953d9909b8`
+- File: `P10_Underdetermination_Profile_v0.1.1.md`
+- SHA-256: `1679620659bf4b56f6a688a490210e6840c9ca49be9c4f651339de287ca93370`.
 
 ## Directly inspected sources
 
@@ -22,6 +22,9 @@
   - `lean_artifact/EmbeddingSensitivity/AxiomAudit.lean`, blob `83899399f1157d99f06bcc611466186bf26d77b9`.
 - Pramāṇa, arXiv `2605.20312v1`, complete HTML.
 - ClaimReceipt, arXiv `2609.01992v1`, complete HTML.
+- Douglas Wadkins, *Independent Determinability of Agent Actions*, `draft-wadkins-agentproto-action-determinability-00`, complete Datatracker HTML, dated 2026-09-10 and last updated 2026-09-11; inspected 2026-09-27: <https://datatracker.ietf.org/doc/draft-wadkins-agentproto-action-determinability/>.
+- IETF Datatracker IPR disclosure 7599, submitted 2026-09-11 and related to `draft-wadkins-agentproto-action-determinability-00`: <https://datatracker.ietf.org/ipr/7599/>.
+- T. Krausz, “The `verification.*` Constraint Family: Pre-Action Fail-Closed Gates for AI Agent Decisions,” `draft-krausz-verification-state-02`, complete Datatracker HTML, published 2026-09-23; inspected 2026-09-27: <https://datatracker.ietf.org/doc/html/draft-krausz-verification-state-02>.
 - SCITT Agent Action Capsule, `draft-mih-scitt-agent-action-capsule-02`.
 - IETF Datatracker important dates for IETF 127.
 
@@ -33,6 +36,10 @@
 - ClaimReceipt covers prospective ingress commitment, terminal reconciliation, and execution-level sufficiency, but does not define the P10 combination of a frozen executable world model and a concrete divergent witness pair carried by the receipt.
 - Pramāṇa provides typed attestations and an `UNVERIFIABLE` outcome, but does not require the P10 pre-evidence world-class commitment or divergent witness pair.
 - The inspected `MCR.lean` file contains neither a paper-level maximality theorem nor an evidence anti-monotonicity theorem. Paper-level claims are not attributed to the inspected Lean artifact.
+- `draft-wadkins-agentproto-action-determinability-00` already states that selecting one of several governing-condition sets or policy revisions compatible with the evidence is not determination, requires actual decision-time governance rather than prior signing or registration alone, and requires omission detection or an explicit inability-to-establish-completeness result when completeness is material. Its candidates are not possible worlds assigning different values to an evidential claim. It defines no evidence format, registry, or transparency service.
+- The draft is an individual Informational Internet-Draft with no formal IETF standing and records that its requirements were sharpened through discussion on the `agentproto` mailing list. Datatracker lists one IPR disclosure, ID 7599: the submitter identifies unpublished pending U.S. provisional application `US64/147765` and made no licensing declaration at the time of disclosure. This snapshot records the disclosure without drawing a legal conclusion.
+- `draft-krausz-verification-state-02` already defines signed claim/ruleset/evidence-bound receipts, an `indeterminate` state, content-addressed evidence, local recomputation, and SCITT-compatible transport. It explicitly states that the receipt cannot prove completeness of disclosure or detect an omitted source.
+- Neither draft requires the P10 combination of a pre-evidence committed `Wπ`, executable `Compatibleπ` and `Evalπ`, a concrete pair of compatible worlds with different claim values, a Lean-checked witness proof, a uniquely resolved instance-specific profile and transitively bound verifier manifest, checkpoint-complete evidence coverage, and transparency-log registration-order verification.
 
 ## Not independently executed
 

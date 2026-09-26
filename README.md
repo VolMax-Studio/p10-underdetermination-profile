@@ -4,12 +4,12 @@ P10 defines a third-party-verifiable binding for `NotDemonstrated(reason=underde
 
 ## Status
 
-Version 0.1.0 is a versioned specification artifact. Independent-review and release status are recorded separately and bound to the exact profile artifact by SHA-256.
+Version 0.1.1 is a publication candidate. Independent-review and release status are recorded separately and bound to the exact profile artifact by SHA-256.
 
 ## Documents
 
-- [`P10_Underdetermination_Profile_v0.1.0.md`](P10_Underdetermination_Profile_v0.1.0.md) — profile specification and conformance criteria.
-- [`P10_Independent_Gate_Report_v0.1.0.md`](P10_Independent_Gate_Report_v0.1.0.md) — standalone publication-review record.
+- [`P10_Underdetermination_Profile_v0.1.1.md`](P10_Underdetermination_Profile_v0.1.1.md) — profile specification and conformance criteria.
+- `P10_Independent_Gate_Report_v0.1.1.md` — reserved for the standalone publication-review record that binds the exact v0.1.1 profile hash; it is added only after an independent PASS.
 - [`SOURCE_SNAPSHOT.md`](SOURCE_SNAPSHOT.md) — inspected sources and verification boundaries.
 - [`SHA256SUMS`](SHA256SUMS) — SHA-256 manifest for publication artifacts.
 - [`CITATION.cff`](CITATION.cff) — citation metadata.
@@ -17,7 +17,9 @@ Version 0.1.0 is a versioned specification artifact. Independent-review and rele
 
 ## Scope
 
-P10 is a profile-and-binding contribution, not a new mathematical theorem or a new wire format. It profiles SCITT and in-toto structures, commits the relevant semantics before evidence admission, requires complete checkpoint-bounded replay within the committed transparency log, and binds explicit limitations into the receipt.
+P10 is a profile-and-binding contribution, not a new mathematical theorem or a new wire format. Its claimed distinction is limited to concrete divergent-world witnesses drawn from a pre-evidence committed model class, checked under executable `Compatibleπ` and `Evalπ` semantics by Lean, and bound to a uniquely resolved instance-specific profile and verifier manifest, checkpoint-complete evidence coverage, and transparency-log registration-order verification.
+
+P10 does not claim novelty for independent determinability, decision-time or pre-evidence binding as a general idea, indeterminate receipts, claim/ruleset/evidence binding, content-addressed evidence, local recomputation, SCITT transport, or the general need for evidence-coverage and omission controls.
 
 The profile does not identify the actual world, establish either witness claim value as true, prove that the declared model faithfully represents reality, or establish completeness outside the committed log and evidence scope.
 
