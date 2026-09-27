@@ -89,23 +89,23 @@ Table of Contents
      3.1.  Definitions . . . . . . . . . . . . . . . . . . . . . . .   5
      3.2.  Issuance Conditions . . . . . . . . . . . . . . . . . . .   6
    4.  Instance Commitment and Subject . . . . . . . . . . . . . . .   9
-   5.  Full-Prefix Replay and Registration Order . . . . . . . . . .   9
+   5.  Full-Prefix Replay and Registration Order . . . . . . . . . .  10
    6.  Evidence Admission  . . . . . . . . . . . . . . . . . . . . .  10
-   7.  Evidence Closure and Checkpoint-Bounded Coverage  . . . . . .  10
-   8.  Canonical Encoding  . . . . . . . . . . . . . . . . . . . . .  10
-   9.  Statement and Predicate Structure . . . . . . . . . . . . . .  10
-   10. Security Considerations . . . . . . . . . . . . . . . . . . .  10
-   11. Privacy Considerations  . . . . . . . . . . . . . . . . . . .  10
-   12. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  10
-   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  10
-     13.1.  Normative References . . . . . . . . . . . . . . . . . .  10
-     13.2.  Informative References . . . . . . . . . . . . . . . . .  11
-   Appendix A.  Conformance Tests  . . . . . . . . . . . . . . . . .  12
-     A.1.  Mutation Tests  . . . . . . . . . . . . . . . . . . . . .  12
-     A.2.  Adversarial-Profile Test  . . . . . . . . . . . . . . . .  12
-   Relationship to Prior Work  . . . . . . . . . . . . . . . . . . .  12
-   Source Snapshot . . . . . . . . . . . . . . . . . . . . . . . . .  12
-   Document History  . . . . . . . . . . . . . . . . . . . . . . . .  12
+   7.  Evidence Closure and Checkpoint-Bounded Coverage  . . . . . .  11
+   8.  Canonical Encoding  . . . . . . . . . . . . . . . . . . . . .  11
+   9.  Statement and Predicate Structure . . . . . . . . . . . . . .  11
+   10. Security Considerations . . . . . . . . . . . . . . . . . . .  11
+   11. Privacy Considerations  . . . . . . . . . . . . . . . . . . .  11
+   12. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  11
+   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  11
+     13.1.  Normative References . . . . . . . . . . . . . . . . . .  11
+     13.2.  Informative References . . . . . . . . . . . . . . . . .  12
+   Appendix A.  Conformance Tests  . . . . . . . . . . . . . . . . .  13
+     A.1.  Mutation Tests  . . . . . . . . . . . . . . . . . . . . .  13
+     A.2.  Adversarial-Profile Test  . . . . . . . . . . . . . . . .  13
+   Relationship to Prior Work  . . . . . . . . . . . . . . . . . . .  13
+   Source Snapshot . . . . . . . . . . . . . . . . . . . . . . . . .  13
+   Document History  . . . . . . . . . . . . . . . . . . . . . . . .  13
 
 
 
@@ -114,8 +114,8 @@ Nestorov                  Expires 31 March 2027                 [Page 2]
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
 
-   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  12
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  12
+   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  13
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  13
 
 1.  Introduction
 
@@ -483,15 +483,15 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
 4.  Instance Commitment and Subject
 
-5.  Full-Prefix Replay and Registration Order
+   The identified adjudication instance is a subject derived from the
+   issuer/request pair, not a freely chosen instance_id:
 
+   instance_subject := SubjectDeriveV0(issuer_id, request_id)
 
-
-
-
-
-
-
+   SubjectDeriveV0 uses frozen, domain-separated canonical encoding and
+   returns a text string (tstr) for the CWT sub claim ([RFC8392]).  Its
+   digest is bound by the commitment.  Before the first evidence
+   admission, the following MUST be registered:
 
 
 
@@ -506,7 +506,61 @@ Nestorov                  Expires 31 March 2027                 [Page 9]
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
 
+   InstanceCommitment(ι) binds:
+     request_id
+     issuer_id
+     instance_subject
+     instance_owner_iss
+     log_identity_digest
+     leaf_encoding_profile_digest
+     claim_digest
+     profile_digest
+     evidence_scope_digest
+     admission_rule_digest
+     coverage_rule_digest
+     authorized_admitter_set_digest
+     subject_derivation_digest
+
+   *  instance_owner_iss = issuer_id in the same frozen canonical
+      representation, and the commitment MUST carry a valid owner
+      signature with that protected iss.
+
+   *  Uniqueness is checked *within committed L* by (instance_owner_iss,
+      request_id, instance_subject), where instance_subject MUST be the
+      result of SubjectDeriveV0(issuer_id, request_id).
+
+   *  Full replay MUST find exactly one valid InstanceCommitment for
+      that tuple, containing exactly one profile_digest and
+      claim_digest.  Zero commitments yields HALT; two or more, or
+      conflicting digests, yield REJECT.
+
+   *  authorized_admitter_set_digest binds the exact frozen set of
+      permitted CWT iss values.
+
+   *  All lifecycle statements — profile, commitment, admission,
+      closure, and final P10 adjudication Signed Statement — carry the
+      same *protected CWT sub* ([RFC9597]), equal to instance_subject.
+
+   *  The profile-selection commitment, InstanceCommitment,
+      EvidenceClosure, and final P10 Signed Statement are valid only
+      with an instance_owner_iss signature.  Evidence admissions use the
+      separate frozen admitter set.  A matching-sub lifecycle entry from
+      another iss is not valid and is excluded from counts.
+
+   *  A semantically equivalent natural-language request opened under
+      another request_id remains outside the proven completeness scope.
+
+5.  Full-Prefix Replay and Registration Order
+
 6.  Evidence Admission
+
+
+
+
+Nestorov                  Expires 31 March 2027                [Page 10]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
 
 7.  Evidence Closure and Checkpoint-Bounded Coverage
 
@@ -557,7 +611,9 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
 
 
-Nestorov                  Expires 31 March 2027                [Page 10]
+
+
+Nestorov                  Expires 31 March 2027                [Page 11]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
@@ -613,7 +669,7 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
 
 
-Nestorov                  Expires 31 March 2027                [Page 11]
+Nestorov                  Expires 31 March 2027                [Page 12]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
@@ -669,4 +725,4 @@ Author's Address
 
 
 
-Nestorov                  Expires 31 March 2027                [Page 12]
+Nestorov                  Expires 31 March 2027                [Page 13]

@@ -321,8 +321,41 @@ For infinite `Wπ`, `Underdeterminedπ` is still checked with a concrete witness
 
 `UnfalsifiableAsStated` is not derived from profile failure. It requires a separate semantic obligation over the claim wording, relativized to the declared world class and evidence language. That obligation is outside this profile.
 
-# Instance Commitment and Subject
+# Instance Commitment and Subject {#instance-commitment-and-subject}
 <!-- SOURCE: §2.3. Traceability: N04–N07. -->
+
+The identified adjudication instance is a subject derived from the issuer/request pair, not a freely chosen `instance_id`:
+
+~~~ text
+instance_subject := SubjectDeriveV0(issuer_id, request_id)
+~~~
+
+`SubjectDeriveV0` uses frozen, domain-separated canonical encoding and returns a text string (`tstr`) for the CWT `sub` claim ({{RFC8392}}). Its digest is bound by the commitment. Before the first evidence admission, the following MUST be registered:
+
+~~~ text
+InstanceCommitment(ι) binds:
+  request_id
+  issuer_id
+  instance_subject
+  instance_owner_iss
+  log_identity_digest
+  leaf_encoding_profile_digest
+  claim_digest
+  profile_digest
+  evidence_scope_digest
+  admission_rule_digest
+  coverage_rule_digest
+  authorized_admitter_set_digest
+  subject_derivation_digest
+~~~
+
+- `instance_owner_iss = issuer_id` in the same frozen canonical representation, and the commitment MUST carry a valid owner signature with that protected `iss`.
+- Uniqueness is checked **within committed L** by `(instance_owner_iss, request_id, instance_subject)`, where `instance_subject` MUST be the result of `SubjectDeriveV0(issuer_id, request_id)`.
+- Full replay MUST find exactly one valid `InstanceCommitment` for that tuple, containing exactly one `profile_digest` and `claim_digest`. Zero commitments yields `HALT`; two or more, or conflicting digests, yield `REJECT`.
+- `authorized_admitter_set_digest` binds the exact frozen set of permitted CWT `iss` values.
+- All lifecycle statements — profile, commitment, admission, closure, and final P10 adjudication Signed Statement — carry the same **protected CWT `sub`** ({{RFC9597}}), equal to `instance_subject`.
+- The profile-selection commitment, `InstanceCommitment`, `EvidenceClosure`, and final P10 Signed Statement are valid only with an `instance_owner_iss` signature. Evidence admissions use the separate frozen admitter set. A matching-`sub` lifecycle entry from another `iss` is not valid and is excluded from counts.
+- A semantically equivalent natural-language request opened under another `request_id` remains outside the proven completeness scope.
 
 # Full-Prefix Replay and Registration Order {#full-prefix-replay}
 <!-- SOURCE: §2.4. Traceability: N08–N10, L02, L03. -->
