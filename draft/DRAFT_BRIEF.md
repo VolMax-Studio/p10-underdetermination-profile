@@ -8,6 +8,7 @@
 | SHA-256 | `b92c0d689b9f16f2184ba2addb8653ed881595cc3a0117c62cadadf5c6dc6558` |
 | Tag / commit | `v0.1.1` (tag object `caa53b854367cf1253e431246e725dcd88570e9b`) → `e2a02a73df9e50f624512043dcb007fc337ba587` |
 | Zenodo | version DOI `10.5281/zenodo.22994744`, concept DOI `10.5281/zenodo.22994743` |
+| Errata applied | E01 (v0.1.1 line 284 receipt-binding fields: obsolete notation `S_C` replaced with actual fields) |
 | I-D cutoff | 2026-11-02 23:59 UTC (IETF 127) |
 
 The draft is a transcription. It MUST NOT change the obligations of v0.1.1. Anything the draft needs that v0.1.1 lacks is either a listed decision (D-series) or flagged `NEW-PROSE` in `TRACEABILITY.md`.
@@ -39,6 +40,12 @@ The draft is a transcription. It MUST NOT change the obligations of v0.1.1. Anyt
 | D10 | RATIFIED by Ivan, 2026-09-27 (session message) | §2.1 mathematical definitions retained byte-identical with unicode symbols in sourcecode block; idnits non-ASCII warning accepted as known for -00. Terminology only names symbols and points to sections. |
 | D11 | RATIFIED by Ivan, 2026-09-27 (session message) | §2.2 formal blocks line-broken using whitespace changes for RFC width margin (<= 72 columns); non-trivial token sequence preserved. |
 | D12 | RATIFIED by Ivan, 2026-09-27 (session message) | Internal section references removed from sourcecode blocks; dynamic anchors provided via a single sentence (P13) following the summary block. |
+
+## 3.1 Errata against v0.1.1
+
+| ID | Status | Location | Original text | Corrected text | Rationale |
+|---|---|---|---|---|---|
+| E01 | RATIFIED by Ivan, 2026-09-27 (session message) | §2.6, line 284 | "To avoid a post-registration hash cycle, the issuer-signed payload binds `S_C`, ordered references, and the pre-closure transcript. The outer SCITT Receipt supplies `S_R`; `S_R`, the final replay transcript, and the coverage-verification result are not fields in the issuer-signed payload. Full-prefix replay occurs after receipt acquisition." | "To avoid a post-registration hash cycle, the issuer-signed P10 payload binds `evidence_closure_ref`, `evidence_admission_refs`, and `preclosure_transcript_digest`. The outer SCITT Receipt ({{RFC9942}}) supplies `S_R`; `S_R`, the final replay transcript, and the coverage-verification result are not fields in the issuer-signed payload. Full-prefix replay occurs after receipt acquisition." | Obsolete r2.3 notation `S_C` was removed from the final profile architecture and replaced with `evidence_closure_ref`, `evidence_admission_refs`, and `preclosure_transcript_digest`. The sentence in §2.6 was an unupdated editorial leftover in v0.1.1. Corrected in draft-00 without changing formal Lean verification or FourWorld proof. Binds normative reference {{RFC9942}}. |
 
 ## 4. Reference checks
 

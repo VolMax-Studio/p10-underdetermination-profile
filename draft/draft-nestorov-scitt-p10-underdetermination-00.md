@@ -395,11 +395,80 @@ Replay verifies that the profile and unique commitment were registered before th
 
 An RFC 9943 Registration Policy can change, and its rejection of new entries is only defense in depth; it is not a soundness premise of P10 coverage.
 
-# Evidence Admission
+# Evidence Admission {#evidence-admission}
 <!-- SOURCE: §2.5. -->
 
-# Evidence Closure and Checkpoint-Bounded Coverage
+~~~ text
+AuthorizedAdmitters(ι) := exact CWT iss set committed by
+  authorized_admitter_set_digest
+
+AuthorizedLifecycleIssuer(ι) := instance_owner_iss = issuer_id
+
+EvidenceAdmission(a) :=
+  registration in L of an authenticated statement binding the
+  canonical form of a and proof AdmissibleItemπ(a) under the
+  frozen admission rules:
+  a SCITT Signed Statement whose payload is an in-toto Statement v1
+  containing the P10 evidence-admission predicate, with
+    protected sub = instance_subject                         ∧
+    protected iss ∈ AuthorizedAdmitters(ι)                  ∧
+    a valid signature for that iss                          ∧
+    accessible payload bytes satisfying the frozen rules.
+~~~
+
+A matching `sub` from an unauthorized `iss` is not an admission. If the closure nevertheless cites it, the result is `REJECT`.
+
+For a non-admission lifecycle predicate, a matching-`sub` entry is valid only if it has a valid `AuthorizedLifecycleIssuer(ι)` signature and the expected predicate type. An unauthorized lifecycle entry is excluded from uniqueness counts; if a valid object cites it as a commitment, profile, or closure, the result is `REJECT`.
+
+**Definition-level limitation:** admission is a protocol registration event. Registration order proves that the profile was locked before protocol registration of the evidence; it does not prove when the evidence was created or issued, or that the profile author had not previously seen public data.
+
+# Evidence Closure and Checkpoint-Bounded Coverage {#evidence-closure-and-checkpoint-bounded-coverage}
 <!-- SOURCE: §2.6. Traceability: N11, L04. -->
+
+~~~ text
+SubjectView(L, S_R, instance_subject) :=
+  every replayed statement at leaf_index < size(S_R)
+  whose protected CWT sub = instance_subject
+
+ClosureTranscriptViewπ(L, S_R, ι) :=
+  the subsequence of SubjectView containing only:
+    valid owner-signed lifecycle entries for ι, or
+    RelevantAdmissionπ entries for ι
+
+RelevantAdmissionπ(x, ι) :=
+  x ∈ SubjectView(L, S_R, instance_subject)                 ∧
+  x is a valid EvidenceAdmission predicate                  ∧
+  x.protected_iss ∈ AuthorizedAdmitters(ι)                  ∧
+  signature_valid(x)                                       ∧
+  payload_accessible(x)                                    ∧
+  AdmissibleItemπ(x.payload)
+
+EvidenceClosure(ι) binds:
+  instance_subject
+  terminal = true
+  ordered_admission_refs
+  closed_evidence_set_digest
+  checkpoint_preclosure_transcript_digest
+
+CoverageProofπ(ι, S_R) verifies:
+  FullPrefixReplay(L, S_R)                                  ∧
+  exactly one valid InstanceCommitment for the instance tuple ∧
+  exactly one valid owner-signed EvidenceClosure
+    for instance_subject                                    ∧
+  ordered_admission_refs are in strictly ascending leaf order ∧
+  ordered_admission_refs contain no duplicates              ∧
+  each ref identifies a RelevantAdmissionπ                  ∧
+  every RelevantAdmissionπ before the closure appears exactly once ∧
+  no RelevantAdmissionπ occurs after closure and before size(S_R) ∧
+  e = Bundleπ(ordered_admission_refs) ∈ Eπ                  ∧
+  receipt.evidence_digest = digest(e)
+~~~
+
+- No closure, replay, or required payload bytes → `HALT`, with no epistemic verdict. A conflicting commitment/closure, or an omitted, duplicated, misordered, unauthorized, or post-closure relevant admission → `REJECT`.
+- `checkpoint_preclosure_transcript_digest` MUST describe the uninterrupted `ClosureTranscriptViewπ` subsequence immediately before the closure leaf. Entries for other subjects and unauthorized matching-`sub` entries do not invalidate closure. If a valid owner-signed lifecycle entry or `RelevantAdmissionπ` lands between transcript preparation and closure registration, that closure candidate is invalid (fail-closed). The issuer MUST replay the subject view, rebuild the references, and register a new closure; the invalid attempt is not counted as a valid closure.
+- The leaf index assigned by committed L is the authoritative total registration order, including entries received in the same batch. `Bundleπ` uses that strictly increasing order; the TS cannot present a different order for the same checkpoint without violating VDS integrity.
+- The receipt is computed over closed `e`, not an arbitrarily selected admission. The claim holds only through signed checkpoint `S_R`; a later entry does not retroactively change the historical claim and supports no claim of future absence.
+- To avoid a post-registration hash cycle, the issuer-signed P10 payload binds `evidence_closure_ref`, `evidence_admission_refs`, and `preclosure_transcript_digest`. The outer SCITT Receipt ({{RFC9942}}) supplies `S_R`; `S_R`, the final replay transcript, and the coverage-verification result are not fields in the issuer-signed payload. Full-prefix replay occurs after receipt acquisition.
 
 # Canonical Encoding
 <!-- SOURCE: §2.7. -->
