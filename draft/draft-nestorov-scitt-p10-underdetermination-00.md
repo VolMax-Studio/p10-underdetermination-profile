@@ -1,5 +1,5 @@
 ---
-# SKELETON — no body text yet. Every section below names its v0.1.1 source.
+# Document source under transcription. Every section below names its v0.1.1 source.
 # Source of record: P10_Underdetermination_Profile_v0.1.1.md
 #   SHA-256 b92c0d689b9f16f2184ba2addb8653ed881595cc3a0117c62cadadf5c6dc6558
 #   tag v0.1.1 -> commit e2a02a73df9e50f624512043dcb007fc337ba587
@@ -30,8 +30,6 @@ author:
     uri: https://orcid.org/0009-0006-7940-9539
 
 normative:
-  RFC2119:
-  RFC8174:
   RFC9943:   # SCITT architecture
   RFC9942:   # COSE Receipts; registers COSE header parameter 394 "receipts" (R1 closed)
   RFC9052:   # COSE_Sign1
@@ -140,30 +138,90 @@ P10 defines a third-party-verifiable binding for NotDemonstrated(reason=underdet
 
 --- middle
 
-# Introduction
-<!-- SOURCE: §1 Claim of record (verbatim block) + "Nature of the contribution".
-     Keep claim of record byte-faithful except Markdown→kramdown syntax. -->
+# Introduction {#introduction}
 
-## Scope and Relationship to SCITT
-<!-- SOURCE: §4 "The only v0 envelope" paragraph; README "Scope". No new text. -->
+> The proposed P10 Underdetermination Profile defines a third-party-verifiable binding for `NotDemonstrated(reason=underdetermined)`. Issuance is permitted only when:
+> (1) the world class, admissible-evidence-bundle space and item-admission rules, frozen bundle constructor, compatibility relation, claim interpretation, evidence scope and coverage rules, canonicalization, world codec, committed log identity, leaf encoding, lifecycle/admitter authorization, and verifier were committed in a profile and an identified `InstanceCommitment` before the first evidence admission for that instance;
+> (2) within the committed transparency log `L`, exactly one profile and claim are bound to the `(issuer_id, request_id)` subject, and an `EvidenceClosure` plus checkpoint-bounded `CoverageProof` binds every valid, registered, in-scope admission made by a frozen authorized admitter through `S_R`;
+> (3) the receipt carries two semantically distinct worlds from that frozen world class, represented in the profile's frozen canonical serialization;
+> (4) the frozen verifier establishes that both witnesses are compatible with that same closed evidence set and assign different values to the same frozen claim; and
+> (5) the instance commitment, profile, claim, closed evidence set, witnesses, proof, verifier and mandatory limitations are SHA-256-bound in a SCITT Transparent Statement whose payload is an in-toto Statement v1 containing the P10 predicate, with complete VDS-prefix replay and registration/coverage verification satisfying {{full-prefix-replay}} through {{evidence-closure-and-checkpoint-bounded-coverage}}.
+> The result establishes underdetermination only relative to the declared profile and does not identify the actual world or establish either claim value as true.
 
-## Non-Claims
-<!-- SOURCE: §6, all 20 bullets, order preserved. Section refs rewritten to draft refs only. -->
+**Nature of the contribution:** profile-and-binding contribution. It is not a new mathematical theorem.
 
-# Conventions and Terminology
+## Scope and Relationship to SCITT {#scope-and-relationship-to-scitt}
+
+The profile defines a third-party-verifiable underdetermination binding for SCITT ({{RFC9943}}) using an in-toto Statement v1 ({{IN-TOTO-STATEMENT}}) predicate; the envelope structure is specified in {{statement-and-predicate-structure}}.
+
+## Non-Claims {#non-claims}
+
+- That “two compatible models ⇒ underdetermination” is novel.
+- That the receipt identifies the actual world or establishes either claim value as true.
+- That `Compatibleπ`, `Evalπ`, or `Eπ` faithfully represents reality ({{security-considerations}}).
+- That `FormallyUnderdeterminationCapable` means the profile is operationally adequate or unbiased toward abstention (AP1).
+- That registration order represents issuance, creation, or first-observation order ({{full-prefix-replay}}, {{evidence-admission}}).
+- That the issuer did not open a semantically equivalent request under another `request_id` ({{instance-commitment-and-subject}}).
+- That the issuer did not create sibling instances for the same `claim_digest` under different `request_id` values, bind them to different profiles or world classes, or select the presented instance after observing evidence or outcomes ({{security-considerations}}).
+- That no parallel commitment or admission for the same `request_id` exists in another transparency log; the claim is relative only to committed L ({{instance-commitment-and-subject}} through {{evidence-closure-and-checkpoint-bounded-coverage}}).
+- That no unregistered or evidence-scope-excluded external evidence exists, or that no entry exists after `S_R`; coverage applies only to frozen admitters and the identified subject through `S_R` ({{evidence-closure-and-checkpoint-bounded-coverage}}).
+- That profile failure says anything about claim falsifiability ({{issuance-conditions}}).
+- That P10 is first to use Lean certificates, abstention, or a per-call card ({{KOOMULLIL}}, {{relationship-to-prior-work}}).
+- That P10 originated independent determinability or the rule against selecting one of several evidence-compatible candidates ({{WADKINS-00}}, {{relationship-to-prior-work}}).
+- That decision-time or pre-evidence binding is novel as a general idea ({{WADKINS-00}}, {{CLAIMRECEIPT}}, {{relationship-to-prior-work}}).
+- That an `indeterminate` receipt or reason-coded indeterminate state is novel ({{KRAUSZ-02}}, {{relationship-to-prior-work}}).
+- That binding a claim, ruleset, or evidence set into a signed receipt is novel ({{KRAUSZ-02}}, {{relationship-to-prior-work}}).
+- That content-addressed evidence or local receipt recomputation is novel ({{KRAUSZ-02}}, {{relationship-to-prior-work}}).
+- That SCITT transport for a verification receipt is novel ({{KRAUSZ-02}} and existing SCITT profiles, {{relationship-to-prior-work}}).
+- That the general need for evidence-coverage or omission controls is novel ({{WADKINS-00}}, {{CLAIMRECEIPT}}, and {{KRAUSZ-02}}, {{relationship-to-prior-work}}).
+- That any downstream action was governed by the receipt's verdict. P10 establishes only that the certificate verifies under the uniquely committed profile and its transitively bound verifier artifacts.
+- Anything about market or commercial priority.
+
+# Conventions and Terminology {#conventions-and-terminology}
 
 {::boilerplate bcp14-tagged}
 
-<!-- SOURCE: §2.1/§2.2/§2.3 symbol names. Terminology list may only name symbols
-     already defined in v0.1.1: Wπ, Eπ, Compatibleπ, Evalπ, InstanceCommitment, L, S_R,
-     SubjectView, RelevantAdmissionπ, EvidenceClosure, CoverageProof, VerifierManifestV0.
-     Definitions stay in their own sections; the list points to them. -->
+The following notation and symbols are defined in the referenced sections:
 
-# Formal Core
+* `Wπ`, `Compatibleπ`, and `Evalπ` are defined in {{definitions}}.
+* `Eπ` and `VerifierManifestV0` are defined in {{issuance-conditions}}.
+* `InstanceCommitment` is defined in {{instance-commitment-and-subject}}.
+* `L` and `S_R` are defined in {{full-prefix-replay}}.
+* `SubjectView`, `RelevantAdmissionπ`, `EvidenceClosure`, and `CoverageProof` are defined in {{evidence-closure-and-checkpoint-bounded-coverage}}.
+
+# Formal Core {#formal-core}
 <!-- SOURCE: §2 heading -->
 
-## Definitions
-<!-- SOURCE: §2.1 code block + Notes. Traceability: no BCP 14 rows. -->
+## Definitions {#definitions}
+
+~~~ text
+NonemptyCompatibleπ(e) :=
+  ∃ w ∈ Wπ, Compatibleπ(e, w)
+
+Determinateπ(e, c) :=
+  NonemptyCompatibleπ(e) ∧
+  ∀ w₀ w₁ ∈ Wπ,
+    Compatibleπ(e, w₀) ∧ Compatibleπ(e, w₁)
+    → Evalπ(c, w₀) = Evalπ(c, w₁)
+
+Underdeterminedπ(e, c) :=
+  ∃ w₀ w₁ ∈ Wπ,
+    Compatibleπ(e, w₀) ∧ Compatibleπ(e, w₁) ∧
+    Evalπ(c, w₀) ≠ Evalπ(c, w₁)
+
+ProfileAdmissible(π, c) :=
+  ∃ eᵈ ∈ Eπ, Determinateπ(eᵈ, c)
+
+FormallyUnderdeterminationCapable(π, c) :=
+  ∃ eᵘ eᵈ ∈ Eπ,
+    Underdeterminedπ(eᵘ, c) ∧ Determinateπ(eᵈ, c)
+~~~
+
+Notes:
+
+* `Evalπ(c, w₀) ≠ Evalπ(c, w₁)` entails the semantic distinctness of w₀ and w₁. Canonical serialization ({{canonical-encoding}}) prevents the same world from appearing twice.
+* `FormallyUnderdeterminationCapable(π, c) → ProfileAdmissible(π, c)`. Both tests remain in preflight for clearer diagnostics.
+* `FormallyUnderdeterminationCapable` is a formal property of the frozen profile. It says nothing about operational adequacy ({{security-considerations}}, AP1).
 
 ## Issuance Conditions
 <!-- SOURCE: §2.2 incl. VerifierManifestV0, CertificateTargetV0, ActiveProfileBindingV0,
@@ -172,7 +230,7 @@ P10 defines a third-party-verifiable binding for NotDemonstrated(reason=underdet
 # Instance Commitment and Subject
 <!-- SOURCE: §2.3. Traceability: N04–N07. -->
 
-# Full-Prefix Replay and Registration Order
+# Full-Prefix Replay and Registration Order {#full-prefix-replay}
 <!-- SOURCE: §2.4. Traceability: N08–N10, L02, L03. -->
 
 # Evidence Admission

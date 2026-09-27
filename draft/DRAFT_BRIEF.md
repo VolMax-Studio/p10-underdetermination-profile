@@ -27,15 +27,16 @@ The draft is a transcription. It MUST NOT change the obligations of v0.1.1. Anyt
 
 | ID | Status | Record |
 |---|---|---|
-| D1 | RATIFIED by Ivan, 2026-09-27 | NO — To the best of the author's current knowledge, no filed patent or patent application controlled by the author or VolMax covers implementation of this contribution. BCP 79 / RFC 8179 concerns IPR the contributor reasonably and personally knows of; no new patent search is required. Planned-but-unfiled applications are a separate patent-strategy question, not a BCP 79 disclosure. |
-| D2 | RATIFIED by Ivan, 2026-09-27 | Informational |
-| D3 | RATIFIED by Ivan, 2026-09-27 | "This document has no IANA actions." |
-| D4 | RATIFIED by Ivan, 2026-09-27 | Short informative Privacy Considerations, registered as NEW-PROSE (Table 5), no BCP 14 keywords |
-| D5 | RATIFIED by Ivan, 2026-09-27 | Ivan Nestorov; VolMax Studio Lab d.o.o.; volmax.core@gmail.com; ORCID 0009-0006-7940-9539. Organization "VolMax Studio Lab d.o.o." explicitly confirmed. |
-| D6 | RATIFIED by Ivan, 2026-09-27 | SCITT primary venue; notify agentproto after submission |
-| D7 | RATIFIED by Ivan, 2026-09-27 | Cite exactly the reviewed versions (Wadkins -00, Krausz -02, AAC -02) as frozen manual references; do not attribute AAC -04 to v0.1.1 without a separate review |
-| D8 | RATIFIED by Ivan, 2026-09-27 | Brief acknowledgment of human reviewers and AI-assisted tooling; no AI named as author |
-| D9 | RATIFIED by Ivan, 2026-09-27 | Statement: "No Lean implementation source, JSON fixture, or executable repository code is copied into the draft. Formal definitions are specification notation. Reference implementation artifacts remain externally referenced." |
+| D1 | RATIFIED by Ivan, 2026-09-27 (session message) | NO — To the best of the author's current knowledge, no filed patent or patent application controlled by the author or VolMax covers implementation of this contribution. BCP 79 / RFC 8179 concerns IPR the contributor reasonably and personally knows of; no new patent search is required. Planned-but-unfiled applications are a separate patent-strategy question, not a BCP 79 disclosure. |
+| D2 | RATIFIED by Ivan, 2026-09-27 (session message) | Informational |
+| D3 | RATIFIED by Ivan, 2026-09-27 (session message) | "This document has no IANA actions." |
+| D4 | RATIFIED by Ivan, 2026-09-27 (session message) | Short informative Privacy Considerations, registered as NEW-PROSE (Table 5), no BCP 14 keywords |
+| D5 | RATIFIED by Ivan, 2026-09-27 (session message) | Ivan Nestorov; VolMax Studio Lab d.o.o.; volmax.core@gmail.com; ORCID 0009-0006-7940-9539. Organization "VolMax Studio Lab d.o.o." explicitly confirmed. |
+| D6 | RATIFIED by Ivan, 2026-09-27 (session message) | SCITT primary venue; notify agentproto after submission |
+| D7 | RATIFIED by Ivan, 2026-09-27 (session message) | Cite exactly the reviewed versions (Wadkins -00, Krausz -02, AAC -02) as frozen manual references; do not attribute AAC -04 to v0.1.1 without a separate review |
+| D8 | RATIFIED by Ivan, 2026-09-27 (session message) | Brief acknowledgment of human reviewers and AI-assisted tooling; no AI named as author |
+| D9 | RATIFIED by Ivan, 2026-09-27 (session message) | Statement: "No Lean implementation source, JSON fixture, or executable repository code is copied into the draft. Formal definitions are specification notation. Reference implementation artifacts remain externally referenced." |
+| D10 | RATIFIED by Ivan, 2026-09-27 (session message) | §2.1 mathematical definitions retained byte-identical with unicode symbols in sourcecode block; idnits non-ASCII warning accepted as known for -00. Terminology only names symbols and points to sections. |
 
 ## 4. Reference checks
 
@@ -48,6 +49,7 @@ The draft is a transcription. It MUST NOT change the obligations of v0.1.1. Anyt
 | R4 | CLOSED | Internet-Drafts are frozen manual references with ietf.org/archive URLs: Wadkins -00 (2026-09-10, D. Wadkins, Strakewright), Krausz -02 (2026-09-22, J. Krausz, TK Collective LLC), Mih AAC -02 (2026-07-06, S. Mih, Action State Group, Inc.). No `I-D.<name>` auto-references remain. |
 | R5 | CLOSED | "Pramana: A Protocol-Layer Treatment of Claim Verification in Autonomous Agent Networks", Ravi Kiran Kadaboina, arXiv:2605.20312v1 (submitted 2026-05-19). |
 | R6 | CLOSED | Leonardo de Moura and Sebastian Ullrich, "The Lean 4 Theorem Prover and Programming Language", In: Automated Deduction – CADE 28, LNCS 12699, pp. 625–635, Springer, Cham, 2021, DOI 10.1007/978-3-030-79876-5_37. |
+| R7 | OPEN (list for gate) | Gate verifies every identity field in manual references (full names, arXiv dates/identifiers, in-toto commit date) against upstream records. |
 
 ## 5. Pipeline
 

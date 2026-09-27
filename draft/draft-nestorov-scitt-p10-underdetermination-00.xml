@@ -9,8 +9,6 @@
   <!ENTITY nbhy   "&#8209;">
   <!ENTITY wj     "&#8288;">
 
-<!ENTITY RFC2119 SYSTEM "https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
-<!ENTITY RFC8174 SYSTEM "https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml">
 <!ENTITY RFC9943 SYSTEM "https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9943.xml">
 <!ENTITY RFC9942 SYSTEM "https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9942.xml">
 <!ENTITY RFC9052 SYSTEM "https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9052.xml">
@@ -18,6 +16,8 @@
 <!ENTITY RFC9597 SYSTEM "https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9597.xml">
 <!ENTITY RFC8785 SYSTEM "https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8785.xml">
 <!ENTITY RFC9162 SYSTEM "https://bib.ietf.org/public/rfc/bibxml/reference.RFC.9162.xml">
+<!ENTITY RFC2119 SYSTEM "https://bib.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY RFC8174 SYSTEM "https://bib.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml">
 ]>
 
 
@@ -42,7 +42,7 @@
     <abstract>
 
 
-<?line 134?>
+<?line 132?>
 
 <t>P10 defines a third-party-verifiable binding for NotDemonstrated(reason=underdetermined). A conforming receipt carries two canonical witness worlds that are compatible with the same closed evidence set and produce different values for the same frozen claim. The witness result is checked against committed profile semantics and bound into a SCITT Transparent Statement containing an in-toto Statement v1 predicate. The result establishes underdetermination only relative to the declared profile and does not identify the actual world or establish either claim value as true.</t>
 
@@ -73,18 +73,51 @@
   <middle>
 
 
-<?line 141?>
+<?line 139?>
 
 <section anchor="introduction"><name>Introduction</name>
-<!-- SOURCE: §1 Claim of record (verbatim block) + "Nature of the contribution".
-     Keep claim of record byte-faithful except Markdown→kramdown syntax. -->
+
+<ul empty="true"><li>
+  <t>The proposed P10 Underdetermination Profile defines a third-party-verifiable binding for <spanx style="verb">NotDemonstrated(reason=underdetermined)</spanx>. Issuance is permitted only when:
+(1) the world class, admissible-evidence-bundle space and item-admission rules, frozen bundle constructor, compatibility relation, claim interpretation, evidence scope and coverage rules, canonicalization, world codec, committed log identity, leaf encoding, lifecycle/admitter authorization, and verifier were committed in a profile and an identified <spanx style="verb">InstanceCommitment</spanx> before the first evidence admission for that instance;
+(2) within the committed transparency log <spanx style="verb">L</spanx>, exactly one profile and claim are bound to the <spanx style="verb">(issuer_id, request_id)</spanx> subject, and an <spanx style="verb">EvidenceClosure</spanx> plus checkpoint-bounded <spanx style="verb">CoverageProof</spanx> binds every valid, registered, in-scope admission made by a frozen authorized admitter through <spanx style="verb">S_R</spanx>;
+(3) the receipt carries two semantically distinct worlds from that frozen world class, represented in the profile's frozen canonical serialization;
+(4) the frozen verifier establishes that both witnesses are compatible with that same closed evidence set and assign different values to the same frozen claim; and
+(5) the instance commitment, profile, claim, closed evidence set, witnesses, proof, verifier and mandatory limitations are SHA-256-bound in a SCITT Transparent Statement whose payload is an in-toto Statement v1 containing the P10 predicate, with complete VDS-prefix replay and registration/coverage verification satisfying <xref target="full-prefix-replay"/> through <xref target="evidence-closure-and-checkpoint-bounded-coverage"/>.
+The result establishes underdetermination only relative to the declared profile and does not identify the actual world or establish either claim value as true.</t>
+</li></ul>
+
+<t><strong>Nature of the contribution:</strong> profile-and-binding contribution. It is not a new mathematical theorem.</t>
 
 <section anchor="scope-and-relationship-to-scitt"><name>Scope and Relationship to SCITT</name>
-<!-- SOURCE: §4 "The only v0 envelope" paragraph; README "Scope". No new text. -->
+
+<t>The profile defines a third-party-verifiable underdetermination binding for SCITT (<xref target="RFC9943"/>) using an in-toto Statement v1 (<xref target="IN-TOTO-STATEMENT"/>) predicate; the envelope structure is specified in <xref target="statement-and-predicate-structure"/>.</t>
 
 </section>
 <section anchor="non-claims"><name>Non-Claims</name>
-<!-- SOURCE: §6, all 20 bullets, order preserved. Section refs rewritten to draft refs only. -->
+
+<t><list style="symbols">
+  <t>That “two compatible models ⇒ underdetermination” is novel.</t>
+  <t>That the receipt identifies the actual world or establishes either claim value as true.</t>
+  <t>That <spanx style="verb">Compatibleπ</spanx>, <spanx style="verb">Evalπ</spanx>, or <spanx style="verb">Eπ</spanx> faithfully represents reality (<xref target="security-considerations"/>).</t>
+  <t>That <spanx style="verb">FormallyUnderdeterminationCapable</spanx> means the profile is operationally adequate or unbiased toward abstention (AP1).</t>
+  <t>That registration order represents issuance, creation, or first-observation order (<xref target="full-prefix-replay"/>, <xref target="evidence-admission"/>).</t>
+  <t>That the issuer did not open a semantically equivalent request under another <spanx style="verb">request_id</spanx> (<xref target="instance-commitment-and-subject"/>).</t>
+  <t>That the issuer did not create sibling instances for the same <spanx style="verb">claim_digest</spanx> under different <spanx style="verb">request_id</spanx> values, bind them to different profiles or world classes, or select the presented instance after observing evidence or outcomes (<xref target="security-considerations"/>).</t>
+  <t>That no parallel commitment or admission for the same <spanx style="verb">request_id</spanx> exists in another transparency log; the claim is relative only to committed L (<xref target="instance-commitment-and-subject"/> through <xref target="evidence-closure-and-checkpoint-bounded-coverage"/>).</t>
+  <t>That no unregistered or evidence-scope-excluded external evidence exists, or that no entry exists after <spanx style="verb">S_R</spanx>; coverage applies only to frozen admitters and the identified subject through <spanx style="verb">S_R</spanx> (<xref target="evidence-closure-and-checkpoint-bounded-coverage"/>).</t>
+  <t>That profile failure says anything about claim falsifiability (<xref target="issuance-conditions"/>).</t>
+  <t>That P10 is first to use Lean certificates, abstention, or a per-call card (<xref target="KOOMULLIL"/>, <xref target="relationship-to-prior-work"/>).</t>
+  <t>That P10 originated independent determinability or the rule against selecting one of several evidence-compatible candidates (<xref target="WADKINS-00"/>, <xref target="relationship-to-prior-work"/>).</t>
+  <t>That decision-time or pre-evidence binding is novel as a general idea (<xref target="WADKINS-00"/>, <xref target="CLAIMRECEIPT"/>, <xref target="relationship-to-prior-work"/>).</t>
+  <t>That an <spanx style="verb">indeterminate</spanx> receipt or reason-coded indeterminate state is novel (<xref target="KRAUSZ-02"/>, <xref target="relationship-to-prior-work"/>).</t>
+  <t>That binding a claim, ruleset, or evidence set into a signed receipt is novel (<xref target="KRAUSZ-02"/>, <xref target="relationship-to-prior-work"/>).</t>
+  <t>That content-addressed evidence or local receipt recomputation is novel (<xref target="KRAUSZ-02"/>, <xref target="relationship-to-prior-work"/>).</t>
+  <t>That SCITT transport for a verification receipt is novel (<xref target="KRAUSZ-02"/> and existing SCITT profiles, <xref target="relationship-to-prior-work"/>).</t>
+  <t>That the general need for evidence-coverage or omission controls is novel (<xref target="WADKINS-00"/>, <xref target="CLAIMRECEIPT"/>, and <xref target="KRAUSZ-02"/>, <xref target="relationship-to-prior-work"/>).</t>
+  <t>That any downstream action was governed by the receipt's verdict. P10 establishes only that the certificate verifies under the uniquely committed profile and its transitively bound verifier artifacts.</t>
+  <t>Anything about market or commercial priority.</t>
+</list></t>
 
 </section>
 </section>
@@ -98,17 +131,52 @@ appear in all capitals, as shown here.</t>
 
 <?line -18?>
 
-<!-- SOURCE: §2.1/§2.2/§2.3 symbol names. Terminology list may only name symbols
-     already defined in v0.1.1: Wπ, Eπ, Compatibleπ, Evalπ, InstanceCommitment, L, S_R,
-     SubjectView, RelevantAdmissionπ, EvidenceClosure, CoverageProof, VerifierManifestV0.
-     Definitions stay in their own sections; the list points to them. -->
+<t>The following notation and symbols are defined in the referenced sections:</t>
+
+<t><list style="symbols">
+  <t><spanx style="verb">Wπ</spanx>, <spanx style="verb">Compatibleπ</spanx>, and <spanx style="verb">Evalπ</spanx> are defined in <xref target="definitions"/>.</t>
+  <t><spanx style="verb">Eπ</spanx> and <spanx style="verb">VerifierManifestV0</spanx> are defined in <xref target="issuance-conditions"/>.</t>
+  <t><spanx style="verb">InstanceCommitment</spanx> is defined in <xref target="instance-commitment-and-subject"/>.</t>
+  <t><spanx style="verb">L</spanx> and <spanx style="verb">S_R</spanx> are defined in <xref target="full-prefix-replay"/>.</t>
+  <t><spanx style="verb">SubjectView</spanx>, <spanx style="verb">RelevantAdmissionπ</spanx>, <spanx style="verb">EvidenceClosure</spanx>, and <spanx style="verb">CoverageProof</spanx> are defined in <xref target="evidence-closure-and-checkpoint-bounded-coverage"/>.</t>
+</list></t>
 
 </section>
 <section anchor="formal-core"><name>Formal Core</name>
 <!-- SOURCE: §2 heading -->
 
 <section anchor="definitions"><name>Definitions</name>
-<!-- SOURCE: §2.1 code block + Notes. Traceability: no BCP 14 rows. -->
+
+<figure><sourcecode type="text"><![CDATA[
+NonemptyCompatibleπ(e) :=
+  ∃ w ∈ Wπ, Compatibleπ(e, w)
+
+Determinateπ(e, c) :=
+  NonemptyCompatibleπ(e) ∧
+  ∀ w₀ w₁ ∈ Wπ,
+    Compatibleπ(e, w₀) ∧ Compatibleπ(e, w₁)
+    → Evalπ(c, w₀) = Evalπ(c, w₁)
+
+Underdeterminedπ(e, c) :=
+  ∃ w₀ w₁ ∈ Wπ,
+    Compatibleπ(e, w₀) ∧ Compatibleπ(e, w₁) ∧
+    Evalπ(c, w₀) ≠ Evalπ(c, w₁)
+
+ProfileAdmissible(π, c) :=
+  ∃ eᵈ ∈ Eπ, Determinateπ(eᵈ, c)
+
+FormallyUnderdeterminationCapable(π, c) :=
+  ∃ eᵘ eᵈ ∈ Eπ,
+    Underdeterminedπ(eᵘ, c) ∧ Determinateπ(eᵈ, c)
+]]></sourcecode></figure>
+
+<t>Notes:</t>
+
+<t><list style="symbols">
+  <t><spanx style="verb">Evalπ(c, w₀) ≠ Evalπ(c, w₁)</spanx> entails the semantic distinctness of w₀ and w₁. Canonical serialization (<xref target="canonical-encoding"/>) prevents the same world from appearing twice.</t>
+  <t><spanx style="verb">FormallyUnderdeterminationCapable(π, c) → ProfileAdmissible(π, c)</spanx>. Both tests remain in preflight for clearer diagnostics.</t>
+  <t><spanx style="verb">FormallyUnderdeterminationCapable</spanx> is a formal property of the frozen profile. It says nothing about operational adequacy (<xref target="security-considerations"/>, AP1).</t>
+</list></t>
 
 </section>
 <section anchor="issuance-conditions"><name>Issuance Conditions</name>
@@ -121,7 +189,7 @@ appear in all capitals, as shown here.</t>
 <!-- SOURCE: §2.3. Traceability: N04–N07. -->
 
 </section>
-<section anchor="full-prefix-replay-and-registration-order"><name>Full-Prefix Replay and Registration Order</name>
+<section anchor="full-prefix-replay"><name>Full-Prefix Replay and Registration Order</name>
 <!-- SOURCE: §2.4. Traceability: N08–N10, L02, L03. -->
 
 </section>
@@ -170,8 +238,6 @@ appear in all capitals, as shown here.</t>
 
     <references title='Normative References' anchor="sec-normative-references">
 
-&RFC2119;
-&RFC8174;
 &RFC9943;
 &RFC9942;
 &RFC9052;
@@ -189,6 +255,8 @@ appear in all capitals, as shown here.</t>
   </front>
   <seriesInfo name="Commit" value="06eafe3635bf8a425ad52cc82c6c90861e94a471"/>
 </reference>
+&RFC2119;
+&RFC8174;
 
 
     </references>
@@ -288,7 +356,7 @@ appear in all capitals, as shown here.</t>
 </references>
 
 
-<?line 223?>
+<?line 281?>
 
 <section numbered="true" anchor="conformance-tests"><name>Conformance Tests</name>
 <!-- SOURCE: §7 heading. -->
@@ -329,97 +397,136 @@ appear in all capitals, as shown here.</t>
   </back>
 
 <!-- ##markdown-source:
-H4sIAAAAAAAAA51aW5LbRpb95yqyqY+RugkS4JuU7W6IpCxaJKuGZEljT0wo
-kkCSzC4QoPFgiXY4wl+9gJlZwPzNPnoDswevZM7NTPBZVVa37CihgMTN+zz3
-3IQsyyq8YLP3g9FgfjNhv/363yyM2CLy9ywVn1O2F2mZDXYi3rNEeKmMQrYQ
-QfTAQr4RCZNpwnZ22Sk7LImy2BNlkqauWLRksfCi2O+yW8f+dBf6IvZFKuKN
-DDlJ+nQbR0sZiE9aQnnj42XGZu9cq9poskWn6tl+s91ZdJZOc1l12vUFr3Lf
-X7SbjZrw222n0Wl4Xo3bjtPymlWP+9xfNrym7zUbjbYSlvJVrqD1DfOizUam
-TFS5XeWtmr/siIa9bFbrDadq12u+t7Dt1tKr1VoL3mi3lIQfRBj5EYMLErK+
-fzNkjl1uVNtO5Sf1qFytdjr1Vr2O5f2YL1PmC0/S4oTxWLAYxi6l8BkPfeMR
-/CIhauq+nX96Mx0O3sL2cqGQyjQQXVaEu9i1u5hxV5d9lGkoksTq8Tjey3D1
-2OKp8ITcIjzLKGaz3nA+Lxb4YhGL3e9uUCz4kUfx7TKf7LGwWRrF0c5KPJmm
-1taxrezqbcu2Cx5PxSqK912Yt4wKSbbYyIQ8ke63kDYczN8W5DbusjTOkrRq
-2x27WoCPeJfNhJfFMt0X7sX+gZKmwJilFVdXMrTSKI3U9fXm6nasTVbXI8HD
-wk6EmSBBGy6DLlPa/0WKdFmO4hVur2S6zhZd9iEKxvyzNUszX0aVJ8zbaucU
-CjxL11Gs9VtmQaA9NdzxkE2Mo/CMMezBQ/mTejvfg+k92IgvmF+O8J9aKrSC
-uyjY8M9lZIj4y4pu4XKjFsA1XbZO023SrVSi2JM+mVCx4UH43W5arU7dtjqN
-WqdQCKN4g013yvLp217VcTrmsu206uYSKVvrQvIL7WNkqreWKUo8i8VhRVWv
-6N3MBoeEeg0/r2QC1yT6wVpwOItteQxH4DardeqsaIKRFNnLqcO8IEqE/8oI
-thsngj/N5Cp0jH61Tv7k4xwvcbkBxiRJBZkEOXiG8hdURUsRi9ATJaBVyhBX
-3FzsFShRZemKz7drdFpHoT0jNDxVPmEvEV6yXviWscdDcUm+UjhmVCDTf8xk
-jM0ekDoknJHKtDVdk0/Npu1Wu6E3/a43M3o4TWOc+eUTkI6A7kOfVgwn1vxm
-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
-pyQAAA==
+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
 
 -->
 

@@ -84,28 +84,28 @@ Table of Contents
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   3
      1.1.  Scope and Relationship to SCITT . . . . . . . . . . . . .   3
      1.2.  Non-Claims  . . . . . . . . . . . . . . . . . . . . . . .   3
-   2.  Conventions and Terminology . . . . . . . . . . . . . . . . .   3
-   3.  Formal Core . . . . . . . . . . . . . . . . . . . . . . . . .   3
-     3.1.  Definitions . . . . . . . . . . . . . . . . . . . . . . .   3
-     3.2.  Issuance Conditions . . . . . . . . . . . . . . . . . . .   3
-   4.  Instance Commitment and Subject . . . . . . . . . . . . . . .   3
-   5.  Full-Prefix Replay and Registration Order . . . . . . . . . .   3
-   6.  Evidence Admission  . . . . . . . . . . . . . . . . . . . . .   3
-   7.  Evidence Closure and Checkpoint-Bounded Coverage  . . . . . .   3
-   8.  Canonical Encoding  . . . . . . . . . . . . . . . . . . . . .   3
-   9.  Statement and Predicate Structure . . . . . . . . . . . . . .   3
-   10. Security Considerations . . . . . . . . . . . . . . . . . . .   3
-   11. Privacy Considerations  . . . . . . . . . . . . . . . . . . .   3
-   12. IANA Considerations . . . . . . . . . . . . . . . . . . . . .   3
-   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .   3
-     13.1.  Normative References . . . . . . . . . . . . . . . . . .   3
-     13.2.  Informative References . . . . . . . . . . . . . . . . .   5
-   Appendix A.  Conformance Tests  . . . . . . . . . . . . . . . . .   6
-     A.1.  Mutation Tests  . . . . . . . . . . . . . . . . . . . . .   6
-     A.2.  Adversarial-Profile Test  . . . . . . . . . . . . . . . .   6
-   Relationship to Prior Work  . . . . . . . . . . . . . . . . . . .   6
-   Source Snapshot . . . . . . . . . . . . . . . . . . . . . . . . .   6
-   Document History  . . . . . . . . . . . . . . . . . . . . . . . .   6
+   2.  Conventions and Terminology . . . . . . . . . . . . . . . . .   5
+   3.  Formal Core . . . . . . . . . . . . . . . . . . . . . . . . .   5
+     3.1.  Definitions . . . . . . . . . . . . . . . . . . . . . . .   5
+     3.2.  Issuance Conditions . . . . . . . . . . . . . . . . . . .   6
+   4.  Instance Commitment and Subject . . . . . . . . . . . . . . .   6
+   5.  Full-Prefix Replay and Registration Order . . . . . . . . . .   6
+   6.  Evidence Admission  . . . . . . . . . . . . . . . . . . . . .   6
+   7.  Evidence Closure and Checkpoint-Bounded Coverage  . . . . . .   6
+   8.  Canonical Encoding  . . . . . . . . . . . . . . . . . . . . .   6
+   9.  Statement and Predicate Structure . . . . . . . . . . . . . .   6
+   10. Security Considerations . . . . . . . . . . . . . . . . . . .   7
+   11. Privacy Considerations  . . . . . . . . . . . . . . . . . . .   7
+   12. IANA Considerations . . . . . . . . . . . . . . . . . . . . .   7
+   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .   7
+     13.1.  Normative References . . . . . . . . . . . . . . . . . .   7
+     13.2.  Informative References . . . . . . . . . . . . . . . . .   8
+   Appendix A.  Conformance Tests  . . . . . . . . . . . . . . . . .   9
+     A.1.  Mutation Tests  . . . . . . . . . . . . . . . . . . . . .   9
+     A.2.  Adversarial-Profile Test  . . . . . . . . . . . . . . . .   9
+   Relationship to Prior Work  . . . . . . . . . . . . . . . . . . .   9
+   Source Snapshot . . . . . . . . . . . . . . . . . . . . . . . . .   9
+   Document History  . . . . . . . . . . . . . . . . . . . . . . . .   9
 
 
 
@@ -114,14 +114,139 @@ Nestorov                  Expires 31 March 2027                 [Page 2]
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
 
-   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .   6
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   6
+   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .   9
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   9
 
 1.  Introduction
 
+      The proposed P10 Underdetermination Profile defines a third-party-
+      verifiable binding for NotDemonstrated(reason=underdetermined).
+      Issuance is permitted only when: (1) the world class, admissible-
+      evidence-bundle space and item-admission rules, frozen bundle
+      constructor, compatibility relation, claim interpretation,
+      evidence scope and coverage rules, canonicalization, world codec,
+      committed log identity, leaf encoding, lifecycle/admitter
+      authorization, and verifier were committed in a profile and an
+      identified InstanceCommitment before the first evidence admission
+      for that instance; (2) within the committed transparency log L,
+      exactly one profile and claim are bound to the (issuer_id,
+      request_id) subject, and an EvidenceClosure plus checkpoint-
+      bounded CoverageProof binds every valid, registered, in-scope
+      admission made by a frozen authorized admitter through S_R; (3)
+      the receipt carries two semantically distinct worlds from that
+      frozen world class, represented in the profile's frozen canonical
+      serialization; (4) the frozen verifier establishes that both
+      witnesses are compatible with that same closed evidence set and
+      assign different values to the same frozen claim; and (5) the
+      instance commitment, profile, claim, closed evidence set,
+      witnesses, proof, verifier and mandatory limitations are SHA-
+      256-bound in a SCITT Transparent Statement whose payload is an in-
+      toto Statement v1 containing the P10 predicate, with complete VDS-
+      prefix replay and registration/coverage verification satisfying
+      Section 5 through Section 7.  The result establishes
+      underdetermination only relative to the declared profile and does
+      not identify the actual world or establish either claim value as
+      true.
+
+   *Nature of the contribution:* profile-and-binding contribution.  It
+   is not a new mathematical theorem.
+
 1.1.  Scope and Relationship to SCITT
 
+   The profile defines a third-party-verifiable underdetermination
+   binding for SCITT ([RFC9943]) using an in-toto Statement v1
+   ([IN-TOTO-STATEMENT]) predicate; the envelope structure is specified
+   in Section 9.
+
 1.2.  Non-Claims
+
+   *  That “two compatible models ⇒ underdetermination” is novel.
+
+
+
+
+Nestorov                  Expires 31 March 2027                 [Page 3]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
+   *  That the receipt identifies the actual world or establishes either
+      claim value as true.
+
+   *  That Compatibleπ, Evalπ, or Eπ faithfully represents reality
+      (Section 10).
+
+   *  That FormallyUnderdeterminationCapable means the profile is
+      operationally adequate or unbiased toward abstention (AP1).
+
+   *  That registration order represents issuance, creation, or first-
+      observation order (Section 5, Section 6).
+
+   *  That the issuer did not open a semantically equivalent request
+      under another request_id (Section 4).
+
+   *  That the issuer did not create sibling instances for the same
+      claim_digest under different request_id values, bind them to
+      different profiles or world classes, or select the presented
+      instance after observing evidence or outcomes (Section 10).
+
+   *  That no parallel commitment or admission for the same request_id
+      exists in another transparency log; the claim is relative only to
+      committed L (Section 4 through Section 7).
+
+   *  That no unregistered or evidence-scope-excluded external evidence
+      exists, or that no entry exists after S_R; coverage applies only
+      to frozen admitters and the identified subject through S_R
+      (Section 7).
+
+   *  That profile failure says anything about claim falsifiability
+      (Section 3.2).
+
+   *  That P10 is first to use Lean certificates, abstention, or a per-
+      call card ([KOOMULLIL], Appendix "Relationship to Prior Work").
+
+   *  That P10 originated independent determinability or the rule
+      against selecting one of several evidence-compatible candidates
+      ([WADKINS-00], Appendix "Relationship to Prior Work").
+
+   *  That decision-time or pre-evidence binding is novel as a general
+      idea ([WADKINS-00], [CLAIMRECEIPT], Appendix "Relationship to
+      Prior Work").
+
+   *  That an indeterminate receipt or reason-coded indeterminate state
+      is novel ([KRAUSZ-02], Appendix "Relationship to Prior Work").
+
+
+
+
+
+
+Nestorov                  Expires 31 March 2027                 [Page 4]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
+   *  That binding a claim, ruleset, or evidence set into a signed
+      receipt is novel ([KRAUSZ-02], Appendix "Relationship to Prior
+      Work").
+
+   *  That content-addressed evidence or local receipt recomputation is
+      novel ([KRAUSZ-02], Appendix "Relationship to Prior Work").
+
+   *  That SCITT transport for a verification receipt is novel
+      ([KRAUSZ-02] and existing SCITT profiles, Appendix "Relationship
+      to Prior Work").
+
+   *  That the general need for evidence-coverage or omission controls
+      is novel ([WADKINS-00], [CLAIMRECEIPT], and [KRAUSZ-02],
+      Appendix "Relationship to Prior Work").
+
+   *  That any downstream action was governed by the receipt's verdict.
+      P10 establishes only that the certificate verifies under the
+      uniquely committed profile and its transitively bound verifier
+      artifacts.
+
+   *  Anything about market or commercial priority.
 
 2.  Conventions and Terminology
 
@@ -131,9 +256,65 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
+   The following notation and symbols are defined in the referenced
+   sections:
+
+   *  Wπ, Compatibleπ, and Evalπ are defined in Section 3.1.
+
+   *  Eπ and VerifierManifestV0 are defined in Section 3.2.
+
+   *  InstanceCommitment is defined in Section 4.
+
+   *  L and S_R are defined in Section 5.
+
+   *  SubjectView, RelevantAdmissionπ, EvidenceClosure, and
+      CoverageProof are defined in Section 7.
+
 3.  Formal Core
 
 3.1.  Definitions
+
+
+
+
+Nestorov                  Expires 31 March 2027                 [Page 5]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
+   NonemptyCompatibleπ(e) :=
+     ∃ w ∈ Wπ, Compatibleπ(e, w)
+
+   Determinateπ(e, c) :=
+     NonemptyCompatibleπ(e) ∧
+     ∀ w₀ w₁ ∈ Wπ,
+       Compatibleπ(e, w₀) ∧ Compatibleπ(e, w₁)
+       → Evalπ(c, w₀) = Evalπ(c, w₁)
+
+   Underdeterminedπ(e, c) :=
+     ∃ w₀ w₁ ∈ Wπ,
+       Compatibleπ(e, w₀) ∧ Compatibleπ(e, w₁) ∧
+       Evalπ(c, w₀) ≠ Evalπ(c, w₁)
+
+   ProfileAdmissible(π, c) :=
+     ∃ eᵈ ∈ Eπ, Determinateπ(eᵈ, c)
+
+   FormallyUnderdeterminationCapable(π, c) :=
+     ∃ eᵘ eᵈ ∈ Eπ,
+       Underdeterminedπ(eᵘ, c) ∧ Determinateπ(eᵈ, c)
+
+   Notes:
+
+   *  Evalπ(c, w₀) ≠ Evalπ(c, w₁) entails the semantic distinctness of
+      w₀ and w₁. Canonical serialization (Section 8) prevents the same
+      world from appearing twice.
+
+   *  FormallyUnderdeterminationCapable(π, c) → ProfileAdmissible(π, c).
+      Both tests remain in preflight for clearer diagnostics.
+
+   *  FormallyUnderdeterminationCapable is a formal property of the
+      frozen profile.  It says nothing about operational adequacy
+      (Section 10, AP1).
 
 3.2.  Issuance Conditions
 
@@ -149,6 +330,14 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
 9.  Statement and Predicate Structure
 
+
+
+
+Nestorov                  Expires 31 March 2027                 [Page 6]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
 10.  Security Considerations
 
 11.  Privacy Considerations
@@ -160,24 +349,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 13.  References
 
 13.1.  Normative References
-
-
-
-
-
-Nestorov                  Expires 31 March 2027                 [Page 3]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
-
-   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
-              Requirement Levels", BCP 14, RFC 2119,
-              DOI 10.17487/RFC2119, March 1997,
-              <https://www.rfc-editor.org/info/rfc2119>.
-
-   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
-              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
-              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
    [RFC9943]  Birkholz, H., Delignat-Lavaud, A., Fournet, C., Deshpande,
               Y., and S. Lasker, "An Architecture for Trustworthy and
@@ -212,27 +383,30 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
               Transparency Version 2.0", RFC 9162, DOI 10.17487/RFC9162,
               December 2021, <https://www.rfc-editor.org/info/rfc9162>.
 
+   [IN-TOTO-STATEMENT]
+              in-toto Project, "in-toto Attestation Framework: Statement
+              layer specification, v1",
 
 
 
-
-
-
-
-
-
-Nestorov                  Expires 31 March 2027                 [Page 4]
+Nestorov                  Expires 31 March 2027                 [Page 7]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
 
-   [IN-TOTO-STATEMENT]
-              in-toto Project, "in-toto Attestation Framework: Statement
-              layer specification, v1",
               Commit 06eafe3635bf8a425ad52cc82c6c90861e94a471, 6 May
               2024, <https://raw.githubusercontent.com/in-
               toto/attestation/06eafe3635bf8a425ad52cc82c6c90861e94a471/
               spec/v1/statement.md>.
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119,
+              DOI 10.17487/RFC2119, March 1997,
+              <https://www.rfc-editor.org/info/rfc2119>.
+
+   [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
+              2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
+              May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
 13.2.  Informative References
 
@@ -264,23 +438,23 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
               Claim Verification in Autonomous Agent Networks",
               arXiv 2605.20312, 19 May 2026.
 
+
+
+
+
+
+
+
+Nestorov                  Expires 31 March 2027                 [Page 8]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
    [CLAIMRECEIPT]
               Zhu, P. and S. Chang, "ClaimReceipt: Verifying Evidence
               Sufficiency and Coverage in Agent Evaluations",
               arXiv 2609.01992, 2 September 2026,
               <https://arxiv.org/abs/2609.01992v1>.
-
-
-
-
-
-
-
-
-Nestorov                  Expires 31 March 2027                 [Page 5]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
 
    [KOOMULLIL]
               Koomullil, G., "Proof-Carrying Certificates for LLM
@@ -327,10 +501,4 @@ Author's Address
 
 
 
-
-
-
-
-
-
-Nestorov                  Expires 31 March 2027                 [Page 6]
+Nestorov                  Expires 31 March 2027                 [Page 9]

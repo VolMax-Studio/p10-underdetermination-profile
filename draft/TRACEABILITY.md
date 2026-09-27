@@ -137,3 +137,10 @@ Every sentence in the draft that has no v0.1.1 source is listed here. NEW-PROSE 
 | P03 | Abstract | The witness result is checked against committed profile semantics and bound into a SCITT Transparent Statement containing an in-toto Statement v1 predicate. | none | TRANSCRIBED |
 | P04 | Abstract | The result establishes underdetermination only relative to the declared profile and does not identify the actual world or establish either claim value as true. | none | TRANSCRIBED |
 | P05 | IANA Considerations | This document has no IANA actions. | none | TRANSCRIBED |
+| P06 | Sec 1.1 Scope and Relationship to SCITT | The profile defines a third-party-verifiable underdetermination binding for SCITT using an in-toto Statement v1 predicate; the envelope structure is specified in Section 9. | none | TRANSCRIBED |
+| P07 | Sec 2 Conventions and Terminology | The following notation and symbols are defined in the referenced sections: | none | TRANSCRIBED |
+| P08 | Sec 2 Conventions and Terminology | Wπ, Compatibleπ, and Evalπ are defined in Section 3.1. | none | TRANSCRIBED |
+| P09 | Sec 2 Conventions and Terminology | Eπ and VerifierManifestV0 are defined in Section 3.2. | none | TRANSCRIBED |
+| P10 | Sec 2 Conventions and Terminology | InstanceCommitment is defined in Section 4. | none | TRANSCRIBED |
+| P11 | Sec 2 Conventions and Terminology | L and S_R are defined in Section 5. | none | TRANSCRIBED |
+| P12 | Sec 2 Conventions and Terminology | SubjectView, RelevantAdmissionπ, EvidenceClosure, and CoverageProof are defined in Section 7. | none | TRANSCRIBED |
