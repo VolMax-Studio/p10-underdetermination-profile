@@ -470,8 +470,13 @@ CoverageProofπ(ι, S_R) verifies:
 - The receipt is computed over closed `e`, not an arbitrarily selected admission. The claim holds only through signed checkpoint `S_R`; a later entry does not retroactively change the historical claim and supports no claim of future absence.
 - To avoid a post-registration hash cycle, the issuer-signed P10 payload binds `evidence_closure_ref`, `evidence_admission_refs`, and `preclosure_transcript_digest`. The outer SCITT Receipt ({{RFC9942}}) supplies `S_R`; `S_R`, the final replay transcript, and the coverage-verification result are not fields in the issuer-signed payload. Full-prefix replay occurs after receipt acquisition.
 
-# Canonical Encoding
+# Canonical Encoding {#canonical-encoding}
 <!-- SOURCE: §2.7. -->
+
+- P10 v0 uses UTF-8 JSON Canonicalization Scheme (JCS, {{RFC8785}}) for claims, structured evidence objects, worlds, and the P10 predicate. The codec digest is part of the profile ({{introduction}}, item (1)) and receipt.
+- Integers outside the safely interoperable JCS/JSON range, rational numbers, and exact decimal values are encoded as canonical strings under the frozen exact-number schema; they are not emitted as JSON numbers.
+- A **unique normal form** applies: `decode ∘ encode = id` on `Wπ`, with exactly one JCS form per decoded world. `Compatibleπ` and `Evalπ` operate on decoded semantic objects; the verifier rejects noncanonical witnesses.
+- A structured P10 `*_digest` uses SHA-256 over the corresponding JCS bytes. Binary artifacts are digested over raw bytes together with the frozen format/media-type identifier, not over a JCS reinterpretation. Noncryptographic or merely immutable identifiers are insufficient.
 
 # Statement and Predicate Structure
 <!-- SOURCE: §4 (issuer-signed fields, post-registration output, ActiveProfileBindingV0

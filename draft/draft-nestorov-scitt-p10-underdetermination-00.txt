@@ -93,13 +93,13 @@ Table of Contents
    6.  Evidence Admission  . . . . . . . . . . . . . . . . . . . . .  12
    7.  Evidence Closure and Checkpoint-Bounded Coverage  . . . . . .  13
    8.  Canonical Encoding  . . . . . . . . . . . . . . . . . . . . .  14
-   9.  Statement and Predicate Structure . . . . . . . . . . . . . .  14
-   10. Security Considerations . . . . . . . . . . . . . . . . . . .  14
-   11. Privacy Considerations  . . . . . . . . . . . . . . . . . . .  14
-   12. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  14
-   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  14
-     13.1.  Normative References . . . . . . . . . . . . . . . . . .  14
-     13.2.  Informative References . . . . . . . . . . . . . . . . .  15
+   9.  Statement and Predicate Structure . . . . . . . . . . . . . .  15
+   10. Security Considerations . . . . . . . . . . . . . . . . . . .  15
+   11. Privacy Considerations  . . . . . . . . . . . . . . . . . . .  15
+   12. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  15
+   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  15
+     13.1.  Normative References . . . . . . . . . . . . . . . . . .  15
+     13.2.  Informative References . . . . . . . . . . . . . . . . .  16
    Appendix A.  Conformance Tests  . . . . . . . . . . . . . . . . .  17
      A.1.  Mutation Tests  . . . . . . . . . . . . . . . . . . . . .  17
      A.2.  Adversarial-Profile Test  . . . . . . . . . . . . . . . .  17
@@ -757,6 +757,35 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
 8.  Canonical Encoding
 
+   *  P10 v0 uses UTF-8 JSON Canonicalization Scheme (JCS, [RFC8785])
+      for claims, structured evidence objects, worlds, and the P10
+      predicate.  The codec digest is part of the profile (Section 1,
+      item (1)) and receipt.
+
+   *  Integers outside the safely interoperable JCS/JSON range, rational
+      numbers, and exact decimal values are encoded as canonical strings
+      under the frozen exact-number schema; they are not emitted as JSON
+      numbers.
+
+   *  A *unique normal form* applies: decode ∘ encode = id on Wπ, with
+      exactly one JCS form per decoded world.  Compatibleπ and Evalπ
+      operate on decoded semantic objects; the verifier rejects
+      noncanonical witnesses.
+
+   *  A structured P10 *_digest uses SHA-256 over the corresponding JCS
+      bytes.  Binary artifacts are digested over raw bytes together with
+      the frozen format/media-type identifier, not over a JCS
+      reinterpretation.  Noncryptographic or merely immutable
+      identifiers are insufficient.
+
+
+
+
+Nestorov                  Expires 31 March 2027                [Page 14]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
 9.  Statement and Predicate Structure
 
 10.  Security Considerations
@@ -776,15 +805,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
               Transparent Digital Supply Chains", RFC 9943,
               DOI 10.17487/RFC9943, June 2026,
               <https://www.rfc-editor.org/info/rfc9943>.
-
-
-
-
-
-Nestorov                  Expires 31 March 2027                [Page 14]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
 
    [RFC9942]  Steele, O., Birkholz, H., Delignat-Lavaud, A., and C.
               Fournet, "CBOR Object Signing and Encryption (COSE)
@@ -813,6 +833,15 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
               Transparency Version 2.0", RFC 9162, DOI 10.17487/RFC9162,
               December 2021, <https://www.rfc-editor.org/info/rfc9162>.
 
+
+
+
+
+Nestorov                  Expires 31 March 2027                [Page 15]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
    [IN-TOTO-STATEMENT]
               in-toto Project, "in-toto Attestation Framework: Statement
               layer specification, v1",
@@ -831,16 +860,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
 13.2.  Informative References
-
-
-
-
-
-
-Nestorov                  Expires 31 March 2027                [Page 15]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
 
    [P10-V011] Nestorov, I., "P10 Underdetermination Profile, version
               0.1.1", DOI 10.5281/zenodo.22994744, 27 September 2026,
@@ -870,6 +889,15 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
               Claim Verification in Autonomous Agent Networks",
               arXiv 2605.20312, 19 May 2026.
 
+
+
+
+
+Nestorov                  Expires 31 March 2027                [Page 16]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
    [CLAIMRECEIPT]
               Zhu, P. and S. Chang, "ClaimReceipt: Verifying Evidence
               Sufficiency and Coverage in Agent Evaluations",
@@ -886,17 +914,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
               and Programming Language",
               DOI 10.1007/978-3-030-79876-5_37, 2021,
               <https://doi.org/10.1007/978-3-030-79876-5_37>.
-
-
-
-
-
-
-
-Nestorov                  Expires 31 March 2027                [Page 16]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
 
 Appendix A.  Conformance Tests
 
@@ -918,23 +935,6 @@ Author's Address
    VolMax Studio Lab d.o.o.
    Email: volmax.core@gmail.com
    URI:   https://orcid.org/0009-0006-7940-9539
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
