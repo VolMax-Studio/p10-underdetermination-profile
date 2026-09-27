@@ -98,6 +98,14 @@ profile.verifier_manifest_digest := digest(canonical VerifierManifestV0)
 profile_digest binds profile.verifier_manifest_ref and
   profile.verifier_manifest_digest
 
+CertificateTargetV0(π, e, c, w₀, w₁) :=
+  e ∈ Eπ                                      ∧
+  w₀ ∈ Wπ                                     ∧
+  w₁ ∈ Wπ                                     ∧
+  Compatibleπ(e, w₀)                          ∧
+  Compatibleπ(e, w₁)                          ∧
+  Evalπ(c, w₀) ≠ Evalπ(c, w₁)
+
 ActiveProfileBindingV0(ι, R) holds only if:
   FullPrefixReplay finds exactly one valid InstanceCommitment for the
     committed instance tuple                                      ∧
@@ -112,9 +120,12 @@ ActiveProfileBindingV0(ι, R) holds only if:
     artifact used during verification matches VerifierManifestV0 ∧
   Wπ, Eπ, Compatibleπ, Evalπ, the codecs, and the checker are
     obtained exclusively from that resolved profile               ∧
+  certificate.type = CertificateTargetV0(π, e, c, w₀, w₁)         ∧
   the submitted certificate type-checks under exactly those
     resolved profile, verifier, and toolchain artifacts.
 ```
+
+The resolved checker MUST construct `CertificateTargetV0` exclusively from the committed profile, closed evidence set, committed claim, and canonical receipt witnesses. The certificate MUST NOT supply or select its own target proposition.
 
 Every artifact digest above binds both the exact bytes and its frozen artifact identifier or path and format. An unavailable required profile, manifest, checker, build, dependency, `.olean`, axiom-policy, acceptance-command, or toolchain artifact yields `HALT`, with no epistemic verdict. A digest mismatch, substitution, or certificate checked under any other profile, checker, build, axiom policy, or toolchain yields `REJECT`.
 
@@ -349,7 +360,7 @@ coverage_verification_result           -- ACCEPT / REJECT / HALT + diagnostics
 
 These post-registration values are P10 verifier output over the Transparent Statement. They may be serialized in a separate verification report, but are not part of the issuer-signed P10 predicate and do not enter its digest. The standard SCITT Receipt remains in COSE unprotected-header label `394`, avoiding a hash cycle.
 
-Before accepting the epistemic outcome, the verifier MUST establish `ActiveProfileBindingV0`. Registration order proves when the committed object entered `L`; it is not by itself evidence that the object was used. P10 establishes use by independently resolving the unique instance-bound profile and its `VerifierManifestV0`, matching every required artifact, and type-checking the submitted certificate under exactly that resolved combination.
+Before accepting the epistemic outcome, the verifier MUST establish `ActiveProfileBindingV0`. Registration order proves when the committed object entered `L`; it is not by itself evidence that the object was used. P10 establishes verifier-time use by independently resolving the unique instance-bound profile and its `VerifierManifestV0`, matching every required artifact, constructing `CertificateTargetV0` from the committed inputs, and type-checking the submitted certificate against that target under exactly that resolved combination.
 
 **The only v0 envelope:** a SCITT Signed Statement (`COSE_Sign1`) whose payload is an in-toto Statement v1 with the P10 predicate. After registration and attachment of a SCITT Receipt, it becomes a Transparent Statement. Profile commitment, instance commitment, evidence admissions, evidence closure, and final P10 adjudication statement use the same pattern, the same L, and the same protected CWT `sub`. A bare in-toto predicate, standalone signed in-toto envelope, or SCITT Statement without the required Receipt is insufficient. No new wire format is introduced.
 
@@ -366,7 +377,7 @@ The following sources were inspected directly on 2026-09-23 unless otherwise sta
 | **Pramāṇa (arXiv 2605.20312 v1)** | Typed `ClaimAttestation`; `verify(claim, source)` returns VERIFIED/REJECTED/UNVERIFIABLE; a deterministic theorem prover may be an oracle for `InferenceClaim`; A2A/MCP wire extension and source-byte digest. | Does not freeze a pre-evidence world class or compatibility semantics. UNVERIFIABLE is an outcome label without a concrete divergent witness pair. |
 | **ClaimReceipt (arXiv 2609.01992 v1)** | Claim sufficiency is defined over executions: identical retained evidence must imply an identical claim value (§2.1, Eq. 1). It explicitly describes the identification boundary/divergent executions, distinguishes contract and evidential abstention (`I_C`, `I_E`, §5.1), freezes the specification before implementation (§4.1), and places a signed manifest and assignment matrix with an OpenTimestamps proof before prospective ingress (§3.3). Coverage is a set property and requires manifest/ingress commitment before outcome. | P10 closure/reconciliation follows the same broad prospective-ingress/terminal-reconciliation pattern; generic coverage is not novel to P10. The narrower remainder is that ClaimReceipt does not freeze an explicit world class with executable `Compatibleπ`, nor does INCONCLUSIVE carry a concrete divergent witness pair checked by the Lean kernel and registration-order-bound to the profile/instance. |
 | **Independent Determinability of Agent Actions (`draft-wadkins-agentproto-action-determinability-00`)** — inspected 2026-09-27 | Defines mechanism-independent determinability requirements for agent transitions. DET-2 requires the specific governing-condition revision to have governed the transition at decision time; prior signing or registration, or availability among multiple compatible candidates, is insufficient. Its candidates are governing-condition sets or policy revisions, not possible worlds assigning different values to an evidential claim. It also requires omission detection or an explicit result that completeness cannot be established when completeness is material. | Defines no evidence format, token, audit system, registry, or transparency service. It does not specify a pre-evidence world class with executable `Compatibleπ` and `Evalπ`, a receipt-carried divergent-world pair, Lean certificate checking, or P10-style checkpoint-bounded evidence closure. P10 does not equate its verifier-time recomputation with Wadkins's claim that governing conditions controlled a downstream transition at decision time. |
-| **The `verification.*` Constraint Family (`draft-krausz-verification-state-02`)** — inspected 2026-09-27 | Defines signed claim/ruleset/evidence-bound JWS receipts; `verified`, `contradicted`, `indeterminate`, and `not_evaluated` states; content-addressed evidence sets; local recomputation under a hash-bound mapping; and SCITT-compatible transport. It explicitly states that a pinned evidence set records what the issuer listed but cannot prove disclosure completeness or detect an omission. | Does not establish checkpoint-complete evidence coverage and does not require a pre-evidence committed `Wπ` with executable `Compatibleπ` and `Evalπ`, a concrete divergent-world pair, or a Lean proof that both worlds remain compatible with the same closed evidence set while assigning different claim values. |
+| **The `verification.*` Constraint Family (`draft-krausz-verification-state-02`)** — inspected 2026-09-27 | Defines signed claim/ruleset/evidence-bound JWS receipts; `verified`, `contradicted`, `indeterminate`, and `not_evaluated` states; content-addressed evidence sets; local recomputation; immutable content-addressed mapping resolution with digest verification before use and fail-closed mismatch handling; and SCITT-compatible transport. It explicitly states that a pinned evidence set records what the issuer listed but cannot prove disclosure completeness or detect an omission. | Does not establish checkpoint-complete evidence coverage and does not require a pre-evidence committed `Wπ` with executable `Compatibleπ` and `Evalπ`, a concrete divergent-world pair, or a Lean proof that both worlds remain compatible with the same closed evidence set while assigning different claim values. P10's narrower remainder is instance-unique profile resolution plus transitive verifier-toolchain/build binding, not digest-checked ruleset resolution as such. |
 | SCITT Agent Action Capsule (draft-mih-…-02) | SCITT receipt with disposition vocabulary | Action disposition, not epistemic underdetermination |
 | AWS Automated Reasoning checks | Formal verdicts (VALID/INVALID/SATISFIABLE/IMPOSSIBLE/TRANSLATION_AMBIGUOUS) | No third-party-verifiable receipt or witness pair |
 | Supervaluationism, version spaces, partial identification | “True in all admissible models” and monotone narrowing | Not receipt/binding systems |
@@ -438,9 +449,11 @@ The following sources were inspected directly on 2026-09-23 unless otherwise sta
 | M28 | Matching-`sub` profile/commitment/closure signed by an `iss` other than `instance_owner_iss` | Not a valid lifecycle entry; if cited by a valid object → REJECT |
 | M29 | Admission registered after the pre-closure transcript but before the closure leaf | Closure candidate invalid; replay/rebuild/retry, with no epistemic verdict until a valid closure |
 | M30 | Issuer-signed P10 payload contains `S_R`, receipt ref, or final replay/coverage result | REJECT; post-registration values MUST remain outside the payload |
-| M31 | Receipt omits the mandatory cross-instance limitation or represents instance-tuple uniqueness as uniqueness across sibling instances with the same `claim_digest` | REJECT |
+| M31 | Mandatory cross-instance limitation bytes are absent, altered, or do not match `limitations_digest` | REJECT |
 | M32 | The verifier loads, checks, or executes a profile whose digest differs from `InstanceCommitment.profile_digest`, even if that profile was registered before evidence admission | REJECT |
 | M33 | Checker source, `.olean` artifact, dependency lock, Lean toolchain, axiom policy, acceptance command, or build manifest differs from `VerifierManifestV0` | REJECT; unavailable required artifact → HALT, with no epistemic verdict |
+| M34 | Certificate proves a different, weaker, or certificate-supplied proposition instead of checker-constructed `CertificateTargetV0(π, e, c, w₀, w₁)` | REJECT |
+| M35 | `receipt.verifier_digest ≠ profile.verifier_manifest_digest` | REJECT |
 
 ### 7.2 Adversarial-profile test
 
@@ -477,7 +490,7 @@ The following sources were inspected directly on 2026-09-23, with the two identi
 - ClaimReceipt, arXiv `2609.01992v1`, complete HTML.
 - `draft-wadkins-agentproto-action-determinability-00`, complete Datatracker HTML, dated 2026-09-10 and last updated 2026-09-11.
 - IETF Datatracker IPR disclosure 7599, submitted 2026-09-11, naming unpublished pending U.S. provisional application `US64/147765`; the submitter made no licensing declaration at that time. This is a source-reported disclosure record, not a legal conclusion by P10.
-- `draft-krausz-verification-state-02`, complete Datatracker HTML, published 2026-09-23.
+- `draft-krausz-verification-state-02`, complete Datatracker HTML, published 2026-09-22.
 - RFC 9943: §§3, 5.1.3, 6, 7, 9.1, and 9.3. Protected `sub` groups Transparent Statements and supports subject completeness checks; VDS replayability permits checking every registered structure only for an actor with content access. Registration Policy can change and is not a soundness premise. §9.1 confirms that VDS registration order need not equal issuance order; §9.3 confirms selective registration.
 - RFC 9943 Figure 3 defines CWT `iss` and `sub` as `tstr`, places the standard SCITT Receipt in COSE unprotected-header label `394`, binds TS identity to a public key, and leaves concrete VDS structures/proofs dependent on the selected VDS profile. P10 therefore additionally freezes `LogIdentityV0` and `LeafEncodeV0`.
 - in-toto Attestation v1 README and `statement.md`: Envelope/Statement/Predicate layers and the rule that a consumer ignores unknown fields unless the predicate specification says otherwise.
@@ -506,5 +519,5 @@ The following sources were inspected directly on 2026-09-23, with the two identi
 - Restricted the novelty narrative to the concrete P10 divergent-world, executable-semantics, Lean-proof, checkpoint-coverage, and registration-order combination.
 - Added explicit non-claims for the concepts anticipated by those drafts.
 - Added the mandatory cross-instance selection limitation and the downstream-action non-claim.
-- Added `VerifierManifestV0`, `ActiveProfileBindingV0`, and M31–M33 to bind the exact active profile, checker, build, axiom policy, dependencies, `.olean` files, and Lean toolchain transitively into verification.
+- Added `VerifierManifestV0`, `ActiveProfileBindingV0`, and M31–M35 to bind the exact active profile, checker, build, axiom policy, dependencies, `.olean` files, and Lean toolchain transitively into verification, and to require the checker-constructed `CertificateTargetV0` proposition.
 - Made no change to the mathematical definitions of `Determinateπ`, `Underdeterminedπ`, or `FormallyUnderdeterminationCapable`, to evidence-closure semantics, or to existing tests M1–M30 and AP1.

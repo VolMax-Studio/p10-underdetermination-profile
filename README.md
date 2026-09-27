@@ -17,7 +17,7 @@ Version 0.1.1 is a publication candidate. Independent-review and release status 
 
 ## Scope
 
-P10 is a profile-and-binding contribution, not a new mathematical theorem or a new wire format. Its claimed distinction is limited to concrete divergent-world witnesses drawn from a pre-evidence committed model class, checked under executable `Compatibleπ` and `Evalπ` semantics by Lean, and bound to a uniquely resolved instance-specific profile and verifier manifest, checkpoint-complete evidence coverage, and transparency-log registration-order verification.
+P10 is a profile-and-binding contribution, not a new mathematical theorem or a new wire format. Among the sources inspected for this release, the claimed distinction is limited to concrete divergent-world witnesses drawn from a pre-evidence committed model class, checked under executable `Compatibleπ` and `Evalπ` semantics by Lean, and bound to a uniquely resolved instance-specific profile and verifier manifest, checkpoint-complete evidence coverage, and transparency-log registration-order verification.
 
 P10 does not claim novelty for independent determinability, decision-time or pre-evidence binding as a general idea, indeterminate receipts, claim/ruleset/evidence binding, content-addressed evidence, local recomputation, SCITT transport, or the general need for evidence-coverage and omission controls.
 
