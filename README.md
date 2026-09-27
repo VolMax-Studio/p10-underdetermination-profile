@@ -8,6 +8,9 @@ Version 0.1.1 is a release candidate. The specification and Lean reference
 kernel have independent PASS reports bound to their exact artifacts. Release
 status remains a separate human decision.
 
+This release contains the specification and a minimal Lean witness kernel; it
+does not include a receipt verifier or a SCITT implementation.
+
 ## Documents
 
 - [`P10_Underdetermination_Profile_v0.1.1.md`](P10_Underdetermination_Profile_v0.1.1.md) — profile specification and conformance criteria.
