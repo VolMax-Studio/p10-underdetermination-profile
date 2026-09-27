@@ -482,6 +482,53 @@ CoverageProofπ(ι, S_R) verifies:
 <!-- SOURCE: §4 (issuer-signed fields, post-registration output, ActiveProfileBindingV0
      paragraph, envelope). Traceability: N14, L08–L11. -->
 
+**Inside the issuer-signed P10 payload:**
+
+~~~ text
+instance_commitment_ref       -- before the first admission
+profile_commitment_ref
+  -- profile registration in L + checkpoint S₁
+evidence_admission_refs
+  -- all instance admissions covered by the closure
+evidence_closure_ref
+preclosure_transcript_digest  -- independent of S_R
+instance_subject              -- protected CWT sub
+log_identity_digest           -- committed L
+claim_digest
+evidence_digest               -- over the JCS form of the closed set
+codec_digest
+witness_0_digest, witness_1_digest   -- canonical form
+capability_proof_digest       -- eᵈ, eᵘ, and proofs
+proof_digest                  -- Lean object + axiom audit
+verifier_digest
+  -- equals profile.verifier_manifest_digest
+limitations_digest
+  -- includes verbatim AP1 and coverage/instance text
+limitations                   -- mandatory must-understand P10 field
+outcome = NotDemonstrated(reason=underdetermined)
+~~~
+
+In the issuer-signed field list above, `instance_commitment_ref` is specified in {{instance-commitment-and-subject}}; `evidence_closure_ref` and `preclosure_transcript_digest` in {{evidence-closure-and-checkpoint-bounded-coverage}}; `log_identity_digest` in {{full-prefix-replay}}; `codec_digest` in {{canonical-encoding}}; and the proofs bound by `capability_proof_digest` in {{issuance-conditions}}.
+
+**Outside the issuer-signed payload, obtained only after registration:**
+
+~~~ text
+receipt_checkpoint_ref
+  -- SCITT Receipt in COSE unprotected label 394
+S_R
+  -- verified checkpoint from the receipt
+order_and_coverage_transcript_digest
+  -- FullPrefixReplay through S_R
+coverage_verification_result
+  -- ACCEPT / REJECT / HALT + diagnostics
+~~~
+
+These post-registration values are P10 verifier output over the Transparent Statement. They may be serialized in a separate verification report, but are not part of the issuer-signed P10 predicate and do not enter its digest. The standard SCITT Receipt ({{RFC9942}}) remains in COSE unprotected-header label `394`, avoiding a hash cycle.
+
+Before accepting the epistemic outcome, the verifier MUST establish `ActiveProfileBindingV0`. Registration order proves when the committed object entered `L`; it is not by itself evidence that the object was used. P10 establishes verifier-time use by independently resolving the unique instance-bound profile and its `VerifierManifestV0`, matching every required artifact, constructing `CertificateTargetV0` from the committed inputs, and type-checking the submitted certificate against that target under exactly that resolved combination.
+
+**The only v0 envelope:** a SCITT Signed Statement ({{RFC9943}}) (`COSE_Sign1`, {{RFC9052}}) whose payload is an in-toto Statement v1 ({{IN-TOTO-STATEMENT}}) with the P10 predicate. After registration and attachment of a SCITT Receipt ({{RFC9942}}), it becomes a Transparent Statement. Profile commitment, instance commitment, evidence admissions, evidence closure, and final P10 adjudication statement use the same pattern, the same L, and the same protected CWT `sub`. A bare in-toto predicate, standalone signed in-toto envelope, or SCITT Statement without the required Receipt is insufficient. No new wire format is introduced.
+
 # Security Considerations
 <!-- SOURCE: §3 table, AP1 limitation (verbatim, mandatory), coverage/instance limitation
      (verbatim, mandatory), sibling-count SHOULD, must-understand rule.

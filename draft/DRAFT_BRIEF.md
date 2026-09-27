@@ -80,4 +80,6 @@ The reproducible skeleton build uses `kramdown-rfc2629` 1.7.43 (`kdrfc`),
 
 ## 6. Observation (no action proposed)
 
+O01 — `S₁` (v0.1.1 line 334) is not defined elsewhere in v0.1.1. Transcribed verbatim in a field comment; no erratum. Candidate for definition in a future profile revision.
+
 The `README.md` at tag `v0.1.1` still says "Version 0.1.1 is a release candidate … Release status remains a separate human decision." The Zenodo record now exists. The tagged file cannot change; if it matters, a later release can update the README. The draft does not quote the README's status line.

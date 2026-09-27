@@ -4,8 +4,8 @@
 
 Network Working Group                                        I. Nestorov
 Internet-Draft                                  VolMax Studio Lab d.o.o.
-Intended status: Informational                         27 September 2026
-Expires: 31 March 2027
+Intended status: Informational                         28 September 2026
+Expires: 1 April 2027
 
 
   P10 Underdetermination Profile: Witness-Carrying Underdetermination
@@ -53,7 +53,7 @@ Status of This Memo
 
 
 
-Nestorov                  Expires 31 March 2027                 [Page 1]
+Nestorov                  Expires 1 April 2027                  [Page 1]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
@@ -63,7 +63,7 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 March 2027.
+   This Internet-Draft will expire on 1 April 2027.
 
 Copyright Notice
 
@@ -94,28 +94,28 @@ Table of Contents
    7.  Evidence Closure and Checkpoint-Bounded Coverage  . . . . . .  13
    8.  Canonical Encoding  . . . . . . . . . . . . . . . . . . . . .  14
    9.  Statement and Predicate Structure . . . . . . . . . . . . . .  15
-   10. Security Considerations . . . . . . . . . . . . . . . . . . .  15
-   11. Privacy Considerations  . . . . . . . . . . . . . . . . . . .  18
-   12. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  18
-   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  18
-     13.1.  Normative References . . . . . . . . . . . . . . . . . .  18
-     13.2.  Informative References . . . . . . . . . . . . . . . . .  19
-   Appendix A.  Conformance Tests  . . . . . . . . . . . . . . . . .  20
-     A.1.  Mutation Tests  . . . . . . . . . . . . . . . . . . . . .  20
-     A.2.  Adversarial-Profile Test  . . . . . . . . . . . . . . . .  20
-   Relationship to Prior Work  . . . . . . . . . . . . . . . . . . .  20
-   Source Snapshot . . . . . . . . . . . . . . . . . . . . . . . . .  20
-   Document History  . . . . . . . . . . . . . . . . . . . . . . . .  20
+   10. Security Considerations . . . . . . . . . . . . . . . . . . .  16
+   11. Privacy Considerations  . . . . . . . . . . . . . . . . . . .  20
+   12. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  20
+   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  20
+     13.1.  Normative References . . . . . . . . . . . . . . . . . .  20
+     13.2.  Informative References . . . . . . . . . . . . . . . . .  21
+   Appendix A.  Conformance Tests  . . . . . . . . . . . . . . . . .  22
+     A.1.  Mutation Tests  . . . . . . . . . . . . . . . . . . . . .  22
+     A.2.  Adversarial-Profile Test  . . . . . . . . . . . . . . . .  22
+   Relationship to Prior Work  . . . . . . . . . . . . . . . . . . .  22
+   Source Snapshot . . . . . . . . . . . . . . . . . . . . . . . . .  22
+   Document History  . . . . . . . . . . . . . . . . . . . . . . . .  22
 
 
 
-Nestorov                  Expires 31 March 2027                 [Page 2]
+Nestorov                  Expires 1 April 2027                  [Page 2]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
 
-   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  20
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  21
+   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  22
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  22
 
 1.  Introduction
 
@@ -165,7 +165,7 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
 
 
-Nestorov                  Expires 31 March 2027                 [Page 3]
+Nestorov                  Expires 1 April 2027                  [Page 3]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
@@ -221,7 +221,7 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
 
 
-Nestorov                  Expires 31 March 2027                 [Page 4]
+Nestorov                  Expires 1 April 2027                  [Page 4]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
@@ -277,7 +277,7 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
 
 
-Nestorov                  Expires 31 March 2027                 [Page 5]
+Nestorov                  Expires 1 April 2027                  [Page 5]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
@@ -333,7 +333,7 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
 
 
-Nestorov                  Expires 31 March 2027                 [Page 6]
+Nestorov                  Expires 1 April 2027                  [Page 6]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
@@ -389,7 +389,7 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
 
 
-Nestorov                  Expires 31 March 2027                 [Page 7]
+Nestorov                  Expires 1 April 2027                  [Page 7]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
@@ -445,7 +445,7 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
 
 
-Nestorov                  Expires 31 March 2027                 [Page 8]
+Nestorov                  Expires 1 April 2027                  [Page 8]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
@@ -501,7 +501,7 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
 
 
-Nestorov                  Expires 31 March 2027                 [Page 9]
+Nestorov                  Expires 1 April 2027                  [Page 9]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
@@ -557,7 +557,7 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
 
 
-Nestorov                  Expires 31 March 2027                [Page 10]
+Nestorov                  Expires 1 April 2027                 [Page 10]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
@@ -613,7 +613,7 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
 
 
-Nestorov                  Expires 31 March 2027                [Page 11]
+Nestorov                  Expires 1 April 2027                 [Page 11]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
@@ -669,7 +669,7 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
 
 
-Nestorov                  Expires 31 March 2027                [Page 12]
+Nestorov                  Expires 1 April 2027                 [Page 12]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
@@ -725,7 +725,7 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
 
 
-Nestorov                  Expires 31 March 2027                [Page 13]
+Nestorov                  Expires 1 April 2027                 [Page 13]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
@@ -781,12 +781,94 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
 
 
-Nestorov                  Expires 31 March 2027                [Page 14]
+Nestorov                  Expires 1 April 2027                 [Page 14]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
 
 9.  Statement and Predicate Structure
+
+   *Inside the issuer-signed P10 payload:*
+
+   instance_commitment_ref       -- before the first admission
+   profile_commitment_ref
+     -- profile registration in L + checkpoint S₁
+   evidence_admission_refs
+     -- all instance admissions covered by the closure
+   evidence_closure_ref
+   preclosure_transcript_digest  -- independent of S_R
+   instance_subject              -- protected CWT sub
+   log_identity_digest           -- committed L
+   claim_digest
+   evidence_digest               -- over the JCS form of the closed set
+   codec_digest
+   witness_0_digest, witness_1_digest   -- canonical form
+   capability_proof_digest       -- eᵈ, eᵘ, and proofs
+   proof_digest                  -- Lean object + axiom audit
+   verifier_digest
+     -- equals profile.verifier_manifest_digest
+   limitations_digest
+     -- includes verbatim AP1 and coverage/instance text
+   limitations                   -- mandatory must-understand P10 field
+   outcome = NotDemonstrated(reason=underdetermined)
+
+   In the issuer-signed field list above, instance_commitment_ref is
+   specified in Section 4; evidence_closure_ref and
+   preclosure_transcript_digest in Section 7; log_identity_digest in
+   Section 5; codec_digest in Section 8; and the proofs bound by
+   capability_proof_digest in Section 3.2.
+
+   *Outside the issuer-signed payload, obtained only after
+   registration:*
+
+   receipt_checkpoint_ref
+     -- SCITT Receipt in COSE unprotected label 394
+   S_R
+     -- verified checkpoint from the receipt
+   order_and_coverage_transcript_digest
+     -- FullPrefixReplay through S_R
+   coverage_verification_result
+     -- ACCEPT / REJECT / HALT + diagnostics
+
+
+
+
+
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 15]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
+   These post-registration values are P10 verifier output over the
+   Transparent Statement.  They may be serialized in a separate
+   verification report, but are not part of the issuer-signed P10
+   predicate and do not enter its digest.  The standard SCITT Receipt
+   ([RFC9942]) remains in COSE unprotected-header label 394, avoiding a
+   hash cycle.
+
+   Before accepting the epistemic outcome, the verifier MUST establish
+   ActiveProfileBindingV0.  Registration order proves when the committed
+   object entered L; it is not by itself evidence that the object was
+   used.  P10 establishes verifier-time use by independently resolving
+   the unique instance-bound profile and its VerifierManifestV0,
+   matching every required artifact, constructing CertificateTargetV0
+   from the committed inputs, and type-checking the submitted
+   certificate against that target under exactly that resolved
+   combination.
+
+   *The only v0 envelope:* a SCITT Signed Statement ([RFC9943])
+   (COSE_Sign1, [RFC9052]) whose payload is an in-toto Statement v1
+   ([IN-TOTO-STATEMENT]) with the P10 predicate.  After registration and
+   attachment of a SCITT Receipt ([RFC9942]), it becomes a Transparent
+   Statement.  Profile commitment, instance commitment, evidence
+   admissions, evidence closure, and final P10 adjudication statement
+   use the same pattern, the same L, and the same protected CWT sub.  A
+   bare in-toto predicate, standalone signed in-toto envelope, or SCITT
+   Statement without the required Receipt is insufficient.  No new wire
+   format is introduced.
 
 10.  Security Considerations
 
@@ -806,6 +888,15 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
          faithfully represents real-world compatibility
 
    *  *Bridge:* Evalπ
+
+
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 16]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
 
       -  *What Lean checks:* The frozen function returns different
          values on w₀ and w₁
@@ -833,15 +924,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
       -  *What Lean checks:* SHA-256 digest and JCS canonical form match
 
-
-
-
-
-Nestorov                  Expires 31 March 2027                [Page 15]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
-
       -  *What remains an oracle / limitation:* Whether canonicalization
          loses claim-relevant information
 
@@ -863,6 +945,14 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
       -  *What remains an oracle / limitation:* The TS chooses within-
          batch leaf order; an order-sensitive Bundleπ therefore treats
          that TS choice as an explicit trust assumption
+
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 17]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
 
    *  *Bridge:* Pre-evidence commitment
 
@@ -890,14 +980,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
          valid, registered, in-scope admissions by authorized admitters
          through S_R (Section 7)
 
-
-
-
-Nestorov                  Expires 31 March 2027                [Page 16]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
-
       -  *What remains an oracle / limitation:* Does not prove absence
          of unregistered/out-of-scope evidence, another request_id, or
          future entries
@@ -920,6 +1002,13 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
          native_decide are forbidden
 
    *AP1 limitation (verbatim, mandatory in the receipt):*
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 18]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
 
       FormallyUnderdeterminationCapable does not establish that the
       determining evidence fixture is practically obtainable,
@@ -947,13 +1036,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
       instances to different profiles or world classes, or select the
       presented instance after observing evidence or outcomes.
 
-
-
-Nestorov                  Expires 31 March 2027                [Page 17]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
-
    Where sibling InstanceCommitment payloads are accessible, a verifier
    SHOULD report the number visible through S_R for the same
    (instance_owner_iss, claim_digest).  Version 0.1.1 assigns no
@@ -972,6 +1054,17 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
    mandatory *must-understand* field: a P10 verifier MUST reject a
    predicate without it, even though generic in-toto v1 rules otherwise
    require unknown fields to be ignored.
+
+
+
+
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 19]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
 
 11.  Privacy Considerations
 
@@ -1003,13 +1096,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
               "CBOR Web Token (CWT)", RFC 8392, DOI 10.17487/RFC8392,
               May 2018, <https://www.rfc-editor.org/info/rfc8392>.
 
-
-
-Nestorov                  Expires 31 March 2027                [Page 18]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
-
    [RFC9597]  Looker, T. and M.B. Jones, "CBOR Web Token (CWT) Claims in
               COSE Headers", RFC 9597, DOI 10.17487/RFC9597, June 2024,
               <https://www.rfc-editor.org/info/rfc9597>.
@@ -1022,6 +1108,19 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
    [RFC9162]  Laurie, B., Messeri, E., and R. Stradling, "Certificate
               Transparency Version 2.0", RFC 9162, DOI 10.17487/RFC9162,
               December 2021, <https://www.rfc-editor.org/info/rfc9162>.
+
+
+
+
+
+
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 20]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
 
    [IN-TOTO-STATEMENT]
               in-toto Project, "in-toto Attestation Framework: Statement
@@ -1053,19 +1152,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
               <https://www.ietf.org/archive/id/draft-wadkins-agentproto-
               action-determinability-00.txt>.
 
-
-
-
-
-
-
-
-
-Nestorov                  Expires 31 March 2027                [Page 19]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
-
    [KRAUSZ-02]
               Krausz, J., "The verification.* Constraint Family: Pre-
               Action Fail-Closed Gates for AI Agent Decisions", Work in
@@ -1082,6 +1168,15 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
    [PRAMANA]  Kadaboina, R. K., "Pramana: A Protocol-Layer Treatment of
               Claim Verification in Autonomous Agent Networks",
               arXiv 2605.20312, 19 May 2026.
+
+
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 21]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
 
    [CLAIMRECEIPT]
               Zhu, P. and S. Chang, "ClaimReceipt: Verifying Evidence
@@ -1114,14 +1209,6 @@ Document History
 
 Acknowledgments
 
-
-
-
-Nestorov                  Expires 31 March 2027                [Page 20]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
-
 Author's Address
 
    Ivan Nestorov
@@ -1142,35 +1229,4 @@ Author's Address
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Nestorov                  Expires 31 March 2027                [Page 21]
+Nestorov                  Expires 1 April 2027                 [Page 22]
