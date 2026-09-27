@@ -1068,6 +1068,15 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
 11.  Privacy Considerations
 
+   A P10 receipt contains or references claim, profile, evidence-
+   admission, evidence-closure, witness, certificate, and verifier
+   identifiers or digests.  Cryptographic digests provide integrity
+   binding but do not provide confidentiality, particularly for low-
+   entropy or guessable inputs.  Registration with a transparency
+   service can create persistent and linkable metadata across receipts
+   or instances.  This profile does not define confidentiality,
+   anonymization, unlinkability, access control, or retention policy.
+
 12.  IANA Considerations
 
    This document has no IANA actions.
@@ -1105,15 +1114,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
               DOI 10.17487/RFC8785, June 2020,
               <https://www.rfc-editor.org/info/rfc8785>.
 
-   [RFC9162]  Laurie, B., Messeri, E., and R. Stradling, "Certificate
-              Transparency Version 2.0", RFC 9162, DOI 10.17487/RFC9162,
-              December 2021, <https://www.rfc-editor.org/info/rfc9162>.
-
-
-
-
-
-
 
 
 
@@ -1121,6 +1121,10 @@ Nestorov                  Expires 1 April 2027                 [Page 20]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
+
+   [RFC9162]  Laurie, B., Messeri, E., and R. Stradling, "Certificate
+              Transparency Version 2.0", RFC 9162, DOI 10.17487/RFC9162,
+              December 2021, <https://www.rfc-editor.org/info/rfc9162>.
 
    [IN-TOTO-STATEMENT]
               in-toto Project, "in-toto Attestation Framework: Statement
@@ -1165,10 +1169,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
               capsule-02, 6 July 2026, <https://www.ietf.org/archive/id/
               draft-mih-scitt-agent-action-capsule-02.txt>.
 
-   [PRAMANA]  Kadaboina, R. K., "Pramana: A Protocol-Layer Treatment of
-              Claim Verification in Autonomous Agent Networks",
-              arXiv 2605.20312, 19 May 2026.
-
 
 
 
@@ -1177,6 +1177,10 @@ Nestorov                  Expires 1 April 2027                 [Page 21]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
+
+   [PRAMANA]  Kadaboina, R. K., "Pramana: A Protocol-Layer Treatment of
+              Claim Verification in Autonomous Agent Networks",
+              arXiv 2605.20312, 19 May 2026.
 
    [CLAIMRECEIPT]
               Zhu, P. and S. Chang, "ClaimReceipt: Verifying Evidence
@@ -1215,10 +1219,6 @@ Author's Address
    VolMax Studio Lab d.o.o.
    Email: volmax.core@gmail.com
    URI:   https://orcid.org/0009-0006-7940-9539
-
-
-
-
 
 
 

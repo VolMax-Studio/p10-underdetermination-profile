@@ -595,6 +595,8 @@ Every row of this table is included in the receipt's `limitations` field. The P1
 <!-- D4 ratified: short informative section, NEW-PROSE, zero BCP 14 keywords.
      Every sentence listed in TRACEABILITY.md Table 5 (NEW-PROSE) for the gate. -->
 
+A P10 receipt contains or references claim, profile, evidence-admission, evidence-closure, witness, certificate, and verifier identifiers or digests. Cryptographic digests provide integrity binding but do not provide confidentiality, particularly for low-entropy or guessable inputs. Registration with a transparency service can create persistent and linkable metadata across receipts or instances. This profile does not define confidentiality, anonymization, unlinkability, access control, or retention policy.
+
 # IANA Considerations
 This document has no IANA actions.
 
