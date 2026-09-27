@@ -85,12 +85,13 @@ def claim : profile.Claim := .secondBit
 def certificate : P10.WitnessCertificate profile evidence claim where
   world₀ := .w00
   world₁ := .w01
-  compatible₀ := by exact ⟨rfl, trivial⟩
-  compatible₁ := by exact ⟨rfl, trivial⟩
-  valuesDiffer := by
-    change false ≠ true
-    intro valuesEqual
-    nomatch valuesEqual
+  proof := by
+    refine ⟨?_, ?_, ?_⟩
+    · exact ⟨rfl, trivial⟩
+    · exact ⟨rfl, trivial⟩
+    · change false ≠ true
+      intro valuesEqual
+      nomatch valuesEqual
 
 /-- Positive fixture: the hidden second bit differs across compatible worlds. -/
 theorem underdetermined : P10.Underdetermined profile evidence claim :=

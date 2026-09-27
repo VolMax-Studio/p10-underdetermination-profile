@@ -29,15 +29,35 @@ def Eval (profile : Profile) (claim : profile.Claim)
   profile.eval claim world
 
 /--
+The exact proposition that the resolved P10 checker constructs for one
+canonical witness pair. Membership in `Eπ` and `Wπ` is represented by the
+dependent Lean types `profile.Evidence` and `profile.World`; the remaining
+conjuncts are the two compatibility facts and divergent claim evaluation.
+-/
+def CertificateTargetV0 (profile : Profile) (evidence : profile.Evidence)
+    (claim : profile.Claim) (world₀ world₁ : profile.World) : Prop :=
+  Compatible profile evidence world₀ ∧
+  Compatible profile evidence world₁ ∧
+  Eval profile claim world₀ ≠ Eval profile claim world₁
+
+/--
 Underdetermination relative to one frozen profile and one evidence value:
 two compatible worlds assign different values to the same claim.
 -/
 def Underdetermined (profile : Profile) (evidence : profile.Evidence)
     (claim : profile.Claim) : Prop :=
   ∃ world₀ world₁,
-    Compatible profile evidence world₀ ∧
-    Compatible profile evidence world₁ ∧
-    Eval profile claim world₀ ≠ Eval profile claim world₁
+    CertificateTargetV0 profile evidence claim world₀ world₁
+
+/-- Construct the checker-owned target from the committed inputs. -/
+theorem certificateTargetV0_of_witnesses (profile : Profile)
+    (evidence : profile.Evidence) (claim : profile.Claim)
+    (world₀ world₁ : profile.World)
+    (compatible₀ : Compatible profile evidence world₀)
+    (compatible₁ : Compatible profile evidence world₁)
+    (valuesDiffer : Eval profile claim world₀ ≠ Eval profile claim world₁) :
+    CertificateTargetV0 profile evidence claim world₀ world₁ := by
+  exact ⟨compatible₀, compatible₁, valuesDiffer⟩
 
 /-- The minimal witness rule at the center of the P10 kernel. -/
 theorem underdetermined_of_witnesses (profile : Profile)
@@ -47,7 +67,9 @@ theorem underdetermined_of_witnesses (profile : Profile)
     (compatible₁ : Compatible profile evidence world₁)
     (valuesDiffer : Eval profile claim world₀ ≠ Eval profile claim world₁) :
     Underdetermined profile evidence claim := by
-  exact ⟨world₀, world₁, compatible₀, compatible₁, valuesDiffer⟩
+  exact ⟨world₀, world₁,
+    certificateTargetV0_of_witnesses profile evidence claim world₀ world₁
+      compatible₀ compatible₁ valuesDiffer⟩
 
 /-- Different claim values force the two semantic worlds to be distinct. -/
 theorem worlds_distinct_of_values_differ (profile : Profile)

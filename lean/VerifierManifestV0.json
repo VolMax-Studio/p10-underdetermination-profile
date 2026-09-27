@@ -1,0 +1,24 @@
+{
+  "acceptance_command_digest": "sha256:fa6341651b31fcc55601ec423d1f92f43cbf9740021c5dbd364676bcdbd23270",
+  "acceptance_command_ref": "lean/ACCEPTANCE_COMMAND.txt",
+  "axiom_policy_digest": "sha256:970cb162c3a9304bd85e898be8247b4bfd3818516d5d2e7621c9297fa0bbcdee",
+  "axiom_policy_ref": "lean/AXIOM_POLICY.md",
+  "build_manifest_digest": "sha256:63f134003d1371dc2c54608639d190312718e2e44d636a7bdc0cbad1e61f2c01",
+  "build_manifest_ref": "lean/P10_OLEAN_SHA256SUMS",
+  "checker_olean_digest_set": {
+    ".lake/build/lib/lean/P10.olean": "sha256:0a451f5037b58921a458fab41408fb8b9601101bcb5bd4a0ac21b05e17dea5d2",
+    ".lake/build/lib/lean/P10/AxiomAudit.olean": "sha256:02554626774e150299ed74968d40a994ab353fe3184442ab9c3fe7e4604266f1",
+    ".lake/build/lib/lean/P10/Core.olean": "sha256:88aef0b4b975b396f376ca1f43ae362154837bb4ae27e8adc2517d0cca3e894a",
+    ".lake/build/lib/lean/P10/Fixtures/FourWorld.olean": "sha256:916d7c5684a08dad1e50c2ce25eba5a515ef35dbd001e804cd2e3357d5ddbe6d",
+    ".lake/build/lib/lean/P10/Issuance.olean": "sha256:79aa10dc05289358989143dff6dfa89670bdf0d21087b3e8124be734194816e8"
+  },
+  "checker_source_tree_digest": "sha256:c522532081abb626ee9fa8ece57b6a9a977484da280a4d3b9dbbd4d60cabbafe",
+  "checker_source_tree_ref": "lean/P10_CHECKER_SOURCE_SHA256SUMS",
+  "dependency_lock_digest": "sha256:91eb1061ec7174e2fd324d8aa6dc8293cfac04a31ca83649cef75044e6f5508f",
+  "dependency_lock_ref": "lake-manifest.json",
+  "lean_toolchain_artifact_digest": "sha256:e8baaa71855a616dc351028f3ad2200051b0671f423a1696a100e809302d5550",
+  "lean_toolchain_artifact_identifier": "lean-linux-x86_64-executable",
+  "lean_toolchain_identifier": "leanprover/lean4:v4.34.0",
+  "manifest_version": "P10-VerifierManifestV0",
+  "profile_specification_digest": "sha256:b92c0d689b9f16f2184ba2addb8653ed881595cc3a0117c62cadadf5c6dc6558"
+}

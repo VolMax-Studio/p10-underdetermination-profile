@@ -5,6 +5,8 @@ import P10.Fixtures.FourWorld
 -- placeholders and treats compiler warnings as errors.
 
 #print axioms P10.underdetermined_of_witnesses
+#print axioms P10.CertificateTargetV0
+#print axioms P10.certificateTargetV0_of_witnesses
 #print axioms P10.worlds_distinct_of_values_differ
 #print axioms P10.encodings_distinct_of_values_differ
 #print axioms P10.not_underdetermined_of_constant_eval
