@@ -330,7 +330,7 @@ The identified adjudication instance is a subject derived from the issuer/reques
 instance_subject := SubjectDeriveV0(issuer_id, request_id)
 ~~~
 
-`SubjectDeriveV0` uses frozen, domain-separated canonical encoding and returns a text string (`tstr`) for the CWT `sub` claim ({{RFC8392}}). Its digest is bound by the commitment. Before the first evidence admission, the following MUST be registered:
+`SubjectDeriveV0` uses frozen, domain-separated canonical encoding and returns a text string (`tstr`) for CWT `sub` ({{RFC8392}}). Its digest is bound by the commitment. Before the first evidence admission, the following MUST be registered:
 
 ~~~ text
 InstanceCommitment(ι) binds:
@@ -488,6 +488,61 @@ CoverageProofπ(ι, S_R) verifies:
      Traceability: N12, N13, L05–L07.
      The two limitation blocks are receipt content bound by limitations_digest:
      copy byte-for-byte, including backticks. -->
+
+Lean checks only the result of executing frozen, executable relations and functions over canonical objects. It checks nothing about the real world.
+
+Each item in the following list is one row of the semantic-bridges table.
+
+* **Bridge:** `Compatibleπ`
+  * **What Lean checks:** The frozen relation returns `true` for (e, w₀) and (e, w₁)
+  * **What remains an oracle / limitation:** Whether the relation faithfully represents real-world compatibility
+* **Bridge:** `Evalπ`
+  * **What Lean checks:** The frozen function returns different values on w₀ and w₁
+  * **What remains an oracle / limitation:** Whether `Evalπ` faithfully translates the natural-language claim; this is P10 `R_sem` unless the claim is already formal
+* **Bridge:** `Eπ` and admission
+  * **What Lean checks:** `e ∈ Eπ` under the frozen rules
+  * **What remains an oracle / limitation:** Whether `Eπ` realistically covers obtainable evidence
+* **Bridge:** Profile adequacy (AP1)
+  * **What Lean checks:** `FormallyUnderdeterminationCapable(π, c)`
+  * **What remains an oracle / limitation:** Whether the determining evidence fixture is practically obtainable and representative (limitation below)
+* **Bridge:** Canonicalization / codec
+  * **What Lean checks:** SHA-256 digest and JCS canonical form match
+  * **What remains an oracle / limitation:** Whether canonicalization loses claim-relevant information
+* **Bridge:** Replay/order
+  * **What Lean checks:** The complete VDS prefix of committed L reconstructs `S_R` and registration order ({{full-prefix-replay}})
+  * **What remains an oracle / limitation:** Authorized access to all leaf/protected-header data and required subject payloads; registration order is not issuance order; other logs are outside the claim
+* **Bridge:** Within-batch order
+  * **What Lean checks:** Committed leaf indices define one total registration order
+  * **What remains an oracle / limitation:** The TS chooses within-batch leaf order; an order-sensitive `Bundleπ` therefore treats that TS choice as an explicit trust assumption
+* **Bridge:** Pre-evidence commitment
+  * **What Lean checks:** Profile and instance were registered before protocol admission ({{instance-commitment-and-subject}} through {{evidence-admission}})
+  * **What remains an oracle / limitation:** Does not prove author ignorance of public data or absence of other instances
+* **Bridge:** Active profile/verifier
+  * **What Lean checks:** `ActiveProfileBindingV0` resolves the unique instance-bound profile and verifies the certificate using only the checker, build, axiom policy, codecs, dependencies, `.olean` files, and Lean toolchain transitively bound by that profile
+  * **What remains an oracle / limitation:** Establishes verifier-time recomputation under the committed adjudication profile; it does not establish that a downstream action was governed by the verdict
+* **Bridge:** Coverage
+  * **What Lean checks:** `EvidenceClosure` and `CoverageProof` close all valid, registered, in-scope admissions by authorized admitters through `S_R` ({{evidence-closure-and-checkpoint-bounded-coverage}})
+  * **What remains an oracle / limitation:** Does not prove absence of unregistered/out-of-scope evidence, another `request_id`, or future entries
+* **Bridge:** Cryptography
+  * **What Lean checks:** Digests and signatures match
+  * **What remains an oracle / limitation:** Digest collision resistance, signature unforgeability, and log non-equivocation/integrity
+* **Bridge:** Verifier
+  * **What Lean checks:** Kernel type-check plus `#print axioms` audit; the permitted axiom set is explicit in the profile
+  * **What remains an oracle / limitation:** Trust in the Lean kernel and declared axioms; `sorryAx`, `Lean.ofReduceBool`, and `native_decide` are forbidden
+
+**AP1 limitation (verbatim, mandatory in the receipt):**
+
+> `FormallyUnderdeterminationCapable` does not establish that the determining evidence fixture is practically obtainable, representative, or likely to occur under the deployed acquisition process. A formally valid profile may remain operationally abstention-biased.
+
+**Coverage/instance limitation (verbatim, mandatory in the receipt):**
+
+> This receipt establishes completeness only within the committed transparency log `L`, for valid, registered, in-scope admissions made by the frozen authorized admitters for the identified `(issuer, request)` subject through the signed checkpoint `S_R`. It does not establish that no commitment or admission for the same `request_id` exists in another transparency log, that no unregistered or out-of-scope evidence exists, that no semantically equivalent request was opened under a different `request_id`, or that no later statement was registered after `S_R`. Verification requires complete VDS-prefix replay of committed `L` and access to all subject payload bytes needed by the frozen admission rules. This receipt establishes uniqueness only for the identified instance tuple within committed `L` through `S_R`. It does not establish that the issuer did not create other instances for the same `claim_digest` under different `request_id` values, bind those instances to different profiles or world classes, or select the presented instance after observing evidence or outcomes.
+
+Where sibling `InstanceCommitment` payloads are accessible, a verifier SHOULD report the number visible through `S_R` for the same `(instance_owner_iss, claim_digest)`. Version 0.1.1 assigns no acceptance or rejection semantics to that count. This recommendation does not expand the payload-availability requirement of `FullPrefixReplay`; mandatory sibling counting requires a future profile with an additional availability or indexing rule.
+
+Introducing a `Reachableπ(e)` predicate does not solve AP1. Lean would check frozen `Reachableπ(eᵈ)`, but not whether that relation faithfully represents physical or practical availability. It would merely move the oracle boundary.
+
+Every row of this table is included in the receipt's `limitations` field. The P10 predicate specification marks `limitations` as a mandatory **must-understand** field: a P10 verifier MUST reject a predicate without it, even though generic in-toto v1 rules otherwise require unknown fields to be ignored.
 
 # Privacy Considerations
 <!-- D4 ratified: short informative section, NEW-PROSE, zero BCP 14 keywords.
