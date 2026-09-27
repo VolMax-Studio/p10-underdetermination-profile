@@ -360,6 +360,41 @@ InstanceCommitment(ι) binds:
 # Full-Prefix Replay and Registration Order {#full-prefix-replay}
 <!-- SOURCE: §2.4. Traceability: N08–N10, L02, L03. -->
 
+**Registration order** and checkpoint-bounded coverage are proven by replaying the append-only log, not by timestamps or selected inclusion proofs alone.
+
+~~~ text
+LogIdentityV0(L) := CanonicalDigest(
+  ts_iss,
+  checkpoint_verification_key_fingerprint,
+  vds_algorithm,
+  leaf_encoding_profile_digest)
+
+LeafEncodeV0(x) :=
+  frozen mapping from the exact registered Signed Statement
+  bytes and their format/media-type identifier to
+  RFC9162 leaf input
+~~~
+
+“The same L” means the same `LogIdentityV0`: the same TS `iss`, checkpoint verification key, VDS algorithm, and leaf-encoding profile. The commitment's `log_identity_digest` MUST match the L identified by the outer receipt; a mismatch yields `REJECT`.
+
+~~~ text
+FullPrefixReplay(L, S_R) :=
+  fetch every leaf's exact registered bytes and protected header
+    at indices [0, size(S_R))                                ∧
+  decode protected sub for SubjectView candidates            ∧
+  fetch payload bytes for every SubjectView candidate needed
+    to classify lifecycle/admission validity                  ∧
+  reconstruct the RFC9162_SHA256 VDS root using LeafEncodeV0 ∧
+  reconstructed_root = root(S_R)                            ∧
+  verify signed_checkpoint(S_R)
+~~~
+
+The verifier MUST have authorized read access to the leaf bytes and protected headers of the entire Statement Sequence through `S_R`, as well as all payload bytes of subject-view candidates needed for classification under the frozen rules. Payloads for unrelated subjects are not required. Trust in the commitment-bound checkpoint key, VDS algorithm, and `LeafEncodeV0` is an explicit premise. If the complete prefix or a required subject payload is unavailable, the result is `HALT`, with no epistemic verdict.
+
+Replay verifies that the profile and unique commitment were registered before the first relevant admission, that exactly one valid owner-signed closure precedes the final receipt, and that all those entries are in committed L. An entry or proof from another log identity yields `REJECT`; a separate parallel log is outside the claim and MUST be disclosed by the limitation. P10 v0 uses `RFC9162_SHA256` (VDS alg `1`, {{RFC9162}}). Inclusion and consistency proofs may accompany the transcript, but do not by themselves prove the absence of other entries.
+
+An RFC 9943 Registration Policy can change, and its rejection of new entries is only defense in depth; it is not a soundness premise of P10 coverage.
+
 # Evidence Admission
 <!-- SOURCE: §2.5. -->
 

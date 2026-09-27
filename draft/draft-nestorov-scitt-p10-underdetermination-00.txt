@@ -89,23 +89,23 @@ Table of Contents
      3.1.  Definitions . . . . . . . . . . . . . . . . . . . . . . .   5
      3.2.  Issuance Conditions . . . . . . . . . . . . . . . . . . .   6
    4.  Instance Commitment and Subject . . . . . . . . . . . . . . .   9
-   5.  Full-Prefix Replay and Registration Order . . . . . . . . . .  10
-   6.  Evidence Admission  . . . . . . . . . . . . . . . . . . . . .  10
-   7.  Evidence Closure and Checkpoint-Bounded Coverage  . . . . . .  11
-   8.  Canonical Encoding  . . . . . . . . . . . . . . . . . . . . .  11
-   9.  Statement and Predicate Structure . . . . . . . . . . . . . .  11
-   10. Security Considerations . . . . . . . . . . . . . . . . . . .  11
-   11. Privacy Considerations  . . . . . . . . . . . . . . . . . . .  11
-   12. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  11
-   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  11
-     13.1.  Normative References . . . . . . . . . . . . . . . . . .  11
-     13.2.  Informative References . . . . . . . . . . . . . . . . .  12
-   Appendix A.  Conformance Tests  . . . . . . . . . . . . . . . . .  13
-     A.1.  Mutation Tests  . . . . . . . . . . . . . . . . . . . . .  13
-     A.2.  Adversarial-Profile Test  . . . . . . . . . . . . . . . .  13
-   Relationship to Prior Work  . . . . . . . . . . . . . . . . . . .  13
-   Source Snapshot . . . . . . . . . . . . . . . . . . . . . . . . .  13
-   Document History  . . . . . . . . . . . . . . . . . . . . . . . .  13
+   5.  Full-Prefix Replay and Registration Order . . . . . . . . . .  11
+   6.  Evidence Admission  . . . . . . . . . . . . . . . . . . . . .  12
+   7.  Evidence Closure and Checkpoint-Bounded Coverage  . . . . . .  12
+   8.  Canonical Encoding  . . . . . . . . . . . . . . . . . . . . .  12
+   9.  Statement and Predicate Structure . . . . . . . . . . . . . .  12
+   10. Security Considerations . . . . . . . . . . . . . . . . . . .  12
+   11. Privacy Considerations  . . . . . . . . . . . . . . . . . . .  12
+   12. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  12
+   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  12
+     13.1.  Normative References . . . . . . . . . . . . . . . . . .  12
+     13.2.  Informative References . . . . . . . . . . . . . . . . .  13
+   Appendix A.  Conformance Tests  . . . . . . . . . . . . . . . . .  14
+     A.1.  Mutation Tests  . . . . . . . . . . . . . . . . . . . . .  14
+     A.2.  Adversarial-Profile Test  . . . . . . . . . . . . . . . .  14
+   Relationship to Prior Work  . . . . . . . . . . . . . . . . . . .  14
+   Source Snapshot . . . . . . . . . . . . . . . . . . . . . . . . .  14
+   Document History  . . . . . . . . . . . . . . . . . . . . . . . .  15
 
 
 
@@ -114,8 +114,8 @@ Nestorov                  Expires 31 March 2027                 [Page 2]
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
 
-   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  13
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  13
+   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  15
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  15
 
 1.  Introduction
 
@@ -550,9 +550,9 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
    *  A semantically equivalent natural-language request opened under
       another request_id remains outside the proven completeness scope.
 
-5.  Full-Prefix Replay and Registration Order
 
-6.  Evidence Admission
+
+
 
 
 
@@ -561,6 +561,78 @@ Nestorov                  Expires 31 March 2027                [Page 10]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
+
+5.  Full-Prefix Replay and Registration Order
+
+   *Registration order* and checkpoint-bounded coverage are proven by
+   replaying the append-only log, not by timestamps or selected
+   inclusion proofs alone.
+
+   LogIdentityV0(L) := CanonicalDigest(
+     ts_iss,
+     checkpoint_verification_key_fingerprint,
+     vds_algorithm,
+     leaf_encoding_profile_digest)
+
+   LeafEncodeV0(x) :=
+     frozen mapping from the exact registered Signed Statement
+     bytes and their format/media-type identifier to
+     RFC9162 leaf input
+
+   “The same L” means the same LogIdentityV0: the same TS iss,
+   checkpoint verification key, VDS algorithm, and leaf-encoding
+   profile.  The commitment's log_identity_digest MUST match the L
+   identified by the outer receipt; a mismatch yields REJECT.
+
+   FullPrefixReplay(L, S_R) :=
+     fetch every leaf's exact registered bytes and protected header
+       at indices [0, size(S_R))                                ∧
+     decode protected sub for SubjectView candidates            ∧
+     fetch payload bytes for every SubjectView candidate needed
+       to classify lifecycle/admission validity                  ∧
+     reconstruct the RFC9162_SHA256 VDS root using LeafEncodeV0 ∧
+     reconstructed_root = root(S_R)                            ∧
+     verify signed_checkpoint(S_R)
+
+   The verifier MUST have authorized read access to the leaf bytes and
+   protected headers of the entire Statement Sequence through S_R, as
+   well as all payload bytes of subject-view candidates needed for
+   classification under the frozen rules.  Payloads for unrelated
+   subjects are not required.  Trust in the commitment-bound checkpoint
+   key, VDS algorithm, and LeafEncodeV0 is an explicit premise.  If the
+   complete prefix or a required subject payload is unavailable, the
+   result is HALT, with no epistemic verdict.
+
+
+
+
+
+
+
+
+
+
+
+Nestorov                  Expires 31 March 2027                [Page 11]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
+   Replay verifies that the profile and unique commitment were
+   registered before the first relevant admission, that exactly one
+   valid owner-signed closure precedes the final receipt, and that all
+   those entries are in committed L.  An entry or proof from another log
+   identity yields REJECT; a separate parallel log is outside the claim
+   and MUST be disclosed by the limitation.  P10 v0 uses RFC9162_SHA256
+   (VDS alg 1, [RFC9162]).  Inclusion and consistency proofs may
+   accompany the transcript, but do not by themselves prove the absence
+   of other entries.
+
+   An RFC 9943 Registration Policy can change, and its rejection of new
+   entries is only defense in depth; it is not a soundness premise of
+   P10 coverage.
+
+6.  Evidence Admission
 
 7.  Evidence Closure and Checkpoint-Bounded Coverage
 
@@ -591,6 +663,17 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
               Receipts", RFC 9942, DOI 10.17487/RFC9942, June 2026,
               <https://www.rfc-editor.org/info/rfc9942>.
 
+
+
+
+
+
+
+Nestorov                  Expires 31 March 2027                [Page 12]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
    [RFC9052]  Schaad, J., "CBOR Object Signing and Encryption (COSE):
               Structures and Process", STD 96, RFC 9052,
               DOI 10.17487/RFC9052, August 2022,
@@ -608,15 +691,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
               Canonicalization Scheme (JCS)", RFC 8785,
               DOI 10.17487/RFC8785, June 2020,
               <https://www.rfc-editor.org/info/rfc8785>.
-
-
-
-
-
-Nestorov                  Expires 31 March 2027                [Page 11]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
 
    [RFC9162]  Laurie, B., Messeri, E., and R. Stradling, "Certificate
               Transparency Version 2.0", RFC 9162, DOI 10.17487/RFC9162,
@@ -648,6 +722,14 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
    [WADKINS-00]
               Wadkins, D., "Independent Determinability of Agent
               Actions", Work in Progress, Internet-Draft, draft-wadkins-
+
+
+
+Nestorov                  Expires 31 March 2027                [Page 13]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
               agentproto-action-determinability-00, 10 September 2026,
               <https://www.ietf.org/archive/id/draft-wadkins-agentproto-
               action-determinability-00.txt>.
@@ -664,15 +746,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
               in Progress, Internet-Draft, draft-mih-scitt-agent-action-
               capsule-02, 6 July 2026, <https://www.ietf.org/archive/id/
               draft-mih-scitt-agent-action-capsule-02.txt>.
-
-
-
-
-
-Nestorov                  Expires 31 March 2027                [Page 12]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
 
    [PRAMANA]  Kadaboina, R. K., "Pramana: A Protocol-Layer Treatment of
               Claim Verification in Autonomous Agent Networks",
@@ -705,6 +778,14 @@ Relationship to Prior Work
 
 Source Snapshot
 
+
+
+
+Nestorov                  Expires 31 March 2027                [Page 14]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
 Document History
 
 Acknowledgments
@@ -725,4 +806,35 @@ Author's Address
 
 
 
-Nestorov                  Expires 31 March 2027                [Page 13]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Nestorov                  Expires 31 March 2027                [Page 15]
