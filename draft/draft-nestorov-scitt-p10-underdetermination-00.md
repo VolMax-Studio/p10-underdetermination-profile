@@ -223,9 +223,103 @@ Notes:
 * `FormallyUnderdeterminationCapable(π, c) → ProfileAdmissible(π, c)`. Both tests remain in preflight for clearer diagnostics.
 * `FormallyUnderdeterminationCapable` is a formal property of the frozen profile. It says nothing about operational adequacy ({{security-considerations}}, AP1).
 
-## Issuance Conditions
-<!-- SOURCE: §2.2 incl. VerifierManifestV0, CertificateTargetV0, ActiveProfileBindingV0,
-     preflight rule. Traceability: N01–N03, L01. -->
+## Issuance Conditions {#issuance-conditions}
+
+In the formal core, `e` denotes a canonically closed evidence bundle. An individual admission object is denoted by `a`; the frozen `Bundleπ` function derives `e` from ordered valid admissions, and the closure proof establishes `e ∈ Eπ`.
+
+~~~ text
+InstanceCommittedBeforeEvidence(ι, π, c)
+ProfileRegisteredBeforeEvidence(π, ι)
+  -- via replay transcript
+ActiveProfileBindingV0(ι, R)
+  -- exact profile/verifier resolution below
+CoverageClosedThroughCheckpoint(ι, e, S_R)
+FormallyUnderdeterminationCapable(π, c)
+  -- preflight
+e ∈ Eπ
+w₀, w₁ ∈ Wπ  (canonical form)
+Compatibleπ(e, w₀)
+Compatibleπ(e, w₁)
+Evalπ(c, w₀) ≠ Evalπ(c, w₁)
+~~~
+
+The prerequisites in this summary are detailed in {{instance-commitment-and-subject}} for instance commitment, {{full-prefix-replay}} for profile registration and replay, {{evidence-closure-and-checkpoint-bounded-coverage}} for coverage closure, and {{canonical-encoding}} for canonical world encoding.
+
+**Frozen and digested before evidence admission:**
+
+* `Wπ`, `Compatibleπ`, `Evalπ`, and claim semantics
+* `Eπ` (the space of permitted closed evidence bundles), `AdmissibleItemπ`, `Bundleπ`, and admission rules
+* evidence scope, coverage rules, and the rule for forming the closed evidence set
+* `LogIdentityV0`, `LeafEncodeV0`, checkpoint key/VDS algorithm, and lifecycle/admitter authorization
+* evidence canonicalization and the canonical world codec ({{canonical-encoding}})
+* `eᵈ` and `eᵘ`, with membership proofs for `Eπ` and proofs of `Determinateπ(eᵈ, c)` and `Underdeterminedπ(eᵘ, c)`
+* `VerifierManifestV0` and its digest, including the exact checker and Lean toolchain artifacts defined below
+
+~~~ text
+VerifierManifestV0 binds:
+  lean_toolchain_identifier
+  lean_toolchain_artifact_digest
+  checker_source_tree_digest
+  dependency_lock_digest
+  build_manifest_digest
+  checker_olean_digest_set
+  axiom_policy_digest
+  acceptance_command_digest
+
+profile.verifier_manifest_ref resolves VerifierManifestV0
+profile.verifier_manifest_digest :=
+  digest(canonical VerifierManifestV0)
+
+profile_digest binds profile.verifier_manifest_ref and
+  profile.verifier_manifest_digest
+
+CertificateTargetV0(π, e, c, w₀, w₁) :=
+  e ∈ Eπ                                      ∧
+  w₀ ∈ Wπ                                     ∧
+  w₁ ∈ Wπ                                     ∧
+  Compatibleπ(e, w₀)                          ∧
+  Compatibleπ(e, w₁)                          ∧
+  Evalπ(c, w₀) ≠ Evalπ(c, w₁)
+
+ActiveProfileBindingV0(ι, R) holds only if:
+  FullPrefixReplay finds exactly one valid InstanceCommitment for the
+    committed instance tuple                                      ∧
+  digest(
+    resolve(R.profile_commitment_ref)
+      .canonical_profile_bytes)
+    = InstanceCommitment.profile_digest                           ∧
+  digest(
+    resolve(profile.verifier_manifest_ref)
+      .canonical_manifest_bytes)
+    = profile.verifier_manifest_digest                            ∧
+  R.verifier_digest = profile.verifier_manifest_digest            ∧
+  R.claim_digest = InstanceCommitment.claim_digest                ∧
+  every checker source, dependency lock, build manifest, `.olean`
+    artifact, axiom policy, acceptance command, and Lean toolchain
+    artifact used during verification matches VerifierManifestV0 ∧
+  Wπ, Eπ, Compatibleπ, Evalπ, the codecs, and the checker are
+    obtained exclusively from that resolved profile               ∧
+  certificate.type = CertificateTargetV0(π, e, c, w₀, w₁)         ∧
+  the submitted certificate type-checks under exactly those
+    resolved profile, verifier, and toolchain artifacts.
+~~~
+
+The resolved checker MUST construct `CertificateTargetV0` exclusively from the committed profile, closed evidence set, committed claim, and canonical receipt witnesses. The certificate MUST NOT supply or select its own target proposition.
+
+Every artifact digest above binds both the exact bytes and its frozen artifact identifier or path and format. An unavailable required profile, manifest, checker, build, dependency, `.olean`, axiom-policy, acceptance-command, or toolchain artifact yields `HALT`, with no epistemic verdict. A digest mismatch, substitution, or certificate checked under any other profile, checker, build, axiom policy, or toolchain yields `REJECT`.
+
+**Preflight rule:**
+
+~~~ text
+¬ProfileAdmissible(π, c) →
+  preflight HALT, no verdict
+¬FormallyUnderdeterminationCapable(π, c) →
+  profile MUST NOT issue an underdetermination receipt
+~~~
+
+For infinite `Wπ`, `Underdeterminedπ` is still checked with a concrete witness pair and decidable `Compatibleπ` and `Evalπ`. `Determinateπ(eᵈ, c)` is a universal claim: the verifier accepts a Lean proof term, but generation of such a proof is not guaranteed. If no proof term is available, preflight MUST return `HALT`, not an epistemic verdict.
+
+`UnfalsifiableAsStated` is not derived from profile failure. It requires a separate semantic obligation over the claim wording, relativized to the declared world class and evidence language. That obligation is outside this profile.
 
 # Instance Commitment and Subject
 <!-- SOURCE: §2.3. Traceability: N04–N07. -->

@@ -37,6 +37,8 @@ The draft is a transcription. It MUST NOT change the obligations of v0.1.1. Anyt
 | D8 | RATIFIED by Ivan, 2026-09-27 (session message) | Brief acknowledgment of human reviewers and AI-assisted tooling; no AI named as author |
 | D9 | RATIFIED by Ivan, 2026-09-27 (session message) | Statement: "No Lean implementation source, JSON fixture, or executable repository code is copied into the draft. Formal definitions are specification notation. Reference implementation artifacts remain externally referenced." |
 | D10 | RATIFIED by Ivan, 2026-09-27 (session message) | §2.1 mathematical definitions retained byte-identical with unicode symbols in sourcecode block; idnits non-ASCII warning accepted as known for -00. Terminology only names symbols and points to sections. |
+| D11 | RATIFIED by Ivan, 2026-09-27 (session message) | §2.2 formal blocks line-broken using whitespace changes for RFC width margin (<= 72 columns); non-trivial token sequence preserved. |
+| D12 | RATIFIED by Ivan, 2026-09-27 (session message) | Internal section references removed from sourcecode blocks; dynamic anchors provided via a single sentence (P13) following the summary block. |
 
 ## 4. Reference checks
 
