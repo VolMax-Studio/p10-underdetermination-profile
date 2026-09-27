@@ -4,14 +4,20 @@ P10 defines a third-party-verifiable binding for `NotDemonstrated(reason=underde
 
 ## Status
 
-Version 0.1.1 is a publication candidate. Independent-review and release status are recorded separately and bound to the exact profile artifact by SHA-256.
+Version 0.1.1 is a release candidate. The specification and Lean reference
+kernel have independent PASS reports bound to their exact artifacts. Release
+status remains a separate human decision.
 
 ## Documents
 
 - [`P10_Underdetermination_Profile_v0.1.1.md`](P10_Underdetermination_Profile_v0.1.1.md) — profile specification and conformance criteria.
-- `P10_Independent_Gate_Report_v0.1.1.md` — reserved for the standalone publication-review record that binds the exact v0.1.1 profile hash; it is added only after an independent PASS.
+- [`P10_Independent_Gate_Report_v0.1.1.md`](P10_Independent_Gate_Report_v0.1.1.md) — final-patch publication gate bound to the exact v0.1.1 profile.
+- [`P10_Independent_Gate_Report_v0.1.1_full_gate.md`](P10_Independent_Gate_Report_v0.1.1_full_gate.md) — complete publication gate underlying the final-patch review.
+- [`P10_Lean_Execution_Gate_Report_864f069.md`](P10_Lean_Execution_Gate_Report_864f069.md) — independent execution and axiom-audit gate for the Lean kernel.
+- [`lean/README.md`](lean/README.md) — Lean kernel scope, Track-A boundary, and acceptance procedure.
+- [`lean/VerifierManifestV0.json`](lean/VerifierManifestV0.json) — exact toolchain, source, build, axiom-policy, and acceptance-command binding.
 - [`SOURCE_SNAPSHOT.md`](SOURCE_SNAPSHOT.md) — inspected sources and verification boundaries.
-- [`SHA256SUMS`](SHA256SUMS) — SHA-256 manifest for publication artifacts.
+- [`SHA256SUMS`](SHA256SUMS) — SHA-256 manifest for all tracked release artifacts except the manifest itself.
 - [`CITATION.cff`](CITATION.cff) — citation metadata.
 - [`LICENSE`](LICENSE) — license terms.
 
@@ -29,6 +35,7 @@ From the repository root:
 
 ```sh
 sha256sum -c SHA256SUMS
+./scripts/check-lean.sh
 ```
 
 Any independent verdict must identify the exact SHA-256 of the profile artifact it reviews.
