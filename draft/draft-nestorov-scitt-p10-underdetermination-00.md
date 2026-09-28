@@ -824,6 +824,14 @@ This document has no IANA actions.
 ## Adversarial-Profile Test
 <!-- SOURCE: §7.2 AP1 row + profile-adequacy review paragraph. -->
 
+- **#:** **AP1**
+
+  **Test:** `Compatibleπ` is strict only for frozen `eᵈ` and trivially `true` for all other evidence in `Eπ`
+
+  **Expected:** Formally passes `FormallyUnderdeterminationCapable`. **Not** a soundness hole in the Lean core or a claim counterexample: the issued receipt proves the true proposition `Underdeterminedπ(e, c)` relative to the profile. An independent profile-adequacy review catches it, and the receipt carries the AP1 limitation ({{security-considerations}}). Not part of the mathematical core.
+
+**Profile-adequacy review** is mandatory for every concrete profile before first use, beginning with the Sandia EFC profile. It is a separate gate outside this document.
+
 # Relationship to Prior Work
 {:numbered="false"}
 <!-- SOURCE: §5 table + provenance paragraph + narrow differentiation; §7.3 boundary question.

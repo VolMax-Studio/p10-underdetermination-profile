@@ -1502,10 +1502,10 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
 A.2.  Adversarial-Profile Test
 
+   *  *#:* *AP1*
 
-
-
-
+      *Test:* Compatibleπ is strict only for frozen eᵈ and trivially
+      true for all other evidence in Eπ
 
 
 
@@ -1513,6 +1513,17 @@ Nestorov                  Expires 1 April 2027                 [Page 27]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
+
+      *Expected:* Formally passes FormallyUnderdeterminationCapable.
+      *Not* a soundness hole in the Lean core or a claim counterexample:
+      the issued receipt proves the true proposition Underdeterminedπ(e,
+      c) relative to the profile.  An independent profile-adequacy
+      review catches it, and the receipt carries the AP1 limitation
+      (Section 10).  Not part of the mathematical core.
+
+   *Profile-adequacy review* is mandatory for every concrete profile
+   before first use, beginning with the Sandia EFC profile.  It is a
+   separate gate outside this document.
 
 Relationship to Prior Work
 
@@ -1548,6 +1559,17 @@ Relationship to Prior Work
 
    *  *Work / system:* *Pramāṇa (arXiv 2605.20312 v1)* ([PRAMANA])
 
+
+
+
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 28]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
       *Existing coverage:* Typed ClaimAttestation; verify(claim, source)
       returns VERIFIED/REJECTED/UNVERIFIABLE; a deterministic theorem
       prover may be an oracle for InferenceClaim; A2A/MCP wire extension
@@ -1559,16 +1581,6 @@ Relationship to Prior Work
 
    *  *Work / system:* *ClaimReceipt (arXiv 2609.01992 v1)*
       ([CLAIMRECEIPT])
-
-
-
-
-
-
-Nestorov                  Expires 1 April 2027                 [Page 28]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
 
       *Existing coverage:* Claim sufficiency is defined over executions:
       identical retained evidence must imply an identical claim value
@@ -1606,6 +1618,14 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
       *What it does not cover relative to Section 1:* Defines no
       evidence format, token, audit system, registry, or transparency
       service.  It does not specify a pre-evidence world class with
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 29]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
       executable Compatibleπ and Evalπ, a receipt-carried divergent-
       world pair, Lean certificate checking, or P10-style checkpoint-
       bounded evidence closure.  P10 does not equate its verifier-time
@@ -1615,16 +1635,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
    *  *Work / system:* *The verification.* Constraint Family (draft-
       krausz-verification-state-02)* ([KRAUSZ-02]) — inspected
       2026-09-27
-
-
-
-
-
-
-Nestorov                  Expires 1 April 2027                 [Page 29]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
 
       *Existing coverage:* Defines signed claim/ruleset/evidence-bound
       JWS receipts; verified, contradicted, indeterminate, and
@@ -1664,6 +1674,14 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
    *  *Work / system:* Supervaluationism, version spaces, partial
       identification
 
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 30]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
       *Existing coverage:* “True in all admissible models” and monotone
       narrowing
 
@@ -1674,14 +1692,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
    inspected through §§1–17 and the appendices; gkoomullil/proof-
    carrying-certificates was inspected read-only at full commit
    8e5b718c4fc1a53678f1da9a94499df3b311d065 (commit timestamp
-
-
-
-Nestorov                  Expires 1 April 2027                 [Page 30]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
-
    2026-05-12T18:19:05Z).  README.txt,
    lean_artifact/EmbeddingSensitivity/MCR.lean (blob
    096f15d486f7190d7018317002a3ba2d137eadab), and
@@ -1719,6 +1729,15 @@ Prior-Art Boundary Question
 
    *  *Review answer: No.*
 
+
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 31]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
    *  *Pramāṇa:* its commitment is the source_digest of retrieved bytes
       used by verify(claim, source); it has no pre-evidence commitment
       of a world class/compatibility semantics.  UNVERIFIABLE carries no
@@ -1728,15 +1747,6 @@ Prior-Art Boundary Question
       coverage commitments, but no explicitly frozen Wπ with executable
       Compatibleπ, nor an INCONCLUSIVE receipt carrying a concrete
       divergent witness pair.
-
-
-
-
-
-Nestorov                  Expires 1 April 2027                 [Page 31]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
 
    *  *Independent Determinability of Agent Actions:* its compatible
       candidates are governing-condition sets or policy revisions, not
@@ -1776,16 +1786,6 @@ Author's Address
    VolMax Studio Lab d.o.o.
    Email: volmax.core@gmail.com
    URI:   https://orcid.org/0009-0006-7940-9539
-
-
-
-
-
-
-
-
-
-
 
 
 

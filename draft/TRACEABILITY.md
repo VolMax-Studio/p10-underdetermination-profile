@@ -96,7 +96,7 @@ Every source line containing a lowercase modal word has its own row, including l
 | M33 | 454 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
 | M34 | 455 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
 | M35 | 456 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| AP1 | 462 | Appendix A | — | TODO |
+| AP1 | 462 | Appendix A.2 Adversarial-Profile Test | Appendix A.2 Adversarial-Profile Test | TRANSCRIBED |
 
 ## Table 4 — Section map (complete; every source section accounted for)
 
