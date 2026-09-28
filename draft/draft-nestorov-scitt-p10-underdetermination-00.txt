@@ -101,11 +101,11 @@ Table of Contents
      13.1.  Normative References . . . . . . . . . . . . . . . . . .  20
      13.2.  Informative References . . . . . . . . . . . . . . . . .  21
    Appendix A.  Conformance Tests  . . . . . . . . . . . . . . . . .  22
-     A.1.  Mutation Tests  . . . . . . . . . . . . . . . . . . . . .  22
-     A.2.  Adversarial-Profile Test  . . . . . . . . . . . . . . . .  22
-   Relationship to Prior Work  . . . . . . . . . . . . . . . . . . .  22
-     Prior-Art Boundary Question . . . . . . . . . . . . . . . . . .  26
-   Source Snapshot . . . . . . . . . . . . . . . . . . . . . . . . .  27
+     A.1.  Mutation Tests (MUST yield REJECT or the stated
+           outcome)  . . . . . . . . . . . . . . . . . . . . . . . .  22
+     A.2.  Adversarial-Profile Test  . . . . . . . . . . . . . . . .  25
+   Relationship to Prior Work  . . . . . . . . . . . . . . . . . . .  25
+     Prior-Art Boundary Question . . . . . . . . . . . . . . . . . .  28
 
 
 
@@ -114,9 +114,10 @@ Nestorov                  Expires 1 April 2027                  [Page 2]
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
 
-   Document History  . . . . . . . . . . . . . . . . . . . . . . . .  27
-   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  27
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  27
+   Source Snapshot . . . . . . . . . . . . . . . . . . . . . . . . .  29
+   Document History  . . . . . . . . . . . . . . . . . . . . . . . .  29
+   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  29
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  29
 
 1.  Introduction
 
@@ -158,7 +159,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
    binding for SCITT ([RFC9943]) using an in-toto Statement v1
    ([IN-TOTO-STATEMENT]) predicate; the envelope structure is specified
    in Section 9.
-
 
 
 
@@ -1201,7 +1201,159 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
 Appendix A.  Conformance Tests
 
-A.1.  Mutation Tests
+A.1.  Mutation Tests (MUST yield REJECT or the stated outcome)
+
+   *  *#:* M1
+
+      *Mutation:* Change W, Compatible, Eval, Eπ, AdmissibleItemπ,
+      Bundleπ, evidence scope, admission/coverage rules, codec, or
+      canonicalization after instance commitment
+
+      *Expected:* REJECT
+
+   *  *#:* M2
+
+      *Mutation:* Compatible := fun _ _ => true
+
+      *Expected:* Fails FormallyUnderdeterminationCapable: constant
+      Evalπ gives no eᵘ; nonconstant Evalπ gives no eᵈ. Empty Wπ makes
+      Determinateπ false via NonemptyCompatibleπ. No case yields an
+      underdetermination receipt.
+
+   *  *#:* M3
+
+      *Mutation:* Witness outside frozen Wπ
+
+      *Expected:* REJECT
+
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 22]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
+   *  *#:* M4
+
+      *Mutation:* Two witnesses with the same claim value
+
+      *Expected:* REJECT
+
+   *  *#:* M5
+
+      *Mutation:* Receipt without an earlier profile-registration entry
+
+      *Expected:* REJECT
+
+   *  *#:* M6
+
+      *Mutation:* Change limitations or witness bytes without changing
+      the digest
+
+      *Expected:* REJECT
+
+   *  *#:* M7
+
+      *Mutation:* Profile/instance and admission are in different logs,
+      or replay shows admission before commitment
+
+      *Expected:* REJECT
+
+   *  *#:* M8
+
+      *Mutation:* Same world in two serializations; noncanonical witness
+
+      *Expected:* REJECT
+
+   *  *#:* M9
+
+      *Mutation:* Profile without a determinability witness
+
+      *Expected:* Preflight HALT, no adjudication verdict. *Not*
+      UnfalsifiableAsStated.
+
+   *  *#:* M10
+
+      *Mutation:* eᵈ or eᵘ added or replaced after admission
+
+      *Expected:* REJECT
+
+   *  *#:* M11
+
+
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 23]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
+      *Mutation:* Bare in-toto predicate, standalone signed in-toto
+      envelope, or SCITT Statement without the required Receipt
+
+      *Expected:* REJECT
+
+   *  *#:* M12
+
+      *Mutation:* Receipt derived from self-reported timestamps instead
+      of Section 5
+
+      *Expected:* REJECT
+
+   *  *#:* M13
+
+      *Mutation:* Claim c was not bound by InstanceCommitment before
+      first admission, or was replaced afterward
+
+      *Expected:* REJECT
+
+   *  *#:* M14
+
+      *Mutation:* No pre-evidence InstanceCommitment
+
+      *Expected:* Preflight HALT, no adjudication verdict
+
+   *  *#:* M15
+
+      *Mutation:* Within committed L, another profile_digest or
+      claim_digest exists under (instance_owner_iss, request_id,
+      instance_subject)
+
+      *Expected:* REJECT
+
+   *  *#:* M16
+
+      *Mutation:* Missing closure/proof, receipt not after closure or
+      not over exactly the closed set, or relevant admission after
+      closure and before S_R
+
+      *Expected:* Missing closure/proof → HALT; wrong order or omitted,
+      duplicated, injected, or post-closure evidence through S_R →
+      REJECT
+
+   *  *#:* M17
+
+      *Mutation:* P10 predicate lacks limitations, or verifier ignores
+      it as unknown
+
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 24]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
+      *Expected:* REJECT
+
+   *  *#:* M18
+
+      *Mutation:* Selected inclusion/consistency proofs supplied without
+      the complete VDS prefix through S_R
+
+      *Expected:* HALT, no epistemic verdict
 
 A.2.  Adversarial-Profile Test
 
@@ -1224,16 +1376,6 @@ Relationship to Prior Work
       claims evidence anti-monotonicity of MCR under a monotone
       evidence-to-constraints map.
 
-
-
-
-
-
-Nestorov                  Expires 1 April 2027                 [Page 22]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
-
       *What it does not cover relative to Section 1:* No concrete P10
       world-witness pair bound to the same closed evidence set.  The
       inspected MCR.lean contains neither paper-level maximality nor an
@@ -1248,6 +1390,17 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
       *What it does not cover relative to Section 1:* —
 
    *  *Work / system:* *Pramāṇa (arXiv 2605.20312 v1)* ([PRAMANA])
+
+
+
+
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 25]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
 
       *Existing coverage:* Typed ClaimAttestation; verify(claim, source)
       returns VERIFIED/REJECTED/UNVERIFIABLE; a deterministic theorem
@@ -1280,16 +1433,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
       the Lean kernel and registration-order-bound to the profile/
       instance.
 
-
-
-
-
-
-Nestorov                  Expires 1 April 2027                 [Page 23]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
-
    *  *Work / system:* *Independent Determinability of Agent Actions
       (draft-wadkins-agentproto-action-determinability-00)*
       ([WADKINS-00]) — inspected 2026-09-27
@@ -1307,6 +1450,14 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
       *What it does not cover relative to Section 1:* Defines no
       evidence format, token, audit system, registry, or transparency
       service.  It does not specify a pre-evidence world class with
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 26]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
       executable Compatibleπ and Evalπ, a receipt-carried divergent-
       world pair, Lean certificate checking, or P10-style checkpoint-
       bounded evidence closure.  P10 does not equate its verifier-time
@@ -1339,13 +1490,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
    *  *Work / system:* SCITT Agent Action Capsule (draft-mih-…-02)
       ([MIH-AAC-02])
 
-
-
-Nestorov                  Expires 1 April 2027                 [Page 24]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
-
       *Existing coverage:* SCITT receipt with disposition vocabulary
 
       *What it does not cover relative to Section 1:* Action
@@ -1361,6 +1505,14 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
    *  *Work / system:* Supervaluationism, version spaces, partial
       identification
+
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 27]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
 
       *Existing coverage:* “True in all admissible models” and monotone
       narrowing
@@ -1394,14 +1546,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
    concrete divergent-world pair from a pre-evidence committed model
    class, checked under executable Compatibleπ and Evalπ semantics by
    Lean and bound to a unique, instance-specific pre-evidence commitment
-
-
-
-Nestorov                  Expires 1 April 2027                 [Page 25]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
-
    whose exact profile and verifier-manifest digests are independently
    resolved and used by the P10 certificate verifier, with registration-
    order and checkpoint-bounded coverage verification.
@@ -1416,6 +1560,15 @@ Prior-Art Boundary Question
       evidence set?
 
    *  *Review answer: No.*
+
+
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 28]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
 
    *  *Pramāṇa:* its commitment is the source_digest of retrieved bytes
       used by verify(claim, source); it has no pre-evidence commitment
@@ -1443,21 +1596,6 @@ Prior-Art Boundary Question
       completeness or detect an omitted source, and it carries no P10
       divergent-world witness proof.
 
-
-
-
-
-
-
-
-
-
-
-Nestorov                  Expires 1 April 2027                 [Page 26]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
-
    *  The claim therefore survives only as the narrower *profile-and-
       binding combination* stated in Appendix "Relationship to Prior
       Work": concrete divergent-world witnesses from a pre-evidence
@@ -1483,30 +1621,4 @@ Author's Address
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Nestorov                  Expires 1 April 2027                 [Page 27]
+Nestorov                  Expires 1 April 2027                 [Page 29]

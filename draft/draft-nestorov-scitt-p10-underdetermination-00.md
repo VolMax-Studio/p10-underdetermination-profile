@@ -606,10 +606,118 @@ This document has no IANA actions.
 {:numbered="true"}
 <!-- SOURCE: §7 heading. -->
 
-## Mutation Tests
+## Mutation Tests (MUST yield REJECT or the stated outcome)
 <!-- SOURCE: §7.1 table M1–M35. N15 = §7.1 heading (line 418, "MUST yield REJECT or the
      stated outcome"); keep it as the normative lead-in sentence. N16 = M30 row.
      Table 3 in matrix; L14–L16. -->
+
+- **#:** M1
+
+  **Mutation:** Change `W`, `Compatible`, `Eval`, `Eπ`, `AdmissibleItemπ`, `Bundleπ`, evidence scope, admission/coverage rules, codec, or canonicalization after instance commitment
+
+  **Expected:** REJECT
+
+- **#:** M2
+
+  **Mutation:** `Compatible := fun _ _ => true`
+
+  **Expected:** Fails `FormallyUnderdeterminationCapable`: constant `Evalπ` gives no `eᵘ`; nonconstant `Evalπ` gives no `eᵈ`. Empty `Wπ` makes `Determinateπ` false via `NonemptyCompatibleπ`. No case yields an underdetermination receipt.
+
+- **#:** M3
+
+  **Mutation:** Witness outside frozen `Wπ`
+
+  **Expected:** REJECT
+
+- **#:** M4
+
+  **Mutation:** Two witnesses with the same claim value
+
+  **Expected:** REJECT
+
+- **#:** M5
+
+  **Mutation:** Receipt without an earlier profile-registration entry
+
+  **Expected:** REJECT
+
+- **#:** M6
+
+  **Mutation:** Change `limitations` or witness bytes without changing the digest
+
+  **Expected:** REJECT
+
+- **#:** M7
+
+  **Mutation:** Profile/instance and admission are in different logs, or replay shows admission before commitment
+
+  **Expected:** REJECT
+
+- **#:** M8
+
+  **Mutation:** Same world in two serializations; noncanonical witness
+
+  **Expected:** REJECT
+
+- **#:** M9
+
+  **Mutation:** Profile without a determinability witness
+
+  **Expected:** Preflight HALT, no adjudication verdict. **Not** `UnfalsifiableAsStated`.
+
+- **#:** M10
+
+  **Mutation:** `eᵈ` or `eᵘ` added or replaced after admission
+
+  **Expected:** REJECT
+
+- **#:** M11
+
+  **Mutation:** Bare in-toto predicate, standalone signed in-toto envelope, or SCITT Statement without the required Receipt
+
+  **Expected:** REJECT
+
+- **#:** M12
+
+  **Mutation:** Receipt derived from self-reported timestamps instead of {{full-prefix-replay}}
+
+  **Expected:** REJECT
+
+- **#:** M13
+
+  **Mutation:** Claim `c` was not bound by `InstanceCommitment` before first admission, or was replaced afterward
+
+  **Expected:** REJECT
+
+- **#:** M14
+
+  **Mutation:** No pre-evidence `InstanceCommitment`
+
+  **Expected:** Preflight HALT, no adjudication verdict
+
+- **#:** M15
+
+  **Mutation:** Within committed L, another `profile_digest` or `claim_digest` exists under `(instance_owner_iss, request_id, instance_subject)`
+
+  **Expected:** REJECT
+
+- **#:** M16
+
+  **Mutation:** Missing closure/proof, receipt not after closure or not over exactly the closed set, or relevant admission after closure and before `S_R`
+
+  **Expected:** Missing closure/proof → HALT; wrong order or omitted, duplicated, injected, or post-closure evidence through `S_R` → REJECT
+
+- **#:** M17
+
+  **Mutation:** P10 predicate lacks `limitations`, or verifier ignores it as unknown
+
+  **Expected:** REJECT
+
+- **#:** M18
+
+  **Mutation:** Selected inclusion/consistency proofs supplied without the complete VDS prefix through `S_R`
+
+  **Expected:** HALT, no epistemic verdict
 
 ## Adversarial-Profile Test
 <!-- SOURCE: §7.2 AP1 row + profile-adequacy review paragraph. -->
