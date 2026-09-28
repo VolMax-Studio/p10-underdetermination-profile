@@ -45,6 +45,7 @@ The draft is a transcription. It MUST NOT change the obligations of v0.1.1. Anyt
 | D14 | RATIFIED by Ivan Nestorov, 2026-09-28 (session message) | **Prior-art table rendering:** The v0.1.1 §5 three-column table is rendered as a vertical list under the same rules as D13. Each source row remains one item, in the same order, with the three column headers as field labels; the label "What it does not cover relative to §1" refers to the Introduction. Cell content is unchanged except citation anchors. |
 | D15 | RATIFIED by Ivan Nestorov, 2026-09-28 (session message) | **Mutation-test table rendering:** The v0.1.1 §7.1 three-column table may be rendered as a vertical list. Each source row remains one item, in the same order, with `#`, `Mutation`, and `Expected` as field labels. Cell content remains unchanged except for citation anchors and D11 line wrapping. The section-heading requirement applies to every item in the list. |
 | D16 | RATIFIED by Ivan Nestorov, 2026-09-28 (session message) | **Adversarial-profile table rendering:** The v0.1.1 §7.2 one-row three-column table may be rendered as one vertical item with `#`, `Test`, and `Expected` as field labels. Cell content remains unchanged except for citation anchors and D11 line wrapping. |
+| D17 | RATIFIED by Ivan Nestorov, 2026-09-28 (session message) | **Acknowledgments identify AI-assisted tooling and author responsibility only. No human-review acknowledgment is included because no external human reviewer participated.** |
 
 ## 3.1 Errata against v0.1.1
 

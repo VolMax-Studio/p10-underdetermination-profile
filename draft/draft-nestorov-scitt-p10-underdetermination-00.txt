@@ -116,8 +116,9 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
    Source Snapshot . . . . . . . . . . . . . . . . . . . . . . . . .  32
    Document History  . . . . . . . . . . . . . . . . . . . . . . . .  34
+     v0.1.1 — 2026-09-27 . . . . . . . . . . . . . . . . . . . . . .  34
    Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  34
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  34
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  35
 
 1.  Introduction
 
@@ -159,7 +160,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
    binding for SCITT ([RFC9943]) using an in-toto Statement v1
    ([IN-TOTO-STATEMENT]) predicate; the envelope structure is specified
    in Section 9.
-
 
 
 
@@ -872,9 +872,9 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
 10.  Security Considerations
 
-   Lean checks only the result of executing frozen, executable relations
-   and functions over canonical objects.  It checks nothing about the
-   real world.
+   Lean ([LEAN4]) checks only the result of executing frozen, executable
+   relations and functions over canonical objects.  It checks nothing
+   about the real world.
 
    Each item in the following list is one row of the semantic-bridges
    table.
@@ -1862,7 +1862,53 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
 Document History
 
+   -00: Internet-Draft transcription of P10 Underdetermination Profile
+   v0.1.1 ([P10-V011]), with recorded Erratum E01, citation repairs, and
+   informative IETF framing; intended to preserve the profile's protocol
+   semantics.
+
+v0.1.1 — 2026-09-27
+
+   *  Added draft-wadkins-agentproto-action-determinability-00 and
+      draft-krausz-verification-state-02 to the prior-art boundary.
+
+   *  Restricted the novelty narrative to the concrete P10 divergent-
+      world, executable-semantics, Lean-proof, checkpoint-coverage, and
+      registration-order combination.
+
+   *  Added explicit non-claims for the concepts anticipated by those
+      drafts.
+
+   *  Added the mandatory cross-instance selection limitation and the
+      downstream-action non-claim.
+
+   *  Added VerifierManifestV0, ActiveProfileBindingV0, and M31–M35 to
+      bind the exact active profile, checker, build, axiom policy,
+      dependencies, .olean files, and Lean toolchain transitively into
+      verification, and to require the checker-constructed
+      CertificateTargetV0 proposition.
+
+   *  Made no change to the mathematical definitions of Determinateπ,
+      Underdeterminedπ, or FormallyUnderdeterminationCapable, to
+      evidence-closure semantics, or to existing tests M1–M30 and AP1.
+
 Acknowledgments
+
+   AI-assisted tools supported source comparison, transcription checks,
+   build validation, and adversarial review.
+
+
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 34]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
+   The author reviewed and ratified the substantive decisions
+   represented in this document and remains responsible for its content
+   and errors.
 
 Author's Address
 
@@ -1901,4 +1947,14 @@ Author's Address
 
 
 
-Nestorov                  Expires 1 April 2027                 [Page 34]
+
+
+
+
+
+
+
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 35]

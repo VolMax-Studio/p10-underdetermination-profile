@@ -142,9 +142,6 @@ informative:
 
 P10 defines a third-party-verifiable binding for NotDemonstrated(reason=underdetermined). A conforming receipt carries two canonical witness worlds that are compatible with the same closed evidence set and produce different values for the same frozen claim. The witness result is checked against committed profile semantics and bound into a SCITT Transparent Statement containing an in-toto Statement v1 predicate. The result establishes underdetermination only relative to the declared profile and does not identify the actual world or establish either claim value as true.
 
-<!-- SOURCE: README.md §1 paragraph + profile §1 last sentence. Abstract is summary prose:
-     no BCP 14 keywords allowed here. -->
-
 --- middle
 
 # Introduction {#introduction}
@@ -199,7 +196,6 @@ The following notation and symbols are defined in the referenced sections:
 * `SubjectView`, `RelevantAdmissionπ`, `EvidenceClosure`, and `CoverageProof` are defined in {{evidence-closure-and-checkpoint-bounded-coverage}}.
 
 # Formal Core {#formal-core}
-<!-- SOURCE: §2 heading -->
 
 ## Definitions {#definitions}
 
@@ -331,7 +327,6 @@ For infinite `Wπ`, `Underdeterminedπ` is still checked with a concrete witness
 `UnfalsifiableAsStated` is not derived from profile failure. It requires a separate semantic obligation over the claim wording, relativized to the declared world class and evidence language. That obligation is outside this profile.
 
 # Instance Commitment and Subject {#instance-commitment-and-subject}
-<!-- SOURCE: §2.3. Traceability: N04–N07. -->
 
 The identified adjudication instance is a subject derived from the issuer/request pair, not a freely chosen `instance_id`:
 
@@ -367,7 +362,6 @@ InstanceCommitment(ι) binds:
 - A semantically equivalent natural-language request opened under another `request_id` remains outside the proven completeness scope.
 
 # Full-Prefix Replay and Registration Order {#full-prefix-replay}
-<!-- SOURCE: §2.4. Traceability: N08–N10, L02, L03. -->
 
 **Registration order** and checkpoint-bounded coverage are proven by replaying the append-only log, not by timestamps or selected inclusion proofs alone.
 
@@ -405,7 +399,6 @@ Replay verifies that the profile and unique commitment were registered before th
 An RFC 9943 Registration Policy can change, and its rejection of new entries is only defense in depth; it is not a soundness premise of P10 coverage.
 
 # Evidence Admission {#evidence-admission}
-<!-- SOURCE: §2.5. -->
 
 ~~~ text
 AuthorizedAdmitters(ι) := exact CWT iss set committed by
@@ -432,7 +425,6 @@ For a non-admission lifecycle predicate, a matching-`sub` entry is valid only if
 **Definition-level limitation:** admission is a protocol registration event. Registration order proves that the profile was locked before protocol registration of the evidence; it does not prove when the evidence was created or issued, or that the profile author had not previously seen public data.
 
 # Evidence Closure and Checkpoint-Bounded Coverage {#evidence-closure-and-checkpoint-bounded-coverage}
-<!-- SOURCE: §2.6. Traceability: N11, L04. -->
 
 ~~~ text
 SubjectView(L, S_R, instance_subject) :=
@@ -480,7 +472,6 @@ CoverageProofπ(ι, S_R) verifies:
 - To avoid a post-registration hash cycle, the issuer-signed P10 payload binds `evidence_closure_ref`, `evidence_admission_refs`, and `preclosure_transcript_digest`. The outer SCITT Receipt ({{RFC9942}}) supplies `S_R`; `S_R`, the final replay transcript, and the coverage-verification result are not fields in the issuer-signed payload. Full-prefix replay occurs after receipt acquisition.
 
 # Canonical Encoding {#canonical-encoding}
-<!-- SOURCE: §2.7. -->
 
 - P10 v0 uses UTF-8 JSON Canonicalization Scheme (JCS, {{RFC8785}}) for claims, structured evidence objects, worlds, and the P10 predicate. The codec digest is part of the profile ({{introduction}}, item (1)) and receipt.
 - Integers outside the safely interoperable JCS/JSON range, rational numbers, and exact decimal values are encoded as canonical strings under the frozen exact-number schema; they are not emitted as JSON numbers.
@@ -488,8 +479,6 @@ CoverageProofπ(ι, S_R) verifies:
 - A structured P10 `*_digest` uses SHA-256 over the corresponding JCS bytes. Binary artifacts are digested over raw bytes together with the frozen format/media-type identifier, not over a JCS reinterpretation. Noncryptographic or merely immutable identifiers are insufficient.
 
 # Statement and Predicate Structure
-<!-- SOURCE: §4 (issuer-signed fields, post-registration output, ActiveProfileBindingV0
-     paragraph, envelope). Traceability: N14, L08–L11. -->
 
 **Inside the issuer-signed P10 payload:**
 
@@ -539,13 +528,8 @@ Before accepting the epistemic outcome, the verifier MUST establish `ActiveProfi
 **The only v0 envelope:** a SCITT Signed Statement ({{RFC9943}}) (`COSE_Sign1`, {{RFC9052}}) whose payload is an in-toto Statement v1 ({{IN-TOTO-STATEMENT}}) with the P10 predicate. After registration and attachment of a SCITT Receipt ({{RFC9942}}), it becomes a Transparent Statement. Profile commitment, instance commitment, evidence admissions, evidence closure, and final P10 adjudication statement use the same pattern, the same L, and the same protected CWT `sub`. A bare in-toto predicate, standalone signed in-toto envelope, or SCITT Statement without the required Receipt is insufficient. No new wire format is introduced.
 
 # Security Considerations
-<!-- SOURCE: §3 table, AP1 limitation (verbatim, mandatory), coverage/instance limitation
-     (verbatim, mandatory), sibling-count SHOULD, must-understand rule.
-     Traceability: N12, N13, L05–L07.
-     The two limitation blocks are receipt content bound by limitations_digest:
-     copy byte-for-byte, including backticks. -->
 
-Lean checks only the result of executing frozen, executable relations and functions over canonical objects. It checks nothing about the real world.
+Lean ({{LEAN4}}) checks only the result of executing frozen, executable relations and functions over canonical objects. It checks nothing about the real world.
 
 Each item in the following list is one row of the semantic-bridges table.
 
@@ -601,8 +585,6 @@ Introducing a `Reachableπ(e)` predicate does not solve AP1. Lean would check fr
 Every row of this table is included in the receipt's `limitations` field. The P10 predicate specification marks `limitations` as a mandatory **must-understand** field: a P10 verifier MUST reject a predicate without it, even though generic in-toto v1 rules ({{IN-TOTO-V1}}) otherwise require unknown fields to be ignored.
 
 # Privacy Considerations
-<!-- D4 ratified: short informative section, NEW-PROSE, zero BCP 14 keywords.
-     Every sentence listed in TRACEABILITY.md Table 5 (NEW-PROSE) for the gate. -->
 
 A P10 receipt contains or references claim, profile, evidence-admission, evidence-closure, witness, certificate, and verifier identifiers or digests. Cryptographic digests provide integrity binding but do not provide confidentiality, particularly for low-entropy or guessable inputs. Registration with a transparency service can create persistent and linkable metadata across receipts or instances. This profile does not define confidentiality, anonymization, unlinkability, access control, or retention policy.
 
@@ -613,12 +595,8 @@ This document has no IANA actions.
 
 # Conformance Tests
 {:numbered="true"}
-<!-- SOURCE: §7 heading. -->
 
 ## Mutation Tests (MUST yield REJECT or the stated outcome)
-<!-- SOURCE: §7.1 table M1–M35. N15 = §7.1 heading (line 418, "MUST yield REJECT or the
-     stated outcome"); keep it as the normative lead-in sentence. N16 = M30 row.
-     Table 3 in matrix; L14–L16. -->
 
 - **#:** M1
 
@@ -831,7 +809,6 @@ This document has no IANA actions.
   **Expected:** REJECT
 
 ## Adversarial-Profile Test
-<!-- SOURCE: §7.2 AP1 row + profile-adequacy review paragraph. -->
 
 - **#:** **AP1**
 
@@ -843,9 +820,6 @@ This document has no IANA actions.
 
 # Relationship to Prior Work
 {:numbered="false"}
-<!-- SOURCE: §5 table + provenance paragraph + narrow differentiation; §7.3 boundary question.
-     Descriptions of others' work copied as in v0.1.1; do not re-paraphrase (gate Check 4).
-     Traceability: L12, L13. Cite frozen anchors WADKINS-00, KRAUSZ-02, MIH-AAC-02 only. -->
 
 The following sources were inspected directly on 2026-09-23 unless otherwise stated. The two Internet-Drafts marked 2026-09-27 were added by the v0.1.1 pre-publication prior-art sweep.
 
@@ -923,7 +897,6 @@ Each item in the following list is one row of the prior-art table.
 
 # Source Snapshot
 {:numbered="false"}
-<!-- SOURCE: §8. Includes IPR disclosure 7599 note on the Wadkins draft, as stated. -->
 
 The following sources were inspected directly on 2026-09-23, with the two identified Internet-Drafts added on 2026-09-27. The verification statements below are limited to the cited source versions and inspected artifacts.
 
@@ -946,10 +919,22 @@ The following sources were inspected directly on 2026-09-23, with the two identi
 
 # Document History
 {:numbered="false"}
-<!-- SOURCE: §10 v0.1.1 entry, plus one line: "-00: transcription of v0.1.1
-     (DOI 10.5281/zenodo.22994744) into Internet-Draft format; no semantic change." -->
+
+`-00`: Internet-Draft transcription of P10 Underdetermination Profile v0.1.1 ({{P10-V011}}), with recorded Erratum E01, citation repairs, and informative IETF framing; intended to preserve the profile's protocol semantics.
+
+## v0.1.1 — 2026-09-27
+{:numbered="false"}
+
+- Added `draft-wadkins-agentproto-action-determinability-00` and `draft-krausz-verification-state-02` to the prior-art boundary.
+- Restricted the novelty narrative to the concrete P10 divergent-world, executable-semantics, Lean-proof, checkpoint-coverage, and registration-order combination.
+- Added explicit non-claims for the concepts anticipated by those drafts.
+- Added the mandatory cross-instance selection limitation and the downstream-action non-claim.
+- Added `VerifierManifestV0`, `ActiveProfileBindingV0`, and M31–M35 to bind the exact active profile, checker, build, axiom policy, dependencies, `.olean` files, and Lean toolchain transitively into verification, and to require the checker-constructed `CertificateTargetV0` proposition.
+- Made no change to the mathematical definitions of `Determinateπ`, `Underdeterminedπ`, or `FormallyUnderdeterminationCapable`, to evidence-closure semantics, or to existing tests M1–M30 and AP1.
 
 # Acknowledgments
 {:numbered="false"}
-<!-- D8 ratified: brief thanks to human reviewers and AI-assisted tooling; no AI named
-     as author. NEW-PROSE. -->
+
+AI-assisted tools supported source comparison, transcription checks, build validation, and adversarial review.
+
+The author reviewed and ratified the substantive decisions represented in this document and remains responsible for its content and errors.

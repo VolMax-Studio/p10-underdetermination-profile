@@ -123,8 +123,8 @@ Every source line containing a lowercase modal word has its own row, including l
 | 7.4 Publication review requirement | OMIT (process) | Omitted from the draft; release/review process, not protocol. Omission recorded here for the gate. |
 | 8. Source snapshot and verification boundaries | Appendix C Source Snapshot | TRANSCRIBED; no semantic change |
 | 9. Publication path | OMIT (process) | Omitted from the draft; release/review process, not protocol. Omission recorded here for the gate. |
-| 10. Change log | Appendix D Document History | Transcribe; no semantic change |
-| v0.1.1 — 2026-09-27 | Appendix D Document History | Transcribe as source history; add a line stating the draft-00 transcription made no semantic change |
+| 10. Change log | Appendix D Document History | TRANSCRIBED; source history preserved, with ratified P21 describing the draft-00 transcription |
+| v0.1.1 — 2026-09-27 | Appendix D Document History | TRANSCRIBED as source history; no source changelog text changed |
 
 ## Table 5 — NEW-PROSE register (text with no v0.1.1 source)
 
@@ -152,3 +152,6 @@ Every sentence in the draft that has no v0.1.1 source is listed here. NEW-PROSE 
 | P18 | Sec 11 Privacy Considerations | Registration with a transparency service can create persistent and linkable metadata across receipts or instances. | none | TRANSCRIBED |
 | P19 | Sec 11 Privacy Considerations | This profile does not define confidentiality, anonymization, unlinkability, access control, or retention policy. | none | TRANSCRIBED |
 | P20 | Appendix B Relationship to Prior Work | Each item in the following list is one row of the prior-art table. | none | TRANSCRIBED |
+| P21 | Appendix D Document History | `-00`: Internet-Draft transcription of P10 Underdetermination Profile v0.1.1 ({{P10-V011}}), with recorded Erratum E01, citation repairs, and informative IETF framing; intended to preserve the profile's protocol semantics. | none | TRANSCRIBED |
+| P22 | Acknowledgments | AI-assisted tools supported source comparison, transcription checks, build validation, and adversarial review. | none | TRANSCRIBED |
+| P23 | Acknowledgments | The author reviewed and ratified the substantive decisions represented in this document and remains responsible for its content and errors. | none | TRANSCRIBED |
