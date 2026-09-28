@@ -1,10 +1,4 @@
 ---
-# Document source under transcription. Every section below names its v0.1.1 source.
-# Source of record: P10_Underdetermination_Profile_v0.1.1.md
-#   SHA-256 b92c0d689b9f16f2184ba2addb8653ed881595cc3a0117c62cadadf5c6dc6558
-#   tag v0.1.1 -> commit e2a02a73df9e50f624512043dcb007fc337ba587
-#   Zenodo version DOI 10.5281/zenodo.22994744
-# Draft decisions are ratified and recorded in DRAFT_BRIEF.md.
 
 title: "P10 Underdetermination Profile: Witness-Carrying Underdetermination Receipts for SCITT"
 abbrev: "P10 Underdetermination Profile"
@@ -30,13 +24,13 @@ author:
     uri: https://orcid.org/0009-0006-7940-9539
 
 normative:
-  RFC9943:   # SCITT architecture
-  RFC9942:   # COSE Receipts; registers COSE header parameter 394 "receipts" (R1 closed)
-  RFC9052:   # COSE_Sign1
-  RFC8392:   # CWT claims iss/sub (R2: added reference, not cited by name in v0.1.1)
-  RFC9597:   # CWT Claims in COSE headers (protected-header carriage of iss/sub; required with RFC 8392 by RFC 9943)
-  RFC8785:   # JCS
-  RFC9162:   # RFC9162_SHA256 VDS
+  RFC9943:
+  RFC9942:
+  RFC9052:
+  RFC8392:
+  RFC9597:
+  RFC8785:
+  RFC9162:
   IN-TOTO-STATEMENT:
     title: "in-toto Attestation Framework: Statement layer specification, v1"
     author:
@@ -44,16 +38,14 @@ normative:
     date: 2024-05-06
     seriesinfo:
       Commit: 06eafe3635bf8a425ad52cc82c6c90861e94a471
-    # Exact content URL for spec/v1/statement.md at the reviewed commit.
     target: https://raw.githubusercontent.com/in-toto/attestation/06eafe3635bf8a425ad52cc82c6c90861e94a471/spec/v1/statement.md
   IN-TOTO-V1:
-    title: "in-toto Attestation Framework: v1 specification README"
+    title: "Specification for in-toto attestation layers, Version v1.1"
     author:
       - org: in-toto Project
     date: 2024-05-06
     seriesinfo:
       Commit: 06eafe3635bf8a425ad52cc82c6c90861e94a471
-    # Exact content URL for spec/v1/README.md at the reviewed commit.
     target: https://raw.githubusercontent.com/in-toto/attestation/06eafe3635bf8a425ad52cc82c6c90861e94a471/spec/v1/README.md
 
 informative:
@@ -62,12 +54,10 @@ informative:
     author:
       - ins: I. Nestorov
         name: Ivan Nestorov
-        org: VolMax Studio Lab d.o.o.
     seriesinfo:
       DOI: 10.5281/zenodo.22994744
     date: 2026-09-27
-  # Internet-Drafts are FROZEN manual references to the exact versions inspected for v0.1.1.
-  # Do NOT use I-D.<name> auto-references: they resolve to the latest revision at build time.
+    target: https://doi.org/10.5281/zenodo.22994744
   WADKINS-00:
     title: "Independent Determinability of Agent Actions"
     author:
@@ -98,7 +88,6 @@ informative:
     seriesinfo:
       Internet-Draft: draft-mih-scitt-agent-action-capsule-02
     target: https://www.ietf.org/archive/id/draft-mih-scitt-agent-action-capsule-02.txt
-    # D7: -04 (2026-08-28) exists; not reviewed for v0.1.1 and not attributed.
   PRAMANA:
     title: "Pramana: A Protocol-Layer Treatment of Claim Verification in Autonomous Agent Networks"
     author:
@@ -107,6 +96,7 @@ informative:
     date: 2026-05-19
     seriesinfo:
       arXiv: "2605.20312"
+    target: https://arxiv.org/abs/2605.20312v1
   CLAIMRECEIPT:
     title: "ClaimReceipt: Verifying Evidence Sufficiency and Coverage in Agent Evaluations"
     author:
@@ -136,7 +126,9 @@ informative:
         name: Sebastian Ullrich
     date: 2021
     seriesinfo:
+      "Lecture Notes in Computer Science": "12699, pp. 625–635"
       DOI: "10.1007/978-3-030-79876-5_37"
+    target: https://doi.org/10.1007/978-3-030-79876-5_37
 
 --- abstract
 
@@ -192,7 +184,7 @@ The following notation and symbols are defined in the referenced sections:
 * `Wπ`, `Compatibleπ`, and `Evalπ` are defined in {{definitions}}.
 * `Eπ` and `VerifierManifestV0` are defined in {{issuance-conditions}}.
 * `InstanceCommitment` is defined in {{instance-commitment-and-subject}}.
-* `L` and `S_R` are defined in {{full-prefix-replay}}.
+* `L` is defined in {{full-prefix-replay}}; `S_R` denotes the verified checkpoint obtained from the SCITT Receipt, as shown in {{statement-and-predicate-structure}}.
 * `SubjectView`, `RelevantAdmissionπ`, `EvidenceClosure`, and `CoverageProof` are defined in {{evidence-closure-and-checkpoint-bounded-coverage}}.
 
 # Formal Core {#formal-core}
@@ -394,7 +386,7 @@ FullPrefixReplay(L, S_R) :=
 
 The verifier MUST have authorized read access to the leaf bytes and protected headers of the entire Statement Sequence through `S_R`, as well as all payload bytes of subject-view candidates needed for classification under the frozen rules. Payloads for unrelated subjects are not required. Trust in the commitment-bound checkpoint key, VDS algorithm, and `LeafEncodeV0` is an explicit premise. If the complete prefix or a required subject payload is unavailable, the result is `HALT`, with no epistemic verdict.
 
-Replay verifies that the profile and unique commitment were registered before the first relevant admission, that exactly one valid owner-signed closure precedes the final receipt, and that all those entries are in committed L. An entry or proof from another log identity yields `REJECT`; a separate parallel log is outside the claim and MUST be disclosed by the limitation. P10 v0 uses `RFC9162_SHA256` (VDS alg `1`, {{RFC9162}}). Inclusion and consistency proofs may accompany the transcript, but do not by themselves prove the absence of other entries.
+Replay verifies that the profile and unique commitment were registered before the first relevant admission, that exactly one valid owner-signed closure precedes the final receipt, and that all those entries are in committed L. An entry or proof from another log identity yields `REJECT`; a separate parallel log is outside the claim and MUST be disclosed by the limitation. P10 v0 uses `RFC9162_SHA256` (VDS alg `1`, {{RFC9942}}; tree structure, {{RFC9162}}). Inclusion and consistency proofs may accompany the transcript, but do not by themselves prove the absence of other entries.
 
 An RFC 9943 Registration Policy can change, and its rejection of new entries is only defense in depth; it is not a soundness premise of P10 coverage.
 
@@ -920,7 +912,7 @@ The following sources were inspected directly on 2026-09-23, with the two identi
 # Document History
 {:numbered="false"}
 
-`-00`: Internet-Draft transcription of P10 Underdetermination Profile v0.1.1 ({{P10-V011}}), with recorded Erratum E01, citation repairs, and informative IETF framing; intended to preserve the profile's protocol semantics.
+`-00`: Internet-Draft transcription of P10 Underdetermination Profile v0.1.1 ({{P10-V011}}), applying ratified Erratum E01 by replacing obsolete notation `S_C` in the evidence-closure section with the actual issuer-signed payload fields, plus citation repairs and informative IETF framing; no other normative change.
 
 ## v0.1.1 — 2026-09-27
 {:numbered="false"}

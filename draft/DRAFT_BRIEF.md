@@ -35,7 +35,7 @@ The draft is a transcription. It MUST NOT change the obligations of v0.1.1. Anyt
 | D5 | RATIFIED by Ivan, 2026-09-27 (session message) | Ivan Nestorov; VolMax Studio Lab d.o.o.; volmax.core@gmail.com; ORCID 0009-0006-7940-9539. Organization "VolMax Studio Lab d.o.o." explicitly confirmed. |
 | D6 | RATIFIED by Ivan, 2026-09-27 (session message) | SCITT primary venue; notify agentproto after submission |
 | D7 | RATIFIED by Ivan, 2026-09-27 (session message) | Cite exactly the reviewed versions (Wadkins -00, Krausz -02, AAC -02) as frozen manual references; do not attribute AAC -04 to v0.1.1 without a separate review |
-| D8 | RATIFIED by Ivan, 2026-09-27 (session message) | Brief acknowledgment of human reviewers and AI-assisted tooling; no AI named as author |
+| D8 | SUPERSEDED BY D17 | Brief acknowledgment of human reviewers and AI-assisted tooling; no AI named as author |
 | D9 | RATIFIED by Ivan, 2026-09-27 (session message) | Statement: "No Lean implementation source, JSON fixture, or executable repository code is copied into the draft. Formal definitions are specification notation. Reference implementation artifacts remain externally referenced." |
 | D10 | RATIFIED by Ivan, 2026-09-27 (session message) | §2.1 mathematical definitions retained byte-identical with unicode symbols in sourcecode block; idnits non-ASCII warning accepted as known for -00. Terminology only names symbols and points to sections. |
 | D11 | RATIFIED by Ivan, 2026-09-27 (session message) | §2.2 formal blocks line-broken using whitespace changes for RFC width margin (<= 72 columns); non-trivial token sequence preserved. |
@@ -46,6 +46,7 @@ The draft is a transcription. It MUST NOT change the obligations of v0.1.1. Anyt
 | D15 | RATIFIED by Ivan Nestorov, 2026-09-28 (session message) | **Mutation-test table rendering:** The v0.1.1 §7.1 three-column table may be rendered as a vertical list. Each source row remains one item, in the same order, with `#`, `Mutation`, and `Expected` as field labels. Cell content remains unchanged except for citation anchors and D11 line wrapping. The section-heading requirement applies to every item in the list. |
 | D16 | RATIFIED by Ivan Nestorov, 2026-09-28 (session message) | **Adversarial-profile table rendering:** The v0.1.1 §7.2 one-row three-column table may be rendered as one vertical item with `#`, `Test`, and `Expected` as field labels. Cell content remains unchanged except for citation anchors and D11 line wrapping. |
 | D17 | RATIFIED by Ivan Nestorov, 2026-09-28 (session message) | **Acknowledgments identify AI-assisted tooling and author responsibility only. No human-review acknowledgment is included because no external human reviewer participated.** |
+| D18 | RATIFIED by Ivan Nestorov, 2026-09-28 (session message) | **Final publication-cleanliness and bibliographic repair package 2Q, including P11 and the E01 explanation, without changing the claim, formal blocks, N/L/M/AP requirements, limitation blocks, or protocol semantics.** |
 
 ## 3.1 Errata against v0.1.1
 

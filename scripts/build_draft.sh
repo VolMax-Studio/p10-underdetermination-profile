@@ -1,6 +1,9 @@
 #!/bin/bash
 set -euo pipefail
 
+export LANG=C.UTF-8
+export LC_ALL=C.UTF-8
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 DRAFT_DIR="$SCRIPT_DIR/../draft"
 BIN_DIR="/home/volmax-studio/.local/bin"
@@ -95,6 +98,46 @@ unless failures.empty?
   exit 1
 end
 puts "Generated XML integrity: OK"
+RUBY
+
+echo "=== 2a.1. Embedded Markdown-source integrity ==="
+ruby - "$XML_FILE" <<'RUBY'
+require "base64"
+require "stringio"
+require "zlib"
+
+path = ARGV.fetch(0)
+xml = File.binread(path).force_encoding(Encoding::UTF_8)
+payloads = xml.scan(/<!-- ##markdown-source:\s*(.*?)\s*-->/m).flatten
+if payloads.length != 1
+  warn "Embedded Markdown-source integrity failed: expected exactly one payload, found #{payloads.length}"
+  exit 1
+end
+
+begin
+  compressed = Base64.strict_decode64(payloads.fetch(0).gsub(/\s+/, ""))
+  embedded = Zlib::GzipReader.new(StringIO.new(compressed)).read.force_encoding(Encoding::UTF_8)
+rescue StandardError => error
+  warn "Embedded Markdown-source integrity failed: #{error.class}: #{error.message}"
+  exit 1
+end
+
+failures = []
+failures << "invalid UTF-8" unless embedded.valid_encoding?
+failures << "authored HTML comment" if embedded.match?(/<!--.*?-->/m)
+
+preamble = embedded.split(/^---\s+abstract\s*$/, 2).first
+preamble.each_line.with_index(1) do |line, line_number|
+  if line.match?(/^\s*#/) || line.match?(/\s+#(?:\s|$)/)
+    failures << "YAML comment on embedded-source line #{line_number}"
+  end
+end
+
+unless failures.empty?
+  warn "Embedded Markdown-source integrity failed: #{failures.join(', ')}"
+  exit 1
+end
+puts "Embedded Markdown-source integrity: OK"
 RUBY
 
 echo "=== 2b. Generated TXT integrity ==="

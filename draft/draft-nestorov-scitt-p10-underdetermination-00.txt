@@ -103,9 +103,9 @@ Table of Contents
    Appendix A.  Conformance Tests  . . . . . . . . . . . . . . . . .  22
      A.1.  Mutation Tests (MUST yield REJECT or the stated
            outcome)  . . . . . . . . . . . . . . . . . . . . . . . .  22
-     A.2.  Adversarial-Profile Test  . . . . . . . . . . . . . . . .  27
+     A.2.  Adversarial-Profile Test  . . . . . . . . . . . . . . . .  28
    Relationship to Prior Work  . . . . . . . . . . . . . . . . . . .  28
-     Prior-Art Boundary Question . . . . . . . . . . . . . . . . . .  31
+     Prior-Art Boundary Question . . . . . . . . . . . . . . . . . .  32
 
 
 
@@ -114,10 +114,10 @@ Nestorov                  Expires 1 April 2027                  [Page 2]
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
 
-   Source Snapshot . . . . . . . . . . . . . . . . . . . . . . . . .  32
+   Source Snapshot . . . . . . . . . . . . . . . . . . . . . . . . .  33
    Document History  . . . . . . . . . . . . . . . . . . . . . . . .  34
      v0.1.1 — 2026-09-27 . . . . . . . . . . . . . . . . . . . . . .  34
-   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  34
+   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  35
    Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  35
 
 1.  Introduction
@@ -268,11 +268,11 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
    *  InstanceCommitment is defined in Section 4.
 
-   *  L and S_R are defined in Section 5.
+   *  L is defined in Section 5; S_R denotes the verified checkpoint
+      obtained from the SCITT Receipt, as shown in Section 9.
 
    *  SubjectView, RelevantAdmissionπ, EvidenceClosure, and
       CoverageProof are defined in Section 7.
-
 
 
 
@@ -624,9 +624,9 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
    those entries are in committed L.  An entry or proof from another log
    identity yields REJECT; a separate parallel log is outside the claim
    and MUST be disclosed by the limitation.  P10 v0 uses RFC9162_SHA256
-   (VDS alg 1, [RFC9162]).  Inclusion and consistency proofs may
-   accompany the transcript, but do not by themselves prove the absence
-   of other entries.
+   (VDS alg 1, [RFC9942]; tree structure, [RFC9162]).  Inclusion and
+   consistency proofs may accompany the transcript, but do not by
+   themselves prove the absence of other entries.
 
    An RFC 9943 Registration Policy can change, and its rejection of new
    entries is only defense in depth; it is not a soundness premise of
@@ -1135,8 +1135,8 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
               spec/v1/statement.md>.
 
    [IN-TOTO-V1]
-              in-toto Project, "in-toto Attestation Framework: v1
-              specification README",
+              in-toto Project, "Specification for in-toto attestation
+              layers, Version v1.1",
               Commit 06eafe3635bf8a425ad52cc82c6c90861e94a471, 6 May
               2024, <https://raw.githubusercontent.com/in-
               toto/attestation/06eafe3635bf8a425ad52cc82c6c90861e94a471/
@@ -1186,7 +1186,8 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
    [PRAMANA]  Kadaboina, R. K., "Pramana: A Protocol-Layer Treatment of
               Claim Verification in Autonomous Agent Networks",
-              arXiv 2605.20312, 19 May 2026.
+              arXiv 2605.20312, 19 May 2026,
+              <https://arxiv.org/abs/2605.20312v1>.
 
    [CLAIMRECEIPT]
               Zhu, P. and S. Chang, "ClaimReceipt: Verifying Evidence
@@ -1201,7 +1202,8 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
               <https://arxiv.org/abs/2605.16407v1>.
 
    [LEAN4]    de Moura, L. and S. Ullrich, "The Lean 4 Theorem Prover
-              and Programming Language",
+              and Programming Language", Lecture Notes in Computer
+              Science 12699, pp. 625–635,
               DOI 10.1007/978-3-030-79876-5_37, 2021,
               <https://doi.org/10.1007/978-3-030-79876-5_37>.
 
@@ -1221,10 +1223,8 @@ A.1.  Mutation Tests (MUST yield REJECT or the stated outcome)
 
       *Mutation:* Compatible := fun _ _ => true
 
-      *Expected:* Fails FormallyUnderdeterminationCapable: constant
-      Evalπ gives no eᵘ; nonconstant Evalπ gives no eᵈ. Empty Wπ makes
-      Determinateπ false via NonemptyCompatibleπ. No case yields an
-      underdetermination receipt.
+
+
 
 
 
@@ -1233,6 +1233,11 @@ Nestorov                  Expires 1 April 2027                 [Page 22]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
+
+      *Expected:* Fails FormallyUnderdeterminationCapable: constant
+      Evalπ gives no eᵘ; nonconstant Evalπ gives no eᵈ. Empty Wπ makes
+      Determinateπ false via NonemptyCompatibleπ. No case yields an
+      underdetermination receipt.
 
    *  *#:* M3
 
@@ -1276,12 +1281,7 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
       *Mutation:* Profile without a determinability witness
 
-      *Expected:* Preflight HALT, no adjudication verdict. *Not*
-      UnfalsifiableAsStated.
 
-   *  *#:* M10
-
-      *Mutation:* eᵈ or eᵘ added or replaced after admission
 
 
 
@@ -1289,6 +1289,13 @@ Nestorov                  Expires 1 April 2027                 [Page 23]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
+
+      *Expected:* Preflight HALT, no adjudication verdict. *Not*
+      UnfalsifiableAsStated.
+
+   *  *#:* M10
+
+      *Mutation:* eᵈ or eᵘ added or replaced after admission
 
       *Expected:* REJECT
 
@@ -1329,6 +1336,16 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
    *  *#:* M16
 
+
+
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 24]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
       *Mutation:* Missing closure/proof, receipt not after closure or
       not over exactly the closed set, or relevant admission after
       closure and before S_R
@@ -1338,13 +1355,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
       REJECT
 
    *  *#:* M17
-
-
-
-Nestorov                  Expires 1 April 2027                 [Page 24]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
 
       *Mutation:* P10 predicate lacks limitations, or verifier ignores
       it as unknown
@@ -1385,6 +1395,13 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
       *Mutation:* RelevantAdmissionπ occurs after closure but before
       size(S_R)
 
+
+
+Nestorov                  Expires 1 April 2027                 [Page 25]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
       *Expected:* REJECT
 
    *  *#:* M23
@@ -1393,14 +1410,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
       not in strictly increasing leaf order
 
       *Expected:* REJECT
-
-
-
-
-Nestorov                  Expires 1 April 2027                 [Page 25]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
 
    *  *#:* M24
 
@@ -1440,6 +1449,15 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
    *  *#:* M29
 
+
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 26]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
       *Mutation:* Admission registered after the pre-closure transcript
       but before the closure leaf
 
@@ -1450,13 +1468,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
       *Mutation:* Issuer-signed P10 payload contains S_R, receipt ref,
       or final replay/coverage result
-
-
-
-Nestorov                  Expires 1 April 2027                 [Page 26]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
 
       *Expected:* REJECT; post-registration values MUST remain outside
       the payload
@@ -1495,6 +1506,14 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
    *  *#:* M35
 
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 27]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
       *Mutation:* receipt.verifier_digest ≠
       profile.verifier_manifest_digest
 
@@ -1506,13 +1525,6 @@ A.2.  Adversarial-Profile Test
 
       *Test:* Compatibleπ is strict only for frozen eᵈ and trivially
       true for all other evidence in Eπ
-
-
-
-Nestorov                  Expires 1 April 2027                 [Page 27]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
 
       *Expected:* Formally passes FormallyUnderdeterminationCapable.
       *Not* a soundness hole in the Lean core or a claim counterexample:
@@ -1550,6 +1562,14 @@ Relationship to Prior Work
       evidence anti-monotonicity theorem; those claims are therefore not
       attributed to the verifiable Lean artifact.
 
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 28]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
    *  *Work / system:* Ascendr, Inc.
 
       *Existing coverage:* *Company-affiliated research actor confirmed;
@@ -1558,17 +1578,6 @@ Relationship to Prior Work
       *What it does not cover relative to Section 1:* —
 
    *  *Work / system:* *Pramāṇa (arXiv 2605.20312 v1)* ([PRAMANA])
-
-
-
-
-
-
-
-Nestorov                  Expires 1 April 2027                 [Page 28]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
 
       *Existing coverage:* Typed ClaimAttestation; verify(claim, source)
       returns VERIFIED/REJECTED/UNVERIFIABLE; a deterministic theorem
@@ -1609,6 +1618,14 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
       requirements for agent transitions.  DET-2 requires the specific
       governing-condition revision to have governed the transition at
       decision time; prior signing or registration, or availability
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 29]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
       among multiple compatible candidates, is insufficient.  Its
       candidates are governing-condition sets or policy revisions, not
       possible worlds assigning different values to an evidential claim.
@@ -1618,14 +1635,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
       *What it does not cover relative to Section 1:* Defines no
       evidence format, token, audit system, registry, or transparency
       service.  It does not specify a pre-evidence world class with
-
-
-
-Nestorov                  Expires 1 April 2027                 [Page 29]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
-
       executable Compatibleπ and Evalπ, a receipt-carried divergent-
       world pair, Lean certificate checking, or P10-style checkpoint-
       bounded evidence closure.  P10 does not equate its verifier-time
@@ -1665,6 +1674,14 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
    *  *Work / system:* AWS Automated Reasoning checks
 
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 30]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
       *Existing coverage:* Formal verdicts
       (VALID/INVALID/SATISFIABLE/IMPOSSIBLE/TRANSLATION_AMBIGUOUS)
 
@@ -1673,14 +1690,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
    *  *Work / system:* Supervaluationism, version spaces, partial
       identification
-
-
-
-
-Nestorov                  Expires 1 April 2027                 [Page 30]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
 
       *Existing coverage:* “True in all admissible models” and monotone
       narrowing
@@ -1718,6 +1727,17 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
    resolved and used by the P10 certificate verifier, with registration-
    order and checkpoint-bounded coverage verification.
 
+
+
+
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 31]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
 Prior-Art Boundary Question
 
       Do Pramāṇa, ClaimReceipt, draft-wadkins-agentproto-action-
@@ -1728,15 +1748,6 @@ Prior-Art Boundary Question
       evidence set?
 
    *  *Review answer: No.*
-
-
-
-
-
-Nestorov                  Expires 1 April 2027                 [Page 31]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
 
    *  *Pramāṇa:* its commitment is the source_digest of retrieved bytes
       used by verify(claim, source); it has no pre-evidence commitment
@@ -1774,6 +1785,15 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
       P10 verifier-time use is not a claim that the verdict governed a
       downstream action in Wadkins's DET-2 sense.
 
+
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 32]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
 Source Snapshot
 
    The following sources were inspected directly on 2026-09-23, with the
@@ -1783,16 +1803,6 @@ Source Snapshot
 
    *Primary sources opened directly (Europe/Belgrade; inspection dates
    stated above):*
-
-
-
-
-
-
-Nestorov                  Expires 1 April 2027                 [Page 32]
-
-Internet-Draft       P10 Underdetermination Profile       September 2026
-
 
    *  Koomullil, arXiv 2605.16407v1 ([KOOMULLIL]), complete HTML; linked
       GitHub repository at commit
@@ -1829,16 +1839,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
       structures/proofs dependent on the selected VDS profile.  P10
       therefore additionally freezes LogIdentityV0 and LeafEncodeV0.
 
-   *  in-toto Attestation v1 README ([IN-TOTO-V1]) and statement.md
-      ([IN-TOTO-STATEMENT]): Envelope/Statement/Predicate layers and the
-      rule that a consumer ignores unknown fields unless the predicate
-      specification says otherwise.
-
-   *  IETF Datatracker important dates: IETF 127 Internet-Draft cutoff
-      2026-11-02 23:59 UTC, confirmed on 2026-09-23.
-
-
-
 
 
 
@@ -1849,6 +1849,14 @@ Nestorov                  Expires 1 April 2027                 [Page 33]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
+
+   *  in-toto Attestation v1 README ([IN-TOTO-V1]) and statement.md
+      ([IN-TOTO-STATEMENT]): Envelope/Statement/Predicate layers and the
+      rule that a consumer ignores unknown fields unless the predicate
+      specification says otherwise.
+
+   *  IETF Datatracker important dates: IETF 127 Internet-Draft cutoff
+      2026-11-02 23:59 UTC, confirmed on 2026-09-23.
 
    *Not independently executed:* Koomullil lake build, all pilot
    experiments, and the ClaimReceipt reference verifier.  Their build/
@@ -1863,9 +1871,10 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 Document History
 
    -00: Internet-Draft transcription of P10 Underdetermination Profile
-   v0.1.1 ([P10-V011]), with recorded Erratum E01, citation repairs, and
-   informative IETF framing; intended to preserve the profile's protocol
-   semantics.
+   v0.1.1 ([P10-V011]), applying ratified Erratum E01 by replacing
+   obsolete notation S_C in the evidence-closure section with the actual
+   issuer-signed payload fields, plus citation repairs and informative
+   IETF framing; no other normative change.
 
 v0.1.1 — 2026-09-27
 
@@ -1888,15 +1897,6 @@ v0.1.1 — 2026-09-27
       verification, and to require the checker-constructed
       CertificateTargetV0 proposition.
 
-   *  Made no change to the mathematical definitions of Determinateπ,
-      Underdeterminedπ, or FormallyUnderdeterminationCapable, to
-      evidence-closure semantics, or to existing tests M1–M30 and AP1.
-
-Acknowledgments
-
-   AI-assisted tools supported source comparison, transcription checks,
-   build validation, and adversarial review.
-
 
 
 
@@ -1905,6 +1905,15 @@ Nestorov                  Expires 1 April 2027                 [Page 34]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
+
+   *  Made no change to the mathematical definitions of Determinateπ,
+      Underdeterminedπ, or FormallyUnderdeterminationCapable, to
+      evidence-closure semantics, or to existing tests M1–M30 and AP1.
+
+Acknowledgments
+
+   AI-assisted tools supported source comparison, transcription checks,
+   build validation, and adversarial review.
 
    The author reviewed and ratified the substantive decisions
    represented in this document and remains responsible for its content
@@ -1916,15 +1925,6 @@ Author's Address
    VolMax Studio Lab d.o.o.
    Email: volmax.core@gmail.com
    URI:   https://orcid.org/0009-0006-7940-9539
-
-
-
-
-
-
-
-
-
 
 
 

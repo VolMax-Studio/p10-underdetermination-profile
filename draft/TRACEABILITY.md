@@ -51,8 +51,8 @@ Every source line containing a lowercase modal word has its own row, including l
 | L09 | 361 | 4. Issuer-signed fields and post-registration verifier output (outline) | Sec 9 Statement and Predicate Structure | may | These post-registration values are P10 verifier output over the Transparent Statement. They may be serialized in a separate verification report, but are not part of the issuer-signed P10 predicate and do not enter its digest. The standard SCITT Receipt remains in COSE unprotected-header label `394`, avoiding a hash cycle. | Sec 9 Statement and Predicate Structure | TRANSCRIBED |
 | L10 | 363 | 4. Issuer-signed fields and post-registration verifier output (outline) | Sec 9 Statement and Predicate Structure | required | Before accepting the epistemic outcome, the verifier MUST establish `ActiveProfileBindingV0`. Registration order proves when the committed object entered `L`; it is not by itself evidence that the object was used. P10 establishes verifier-time use by independently resolving the unique instance-bound profile and its `VerifierManifestV0`, matching every required artifact, constructing `CertificateTargetV0` from the committed inputs, and type-checking the submitted certificate against that target under exactly that resolved combination. | Sec 9 Statement and Predicate Structure | TRANSCRIBED |
 | L11 | 365 | 4. Issuer-signed fields and post-registration verifier output (outline) | Sec 9 Statement and Predicate Structure | required | **The only v0 envelope:** a SCITT Signed Statement (`COSE_Sign1`) whose payload is an in-toto Statement v1 with the P10 predicate. After registration and attachment of a SCITT Receipt, it becomes a Transparent Statement. Profile commitment, instance commitment, evidence admissions, evidence closure, and final P10 adjudication statement use the same pattern, the same L, and the same protected CWT `sub`. A bare in-toto predicate, standalone signed in-toto envelope, or SCITT Statement without the required Receipt is insufficient. No new wire format is introduced. | Sec 9 Statement and Predicate Structure | TRANSCRIBED |
-| L12 | 377 | 5. Prior art | Appendix B Prior Art | may | \| **Pramāṇa (arXiv 2605.20312 v1)** \| Typed `ClaimAttestation`; `verify(claim, source)` returns VERIFIED/REJECTED/UNVERIFIABLE; a deterministic theorem prover may be an oracle for `InferenceClaim`; A2A/MCP wire extension and source-byte digest. \| Does not freeze a pre-evidence world class or compatibility semantics. UNVERIFIABLE is an outcome label without a concrete divergent witness pair. \| | Appendix B Relationship to Prior Work | TRANSCRIBED |
-| L13 | 378 | 5. Prior art | Appendix B Prior Art | must | \| **ClaimReceipt (arXiv 2609.01992 v1)** \| Claim sufficiency is defined over executions: identical retained evidence must imply an identical claim value (§2.1, Eq. 1). It explicitly describes the identification boundary/divergent executions, distinguishes contract and evidential abstention (`I_C`, `I_E`, §5.1), freezes the specification before implementation (§4.1), and places a signed manifest and assignment matrix with an OpenTimestamps proof before prospective ingress (§3.3). Coverage is a set property and requires manifest/ingress commitment before outcome. \| P10 closure/reconciliation follows the same broad prospective-ingress/terminal-reconciliation pattern; generic coverage is not novel to P10. The narrower remainder is that ClaimReceipt does not freeze an explicit world class with executable `Compatibleπ`, nor does INCONCLUSIVE carry a concrete divergent witness pair checked by the Lean kernel and registration-order-bound to the profile/instance. \| | Appendix B Relationship to Prior Work | TRANSCRIBED |
+| L12 | 377 | 5. Prior art | Relationship to Prior Work | may | \| **Pramāṇa (arXiv 2605.20312 v1)** \| Typed `ClaimAttestation`; `verify(claim, source)` returns VERIFIED/REJECTED/UNVERIFIABLE; a deterministic theorem prover may be an oracle for `InferenceClaim`; A2A/MCP wire extension and source-byte digest. \| Does not freeze a pre-evidence world class or compatibility semantics. UNVERIFIABLE is an outcome label without a concrete divergent witness pair. \| | Relationship to Prior Work | TRANSCRIBED |
+| L13 | 378 | 5. Prior art | Relationship to Prior Work | must | \| **ClaimReceipt (arXiv 2609.01992 v1)** \| Claim sufficiency is defined over executions: identical retained evidence must imply an identical claim value (§2.1, Eq. 1). It explicitly describes the identification boundary/divergent executions, distinguishes contract and evidential abstention (`I_C`, `I_E`, §5.1), freezes the specification before implementation (§4.1), and places a signed manifest and assignment matrix with an OpenTimestamps proof before prospective ingress (§3.3). Coverage is a set property and requires manifest/ingress commitment before outcome. \| P10 closure/reconciliation follows the same broad prospective-ingress/terminal-reconciliation pattern; generic coverage is not novel to P10. The narrower remainder is that ClaimReceipt does not freeze an explicit world class with executable `Compatibleπ`, nor does INCONCLUSIVE carry a concrete divergent witness pair checked by the Lean kernel and registration-order-bound to the profile/instance. \| | Relationship to Prior Work | TRANSCRIBED |
 | L14 | 432 | 7.1 Mutation tests (MUST yield REJECT or the stated outcome) | Appendix A.1 Mutation Tests | required | \| M11 \| Bare in-toto predicate, standalone signed in-toto envelope, or SCITT Statement without the required Receipt \| REJECT \| | Appendix A.1 Mutation Tests | TRANSCRIBED |
 | L15 | 445 | 7.1 Mutation tests (MUST yield REJECT or the stated outcome) | Appendix A.1 Mutation Tests | required | \| M24 \| A detached/encrypted payload required by frozen admission rules is unavailable \| HALT, no epistemic verdict \| | Appendix A.1 Mutation Tests | TRANSCRIBED |
 | L16 | 454 | 7.1 Mutation tests (MUST yield REJECT or the stated outcome) | Appendix A.1 Mutation Tests | required | \| M33 \| Checker source, `.olean` artifact, dependency lock, Lean toolchain, axiom policy, acceptance command, or build manifest differs from `VerifierManifestV0` \| REJECT; unavailable required artifact → HALT, with no epistemic verdict \| | Appendix A.1 Mutation Tests | TRANSCRIBED |
@@ -61,42 +61,42 @@ Every source line containing a lowercase modal word has its own row, including l
 
 | Test | Src line | Draft location | Expected outcome unchanged? | Status |
 |---|---|---|---|---|
-| M1 | 422 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M2 | 423 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M3 | 424 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M4 | 425 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M5 | 426 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M6 | 427 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M7 | 428 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M8 | 429 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M9 | 430 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M10 | 431 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M11 | 432 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M12 | 433 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M13 | 434 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M14 | 435 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M15 | 436 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M16 | 437 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M17 | 438 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M18 | 439 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M19 | 440 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M20 | 441 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M21 | 442 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M22 | 443 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M23 | 444 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M24 | 445 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M25 | 446 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M26 | 447 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M27 | 448 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M28 | 449 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M29 | 450 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M30 | 451 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M31 | 452 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M32 | 453 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M33 | 454 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M34 | 455 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M35 | 456 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| AP1 | 462 | Appendix A.2 Adversarial-Profile Test | Appendix A.2 Adversarial-Profile Test | TRANSCRIBED |
+| M1 | 422 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M2 | 423 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M3 | 424 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M4 | 425 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M5 | 426 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M6 | 427 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M7 | 428 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M8 | 429 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M9 | 430 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M10 | 431 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M11 | 432 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M12 | 433 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M13 | 434 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M14 | 435 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M15 | 436 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M16 | 437 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M17 | 438 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M18 | 439 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M19 | 440 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M20 | 441 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M21 | 442 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M22 | 443 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M23 | 444 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M24 | 445 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M25 | 446 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M26 | 447 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M27 | 448 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M28 | 449 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M29 | 450 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M30 | 451 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M31 | 452 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M32 | 453 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M33 | 454 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M34 | 455 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| M35 | 456 | Appendix A.1 Mutation Tests | YES | TRANSCRIBED |
+| AP1 | 462 | Appendix A.2 Adversarial-Profile Test | YES | TRANSCRIBED |
 
 ## Table 4 — Section map (complete; every source section accounted for)
 
@@ -114,21 +114,21 @@ Every source line containing a lowercase modal word has its own row, including l
 | 2.7 Canonical codec | Sec 8 Canonical Encoding | Transcribe; no semantic change |
 | 3. Semantic bridges and declared limitations | Sec 10 Security Considerations | Transcribe; no semantic change |
 | 4. Issuer-signed fields and post-registration verifier output (outline) | Sec 9 Statement and Predicate Structure | Transcribe; no semantic change |
-| 5. Prior art | Appendix B Prior Art | Transcribe; no semantic change |
+| 5. Prior art | Relationship to Prior Work | Transcribe; no semantic change |
 | 6. Explicit non-claims | Sec 1.2 Non-Claims | Transcribe; no semantic change |
 | 7. Conformance and independent-review criteria | Appendix A Conformance Tests | Heading only |
 | 7.1 Mutation tests (MUST yield REJECT or the stated outcome) | Appendix A.1 Mutation Tests | Transcribe; no semantic change |
 | 7.2 Adversarial-profile test | Appendix A.2 Adversarial-Profile Test | Transcribe; no semantic change |
-| 7.3 Prior-art boundary question | Appendix B Prior Art | Transcribe; no semantic change |
+| 7.3 Prior-art boundary question | Relationship to Prior Work | Transcribe; no semantic change |
 | 7.4 Publication review requirement | OMIT (process) | Omitted from the draft; release/review process, not protocol. Omission recorded here for the gate. |
-| 8. Source snapshot and verification boundaries | Appendix C Source Snapshot | TRANSCRIBED; no semantic change |
+| 8. Source snapshot and verification boundaries | Source Snapshot | TRANSCRIBED; no semantic change |
 | 9. Publication path | OMIT (process) | Omitted from the draft; release/review process, not protocol. Omission recorded here for the gate. |
-| 10. Change log | Appendix D Document History | TRANSCRIBED; source history preserved, with ratified P21 describing the draft-00 transcription |
-| v0.1.1 — 2026-09-27 | Appendix D Document History | TRANSCRIBED as source history; no source changelog text changed |
+| 10. Change log | Document History | TRANSCRIBED; source history preserved, with ratified P21 describing the draft-00 transcription |
+| v0.1.1 — 2026-09-27 | Document History | TRANSCRIBED as source history; no source changelog text changed |
 
 ## Table 5 — NEW-PROSE register (text with no v0.1.1 source)
 
-Every sentence in the draft that has no v0.1.1 source is listed here. NEW-PROSE MUST contain no BCP 14 keyword. Expected locations: Abstract (summary), Privacy Considerations (D4), IANA Considerations sentence (D3), Acknowledgments (D8), Document History "-00" line.
+Every sentence in the draft that has no v0.1.1 source is listed here. NEW-PROSE MUST contain no BCP 14 keyword. Expected locations: Abstract (summary), Privacy Considerations (D4), IANA Considerations sentence (D3), Acknowledgments (D17), Document History "-00" line.
 
 | ID | Draft location | Sentence (verbatim) | BCP 14 keywords (must be none) | Status |
 |---|---|---|---|---|
@@ -137,12 +137,12 @@ Every sentence in the draft that has no v0.1.1 source is listed here. NEW-PROSE 
 | P03 | Abstract | The witness result is checked against committed profile semantics and bound into a SCITT Transparent Statement containing an in-toto Statement v1 predicate. | none | TRANSCRIBED |
 | P04 | Abstract | The result establishes underdetermination only relative to the declared profile and does not identify the actual world or establish either claim value as true. | none | TRANSCRIBED |
 | P05 | IANA Considerations | This document has no IANA actions. | none | TRANSCRIBED |
-| P06 | Sec 1.1 Scope and Relationship to SCITT | The profile defines a third-party-verifiable underdetermination binding for SCITT using an in-toto Statement v1 predicate; the envelope structure is specified in Section 9. | none | TRANSCRIBED |
+| P06 | Sec 1.1 Scope and Relationship to SCITT | The profile defines a third-party-verifiable underdetermination binding for SCITT ({{RFC9943}}) using an in-toto Statement v1 ({{IN-TOTO-STATEMENT}}) predicate; the envelope structure is specified in {{statement-and-predicate-structure}}. | none | TRANSCRIBED |
 | P07 | Sec 2 Conventions and Terminology | The following notation and symbols are defined in the referenced sections: | none | TRANSCRIBED |
 | P08 | Sec 2 Conventions and Terminology | Wπ, Compatibleπ, and Evalπ are defined in Section 3.1. | none | TRANSCRIBED |
 | P09 | Sec 2 Conventions and Terminology | Eπ and VerifierManifestV0 are defined in Section 3.2. | none | TRANSCRIBED |
 | P10 | Sec 2 Conventions and Terminology | InstanceCommitment is defined in Section 4. | none | TRANSCRIBED |
-| P11 | Sec 2 Conventions and Terminology | L and S_R are defined in Section 5. | none | TRANSCRIBED |
+| P11 | Sec 2 Conventions and Terminology | `L` is defined in {{full-prefix-replay}}; `S_R` denotes the verified checkpoint obtained from the SCITT Receipt, as shown in {{statement-and-predicate-structure}}. | none | TRANSCRIBED |
 | P12 | Sec 2 Conventions and Terminology | SubjectView, RelevantAdmissionπ, EvidenceClosure, and CoverageProof are defined in Section 7. | none | TRANSCRIBED |
 | P13 | Sec 3.2 Issuance Conditions | The prerequisites in this summary are detailed in Section 4 for instance commitment, Section 5 for profile registration and replay, Section 7 for coverage closure, and Section 8 for canonical world encoding. | none | TRANSCRIBED |
 | P14 | Sec 10 Security Considerations | Each item in the following list is one row of the semantic-bridges table. | none | TRANSCRIBED |
@@ -151,7 +151,7 @@ Every sentence in the draft that has no v0.1.1 source is listed here. NEW-PROSE 
 | P17 | Sec 11 Privacy Considerations | Cryptographic digests provide integrity binding but do not provide confidentiality, particularly for low-entropy or guessable inputs. | none | TRANSCRIBED |
 | P18 | Sec 11 Privacy Considerations | Registration with a transparency service can create persistent and linkable metadata across receipts or instances. | none | TRANSCRIBED |
 | P19 | Sec 11 Privacy Considerations | This profile does not define confidentiality, anonymization, unlinkability, access control, or retention policy. | none | TRANSCRIBED |
-| P20 | Appendix B Relationship to Prior Work | Each item in the following list is one row of the prior-art table. | none | TRANSCRIBED |
-| P21 | Appendix D Document History | `-00`: Internet-Draft transcription of P10 Underdetermination Profile v0.1.1 ({{P10-V011}}), with recorded Erratum E01, citation repairs, and informative IETF framing; intended to preserve the profile's protocol semantics. | none | TRANSCRIBED |
+| P20 | Relationship to Prior Work | Each item in the following list is one row of the prior-art table. | none | TRANSCRIBED |
+| P21 | Document History | `-00`: Internet-Draft transcription of P10 Underdetermination Profile v0.1.1 ({{P10-V011}}), applying ratified Erratum E01 by replacing obsolete notation `S_C` in the evidence-closure section with the actual issuer-signed payload fields, plus citation repairs and informative IETF framing; no other normative change. | none | TRANSCRIBED |
 | P22 | Acknowledgments | AI-assisted tools supported source comparison, transcription checks, build validation, and adversarial review. | none | TRANSCRIBED |
 | P23 | Acknowledgments | The author reviewed and ratified the substantive decisions represented in this document and remains responsible for its content and errors. | none | TRANSCRIBED |
