@@ -87,4 +87,6 @@ O01 — `S₁` (v0.1.1 line 334) is not defined elsewhere in v0.1.1. Transcribed
 
 O02 — M1 and M2 (v0.1.1 lines 422–423) use unsubscripted `W`, `Compatible`, and `Eval`, which occur nowhere else in v0.1.1; elsewhere the profile uses `Wπ`, `Compatibleπ`, `Evalπ`. Transcribed verbatim; no erratum. Candidate for alignment in a future profile revision.
 
+O03 — The §7.2 profile-adequacy paragraph names “the Sandia EFC profile” without defining it or citing a public artifact elsewhere in v0.1.1. Transcribed verbatim; no erratum and no additional claim. Candidate for clarification in a future profile revision.
+
 The `README.md` at tag `v0.1.1` still says "Version 0.1.1 is a release candidate … Release status remains a separate human decision." The Zenodo record now exists. The tagged file cannot change; if it matters, a later release can update the README. The draft does not quote the README's status line.
