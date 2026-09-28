@@ -115,9 +115,9 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
 
    Source Snapshot . . . . . . . . . . . . . . . . . . . . . . . . .  32
-   Document History  . . . . . . . . . . . . . . . . . . . . . . . .  33
-   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  33
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  33
+   Document History  . . . . . . . . . . . . . . . . . . . . . . . .  34
+   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  34
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  34
 
 1.  Introduction
 
@@ -1052,8 +1052,8 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
    Every row of this table is included in the receipt's limitations
    field.  The P10 predicate specification marks limitations as a
    mandatory *must-understand* field: a P10 verifier MUST reject a
-   predicate without it, even though generic in-toto v1 rules otherwise
-   require unknown fields to be ignored.
+   predicate without it, even though generic in-toto v1 rules
+   ([IN-TOTO-V1]) otherwise require unknown fields to be ignored.
 
 
 
@@ -1134,6 +1134,14 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
               toto/attestation/06eafe3635bf8a425ad52cc82c6c90861e94a471/
               spec/v1/statement.md>.
 
+   [IN-TOTO-V1]
+              in-toto Project, "in-toto Attestation Framework: v1
+              specification README",
+              Commit 06eafe3635bf8a425ad52cc82c6c90861e94a471, 6 May
+              2024, <https://raw.githubusercontent.com/in-
+              toto/attestation/06eafe3635bf8a425ad52cc82c6c90861e94a471/
+              spec/v1/README.md>.
+
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
@@ -1163,20 +1171,18 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
               02, 22 September 2026, <https://www.ietf.org/archive/id/
               draft-krausz-verification-state-02.txt>.
 
-   [MIH-AAC-02]
-              Mih, S., "An Agent Action Capsule Profile for SCITT", Work
-              in Progress, Internet-Draft, draft-mih-scitt-agent-action-
-              capsule-02, 6 July 2026, <https://www.ietf.org/archive/id/
-              draft-mih-scitt-agent-action-capsule-02.txt>.
-
-
-
 
 
 Nestorov                  Expires 1 April 2027                 [Page 21]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
+
+   [MIH-AAC-02]
+              Mih, S., "An Agent Action Capsule Profile for SCITT", Work
+              in Progress, Internet-Draft, draft-mih-scitt-agent-action-
+              capsule-02, 6 July 2026, <https://www.ietf.org/archive/id/
+              draft-mih-scitt-agent-action-capsule-02.txt>.
 
    [PRAMANA]  Kadaboina, R. K., "Pramana: A Protocol-Layer Treatment of
               Claim Verification in Autonomous Agent Networks",
@@ -1220,12 +1226,6 @@ A.1.  Mutation Tests (MUST yield REJECT or the stated outcome)
       Determinateπ false via NonemptyCompatibleπ. No case yields an
       underdetermination receipt.
 
-   *  *#:* M3
-
-      *Mutation:* Witness outside frozen Wπ
-
-      *Expected:* REJECT
-
 
 
 
@@ -1233,6 +1233,12 @@ Nestorov                  Expires 1 April 2027                 [Page 22]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
+
+   *  *#:* M3
+
+      *Mutation:* Witness outside frozen Wπ
+
+      *Expected:* REJECT
 
    *  *#:* M4
 
@@ -1277,18 +1283,16 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
       *Mutation:* eᵈ or eᵘ added or replaced after admission
 
-      *Expected:* REJECT
-
-   *  *#:* M11
-
-
-
 
 
 Nestorov                  Expires 1 April 2027                 [Page 23]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
+
+      *Expected:* REJECT
+
+   *  *#:* M11
 
       *Mutation:* Bare in-toto predicate, standalone signed in-toto
       envelope, or SCITT Statement without the required Receipt
@@ -1335,16 +1339,15 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
    *  *#:* M17
 
-      *Mutation:* P10 predicate lacks limitations, or verifier ignores
-      it as unknown
-
-
 
 
 Nestorov                  Expires 1 April 2027                 [Page 24]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
+
+      *Mutation:* P10 predicate lacks limitations, or verifier ignores
+      it as unknown
 
       *Expected:* REJECT
 
@@ -1391,9 +1394,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
       *Expected:* REJECT
 
-   *  *#:* M24
-
-
 
 
 
@@ -1401,6 +1401,8 @@ Nestorov                  Expires 1 April 2027                 [Page 25]
 
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
+
+   *  *#:* M24
 
       *Mutation:* A detached/encrypted payload required by frozen
       admission rules is unavailable
@@ -1448,8 +1450,6 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
       *Mutation:* Issuer-signed P10 payload contains S_R, receipt ref,
       or final replay/coverage result
-
-
 
 
 
@@ -1782,10 +1782,10 @@ Source Snapshot
    inspected artifacts.
 
    *Primary sources opened directly (Europe/Belgrade; inspection dates
-   stated above):* - Koomullil, arXiv 2605.16407v1 ([KOOMULLIL]),
-   complete HTML; linked GitHub repository at commit
-   8e5b718c4fc1a53678f1da9a94499df3b311d065, including README.txt,
-   MCR.lean, and AxiomAudit.lean. - Pramāṇa, arXiv 2605.20312v1
+   stated above):*
+
+
+
 
 
 
@@ -1794,32 +1794,61 @@ Nestorov                  Expires 1 April 2027                 [Page 32]
 Internet-Draft       P10 Underdetermination Profile       September 2026
 
 
-   ([PRAMANA]), complete HTML. - ClaimReceipt, arXiv 2609.01992v1
-   ([CLAIMRECEIPT]), complete HTML. - draft-wadkins-agentproto-action-
-   determinability-00 ([WADKINS-00]), complete Datatracker HTML, dated
-   2026-09-10 and last updated 2026-09-11. - IETF Datatracker IPR
-   disclosure 7599, submitted 2026-09-11, naming unpublished pending
-   U.S. provisional application US64/147765; the submitter made no
-   licensing declaration at that time.  This is a source-reported
-   disclosure record, not a legal conclusion by P10. - draft-krausz-
-   verification-state-02 ([KRAUSZ-02]), complete Datatracker HTML,
-   published 2026-09-22. - RFC 9943 ([RFC9943]): §§3, 5.1.3, 6, 7, 9.1,
-   and 9.3.  Protected sub groups Transparent Statements and supports
-   subject completeness checks; VDS replayability permits checking every
-   registered structure only for an actor with content access.
-   Registration Policy can change and is not a soundness premise. §9.1
-   confirms that VDS registration order need not equal issuance order;
-   §9.3 confirms selective registration. - RFC 9943 ([RFC9943]) Figure 3
-   defines CWT iss and sub as tstr, places the standard SCITT Receipt in
-   COSE unprotected-header label 394, binds TS identity to a public key,
-   and leaves concrete VDS structures/proofs dependent on the selected
-   VDS profile.  P10 therefore additionally freezes LogIdentityV0 and
-   LeafEncodeV0. - in-toto Attestation v1 README and statement.md
-   ([IN-TOTO-STATEMENT]): Envelope/Statement/Predicate layers and the
-   rule that a consumer ignores unknown fields unless the predicate
-   specification says otherwise. - IETF Datatracker important dates:
-   IETF 127 Internet-Draft cutoff 2026-11-02 23:59 UTC, confirmed on
-   2026-09-23.
+   *  Koomullil, arXiv 2605.16407v1 ([KOOMULLIL]), complete HTML; linked
+      GitHub repository at commit
+      8e5b718c4fc1a53678f1da9a94499df3b311d065, including README.txt,
+      MCR.lean, and AxiomAudit.lean.
+
+   *  Pramāṇa, arXiv 2605.20312v1 ([PRAMANA]), complete HTML.
+
+   *  ClaimReceipt, arXiv 2609.01992v1 ([CLAIMRECEIPT]), complete HTML.
+
+   *  draft-wadkins-agentproto-action-determinability-00 ([WADKINS-00]),
+      complete Datatracker HTML, dated 2026-09-10 and last updated
+      2026-09-11.
+
+   *  IETF Datatracker IPR disclosure 7599, submitted 2026-09-11, naming
+      unpublished pending U.S. provisional application US64/147765; the
+      submitter made no licensing declaration at that time.  This is a
+      source-reported disclosure record, not a legal conclusion by P10.
+
+   *  draft-krausz-verification-state-02 ([KRAUSZ-02]), complete
+      Datatracker HTML, published 2026-09-22.
+
+   *  RFC 9943 ([RFC9943]): §§3, 5.1.3, 6, 7, 9.1, and 9.3.  Protected
+      sub groups Transparent Statements and supports subject
+      completeness checks; VDS replayability permits checking every
+      registered structure only for an actor with content access.
+      Registration Policy can change and is not a soundness premise.
+      §9.1 confirms that VDS registration order need not equal issuance
+      order; §9.3 confirms selective registration.
+
+   *  RFC 9943 ([RFC9943]) Figure 3 defines CWT iss and sub as tstr,
+      places the standard SCITT Receipt in COSE unprotected-header label
+      394, binds TS identity to a public key, and leaves concrete VDS
+      structures/proofs dependent on the selected VDS profile.  P10
+      therefore additionally freezes LogIdentityV0 and LeafEncodeV0.
+
+   *  in-toto Attestation v1 README ([IN-TOTO-V1]) and statement.md
+      ([IN-TOTO-STATEMENT]): Envelope/Statement/Predicate layers and the
+      rule that a consumer ignores unknown fields unless the predicate
+      specification says otherwise.
+
+   *  IETF Datatracker important dates: IETF 127 Internet-Draft cutoff
+      2026-11-02 23:59 UTC, confirmed on 2026-09-23.
+
+
+
+
+
+
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 33]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
 
    *Not independently executed:* Koomullil lake build, all pilot
    experiments, and the ClaimReceipt reference verifier.  Their build/
@@ -1845,4 +1874,31 @@ Author's Address
 
 
 
-Nestorov                  Expires 1 April 2027                 [Page 33]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 34]

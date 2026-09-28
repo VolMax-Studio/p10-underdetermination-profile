@@ -31,6 +31,29 @@ failures << "numeric U+200B entity" if text.match?(/&#(?:0*8203|[xX]0*200[bB]);/
 }.each do |name, character|
   failures << name if text.include?(character)
 end
+
+# A block-list marker must not immediately follow prose. Without the blank
+# line, kramdown renders the apparent list as one paragraph. Ignore YAML
+# metadata and fenced source blocks, and permit consecutive list items.
+lines = text.lines.map(&:chomp)
+in_metadata = true
+in_fence = false
+lines.each_with_index do |line, index|
+  if in_metadata
+    in_metadata = false if line.match?(/^---\s+(?:abstract|middle|back)\s*$/)
+    next
+  end
+  if line.match?(/^\s*(?:```|~~~)/)
+    in_fence = !in_fence
+    next
+  end
+  next if in_fence || !line.match?(/^\s*[-*]\s+/)
+
+  previous = index.zero? ? "" : lines[index - 1]
+  next if previous.strip.empty? || previous.match?(/^\s*[-*]\s+/)
+
+  failures << "list item on line #{index + 1} immediately follows prose"
+end
 unless failures.empty?
   warn "Markdown source integrity failed: #{failures.join(', ')}"
   exit 1

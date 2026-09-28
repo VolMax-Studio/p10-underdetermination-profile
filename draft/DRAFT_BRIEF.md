@@ -64,6 +64,7 @@ The draft is a transcription. It MUST NOT change the obligations of v0.1.1. Anyt
 | R5 | CLOSED | "Pramana: A Protocol-Layer Treatment of Claim Verification in Autonomous Agent Networks", Ravi Kiran Kadaboina, arXiv:2605.20312v1 (submitted 2026-05-19). |
 | R6 | CLOSED | Leonardo de Moura and Sebastian Ullrich, "The Lean 4 Theorem Prover and Programming Language", In: Automated Deduction – CADE 28, LNCS 12699, pp. 625–635, Springer, Cham, 2021, DOI 10.1007/978-3-030-79876-5_37. |
 | R7 | OPEN (list for gate) | Gate verifies every identity field in manual references (full names, arXiv dates/identifiers, in-toto commit date) against upstream records. |
+| R8 | ADDED (list for gate) | `IN-TOTO-V1` pins `spec/v1/README.md` at commit `06eafe3635bf8a425ad52cc82c6c90861e94a471` and supports the generic requirement to ignore unrecognized fields cited by N13. `IN-TOTO-STATEMENT` remains pinned separately to `spec/v1/statement.md` at the same commit. |
 
 ## 5. Pipeline
 

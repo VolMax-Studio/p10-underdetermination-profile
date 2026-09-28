@@ -46,6 +46,15 @@ normative:
       Commit: 06eafe3635bf8a425ad52cc82c6c90861e94a471
     # Exact content URL for spec/v1/statement.md at the reviewed commit.
     target: https://raw.githubusercontent.com/in-toto/attestation/06eafe3635bf8a425ad52cc82c6c90861e94a471/spec/v1/statement.md
+  IN-TOTO-V1:
+    title: "in-toto Attestation Framework: v1 specification README"
+    author:
+      - org: in-toto Project
+    date: 2024-05-06
+    seriesinfo:
+      Commit: 06eafe3635bf8a425ad52cc82c6c90861e94a471
+    # Exact content URL for spec/v1/README.md at the reviewed commit.
+    target: https://raw.githubusercontent.com/in-toto/attestation/06eafe3635bf8a425ad52cc82c6c90861e94a471/spec/v1/README.md
 
 informative:
   P10-V011:
@@ -589,7 +598,7 @@ Where sibling `InstanceCommitment` payloads are accessible, a verifier SHOULD re
 
 Introducing a `Reachableπ(e)` predicate does not solve AP1. Lean would check frozen `Reachableπ(eᵈ)`, but not whether that relation faithfully represents physical or practical availability. It would merely move the oracle boundary.
 
-Every row of this table is included in the receipt's `limitations` field. The P10 predicate specification marks `limitations` as a mandatory **must-understand** field: a P10 verifier MUST reject a predicate without it, even though generic in-toto v1 rules otherwise require unknown fields to be ignored.
+Every row of this table is included in the receipt's `limitations` field. The P10 predicate specification marks `limitations` as a mandatory **must-understand** field: a P10 verifier MUST reject a predicate without it, even though generic in-toto v1 rules ({{IN-TOTO-V1}}) otherwise require unknown fields to be ignored.
 
 # Privacy Considerations
 <!-- D4 ratified: short informative section, NEW-PROSE, zero BCP 14 keywords.
@@ -919,6 +928,7 @@ Each item in the following list is one row of the prior-art table.
 The following sources were inspected directly on 2026-09-23, with the two identified Internet-Drafts added on 2026-09-27. The verification statements below are limited to the cited source versions and inspected artifacts.
 
 **Primary sources opened directly (Europe/Belgrade; inspection dates stated above):**
+
 - Koomullil, arXiv `2605.16407v1` ({{KOOMULLIL}}), complete HTML; linked GitHub repository at commit `8e5b718c4fc1a53678f1da9a94499df3b311d065`, including `README.txt`, `MCR.lean`, and `AxiomAudit.lean`.
 - Pramāṇa, arXiv `2605.20312v1` ({{PRAMANA}}), complete HTML.
 - ClaimReceipt, arXiv `2609.01992v1` ({{CLAIMRECEIPT}}), complete HTML.
@@ -927,7 +937,7 @@ The following sources were inspected directly on 2026-09-23, with the two identi
 - `draft-krausz-verification-state-02` ({{KRAUSZ-02}}), complete Datatracker HTML, published 2026-09-22.
 - RFC 9943 ({{RFC9943}}): §§3, 5.1.3, 6, 7, 9.1, and 9.3. Protected `sub` groups Transparent Statements and supports subject completeness checks; VDS replayability permits checking every registered structure only for an actor with content access. Registration Policy can change and is not a soundness premise. §9.1 confirms that VDS registration order need not equal issuance order; §9.3 confirms selective registration.
 - RFC 9943 ({{RFC9943}}) Figure 3 defines CWT `iss` and `sub` as `tstr`, places the standard SCITT Receipt in COSE unprotected-header label `394`, binds TS identity to a public key, and leaves concrete VDS structures/proofs dependent on the selected VDS profile. P10 therefore additionally freezes `LogIdentityV0` and `LeafEncodeV0`.
-- in-toto Attestation v1 README and `statement.md` ({{IN-TOTO-STATEMENT}}): Envelope/Statement/Predicate layers and the rule that a consumer ignores unknown fields unless the predicate specification says otherwise.
+- in-toto Attestation v1 README ({{IN-TOTO-V1}}) and `statement.md` ({{IN-TOTO-STATEMENT}}): Envelope/Statement/Predicate layers and the rule that a consumer ignores unknown fields unless the predicate specification says otherwise.
 - IETF Datatracker important dates: IETF 127 Internet-Draft cutoff `2026-11-02 23:59 UTC`, confirmed on 2026-09-23.
 
 **Not independently executed:** Koomullil `lake build`, all pilot experiments, and the ClaimReceipt reference verifier. Their build/test results remain primary-source self-reports. Source inspection confirms only the content of inspected files at the stated commit; specifically, it found that `MCR.lean` contains neither paper-level maximality nor an evidence anti-monotonicity theorem.
