@@ -620,6 +620,80 @@ This document has no IANA actions.
      Descriptions of others' work copied as in v0.1.1; do not re-paraphrase (gate Check 4).
      Traceability: L12, L13. Cite frozen anchors WADKINS-00, KRAUSZ-02, MIH-AAC-02 only. -->
 
+The following sources were inspected directly on 2026-09-23 unless otherwise stated. The two Internet-Drafts marked 2026-09-27 were added by the v0.1.1 pre-publication prior-art sweep.
+
+Each item in the following list is one row of the prior-art table.
+
+- **Work / system:** **Koomullil, arXiv 2605.16407 v1** ({{KOOMULLIL}})
+
+  **Existing coverage:** **Paper-reported (per the source snapshot):** the paper defines Supported/Contradicted/Contested/Unknown; `Unknown` is computed using thresholds `θg, θc` (§5.2). The paper-reported Universal Assurance Card has Certified/Partial/Residue/Abstain verdicts; `Abstain` requires nonempty reasons and `residue_coverage = 0` (§§10.2–10.3). Paper-reported Thm 6.3(v) claims evidence anti-monotonicity of MCR under a monotone evidence-to-constraints map.
+
+  **What it does not cover relative to {{introduction}}:** No concrete P10 world-witness pair bound to the same closed evidence set. The inspected `MCR.lean` contains neither paper-level maximality nor an evidence anti-monotonicity theorem; those claims are therefore not attributed to the verifiable Lean artifact.
+
+- **Work / system:** Ascendr, Inc.
+
+  **Existing coverage:** **Company-affiliated research actor confirmed; commercial product deployment not demonstrated.**
+
+  **What it does not cover relative to {{introduction}}:** —
+
+- **Work / system:** **Pramāṇa (arXiv 2605.20312 v1)** ({{PRAMANA}})
+
+  **Existing coverage:** Typed `ClaimAttestation`; `verify(claim, source)` returns VERIFIED/REJECTED/UNVERIFIABLE; a deterministic theorem prover may be an oracle for `InferenceClaim`; A2A/MCP wire extension and source-byte digest.
+
+  **What it does not cover relative to {{introduction}}:** Does not freeze a pre-evidence world class or compatibility semantics. UNVERIFIABLE is an outcome label without a concrete divergent witness pair.
+
+- **Work / system:** **ClaimReceipt (arXiv 2609.01992 v1)** ({{CLAIMRECEIPT}})
+
+  **Existing coverage:** Claim sufficiency is defined over executions: identical retained evidence must imply an identical claim value (§2.1, Eq. 1). It explicitly describes the identification boundary/divergent executions, distinguishes contract and evidential abstention (`I_C`, `I_E`, §5.1), freezes the specification before implementation (§4.1), and places a signed manifest and assignment matrix with an OpenTimestamps proof before prospective ingress (§3.3). Coverage is a set property and requires manifest/ingress commitment before outcome.
+
+  **What it does not cover relative to {{introduction}}:** P10 closure/reconciliation follows the same broad prospective-ingress/terminal-reconciliation pattern; generic coverage is not novel to P10. The narrower remainder is that ClaimReceipt does not freeze an explicit world class with executable `Compatibleπ`, nor does INCONCLUSIVE carry a concrete divergent witness pair checked by the Lean kernel and registration-order-bound to the profile/instance.
+
+- **Work / system:** **Independent Determinability of Agent Actions (`draft-wadkins-agentproto-action-determinability-00`)** ({{WADKINS-00}}) — inspected 2026-09-27
+
+  **Existing coverage:** Defines mechanism-independent determinability requirements for agent transitions. DET-2 requires the specific governing-condition revision to have governed the transition at decision time; prior signing or registration, or availability among multiple compatible candidates, is insufficient. Its candidates are governing-condition sets or policy revisions, not possible worlds assigning different values to an evidential claim. It also requires omission detection or an explicit result that completeness cannot be established when completeness is material.
+
+  **What it does not cover relative to {{introduction}}:** Defines no evidence format, token, audit system, registry, or transparency service. It does not specify a pre-evidence world class with executable `Compatibleπ` and `Evalπ`, a receipt-carried divergent-world pair, Lean certificate checking, or P10-style checkpoint-bounded evidence closure. P10 does not equate its verifier-time recomputation with Wadkins's claim that governing conditions controlled a downstream transition at decision time.
+
+- **Work / system:** **The `verification.*` Constraint Family (`draft-krausz-verification-state-02`)** ({{KRAUSZ-02}}) — inspected 2026-09-27
+
+  **Existing coverage:** Defines signed claim/ruleset/evidence-bound JWS receipts; `verified`, `contradicted`, `indeterminate`, and `not_evaluated` states; content-addressed evidence sets; local recomputation; immutable content-addressed mapping resolution with digest verification before use and fail-closed mismatch handling; and SCITT-compatible transport. It explicitly states that a pinned evidence set records what the issuer listed but cannot prove disclosure completeness or detect an omission.
+
+  **What it does not cover relative to {{introduction}}:** Does not establish checkpoint-complete evidence coverage and does not require a pre-evidence committed `Wπ` with executable `Compatibleπ` and `Evalπ`, a concrete divergent-world pair, or a Lean proof that both worlds remain compatible with the same closed evidence set while assigning different claim values. P10's narrower remainder is instance-unique profile resolution plus transitive verifier-toolchain/build binding, not digest-checked ruleset resolution as such.
+
+- **Work / system:** SCITT Agent Action Capsule (draft-mih-…-02) ({{MIH-AAC-02}})
+
+  **Existing coverage:** SCITT receipt with disposition vocabulary
+
+  **What it does not cover relative to {{introduction}}:** Action disposition, not epistemic underdetermination
+
+- **Work / system:** AWS Automated Reasoning checks
+
+  **Existing coverage:** Formal verdicts (VALID/INVALID/SATISFIABLE/IMPOSSIBLE/TRANSLATION_AMBIGUOUS)
+
+  **What it does not cover relative to {{introduction}}:** No third-party-verifiable receipt or witness pair
+
+- **Work / system:** Supervaluationism, version spaces, partial identification
+
+  **Existing coverage:** “True in all admissible models” and monotone narrowing
+
+  **What it does not cover relative to {{introduction}}:** Not receipt/binding systems
+
+**Provenance for the Koomullil row:** the complete arXiv HTML v1 was inspected through §§1–17 and the appendices; `gkoomullil/proof-carrying-certificates` was inspected read-only at full commit `8e5b718c4fc1a53678f1da9a94499df3b311d065` (commit timestamp `2026-05-12T18:19:05Z`). `README.txt`, `lean_artifact/EmbeddingSensitivity/MCR.lean` (blob `096f15d486f7190d7018317002a3ba2d137eadab`), and `lean_artifact/EmbeddingSensitivity/AxiomAudit.lean` (blob `83899399f1157d99f06bcc611466186bf26d77b9`) were opened directly. The paper reports threshold-based `Unknown`, Theorem 6.3(v), and the `Abstain` condition. However, the inspected `MCR.lean` has no `p_maximal_over_all` field, maximality theorem, or evidence anti-monotonicity theorem; the last of its three theorems merely repeats `p_residue_cert`. This is a mismatch between paper-level claims and the inspected artifact, not artifact confirmation of those claims. `lake build` was not independently run.
+
+**Narrow differentiation after the v0.1.1 sweep:** P10 claims no novelty for independent determinability, decision-time or pre-evidence binding as a general idea, an `indeterminate` receipt, claim/ruleset/evidence binding, content-addressed evidence, local recomputation, SCITT transport, or the need for coverage and omission controls. The remaining claimed profile-level combination is a concrete divergent-world pair from a pre-evidence committed model class, checked under executable `Compatibleπ` and `Evalπ` semantics by Lean and bound to a unique, instance-specific pre-evidence commitment whose exact profile and verifier-manifest digests are independently resolved and used by the P10 certificate verifier, with registration-order and checkpoint-bounded coverage verification.
+
+## Prior-Art Boundary Question
+{:numbered="false"}
+
+> Do Pramāṇa, ClaimReceipt, `draft-wadkins-agentproto-action-determinability-00`, or `draft-krausz-verification-state-02` already require a pre-evidence committed model class with executable compatibility and evaluation semantics and carry a concrete divergent-world witness pair checked against the same closed evidence set?
+
+- **Review answer: No.**
+- **Pramāṇa:** its commitment is the `source_digest` of retrieved bytes used by `verify(claim, source)`; it has no pre-evidence commitment of a world class/compatibility semantics. UNVERIFIABLE carries no witness pair.
+- **ClaimReceipt:** it has pre-ingress manifest/specification and coverage commitments, but no explicitly frozen `Wπ` with executable `Compatibleπ`, nor an INCONCLUSIVE receipt carrying a concrete divergent witness pair.
+- **Independent Determinability of Agent Actions:** its compatible candidates are governing-condition sets or policy revisions, not claim-worlds. It supplies the general compatible-candidate principle, decision-time binding, independent retrospective evaluation, and the requirement to detect omission or report that completeness is unavailable. It deliberately defines no evidence format or transparency service and carries no concrete divergent-world witness pair under frozen executable semantics.
+- **The `verification.*` Constraint Family:** it supplies a signed and recomputable claim/ruleset/evidence-bound receipt, an `indeterminate` state, content-addressed evidence, and SCITT compatibility. Its receipt cannot establish disclosure completeness or detect an omitted source, and it carries no P10 divergent-world witness proof.
+- The claim therefore survives only as the narrower **profile-and-binding combination** stated in {{relationship-to-prior-work}}: concrete divergent-world witnesses from a pre-evidence committed model class, executable `Compatibleπ` and `Evalπ` checks backed by Lean, a uniquely resolved instance-specific profile and transitively bound verifier manifest, checkpoint-complete evidence coverage, and transparency-log registration-order verification. P10 verifier-time use is not a claim that the verdict governed a downstream action in Wadkins's DET-2 sense.
+
 # Source Snapshot
 {:numbered="false"}
 <!-- SOURCE: §8. Includes IPR disclosure 7599 note on the Wadkins draft, as stated. -->

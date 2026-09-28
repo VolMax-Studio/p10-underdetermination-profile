@@ -93,7 +93,7 @@ end
 visible_markdown = markdown.gsub(/<!--.*?-->/m, "")
 spans = visible_markdown.scan(/(?<!`)`([^`\n]+)`(?!`)/).flatten
 normalized_spans = spans.map { |span| span.gsub(/\s+/, " ").strip }.uniq
-normalized_text = text.gsub(/\s+/, " ")
+normalized_text = text.gsub(/-\s+/, "-").gsub(/\s+/, " ")
 missing = normalized_spans.reject { |span| normalized_text.include?(span) }
 unless missing.empty?
   missing.each { |span| warn "Missing inline-code span in TXT: #{span.inspect}" }
