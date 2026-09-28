@@ -121,7 +121,7 @@ Every source line containing a lowercase modal word has its own row, including l
 | 7.2 Adversarial-profile test | Appendix A.2 Adversarial-Profile Test | Transcribe; no semantic change |
 | 7.3 Prior-art boundary question | Appendix B Prior Art | Transcribe; no semantic change |
 | 7.4 Publication review requirement | OMIT (process) | Omitted from the draft; release/review process, not protocol. Omission recorded here for the gate. |
-| 8. Source snapshot and verification boundaries | Appendix C Source Snapshot | Transcribe; no semantic change |
+| 8. Source snapshot and verification boundaries | Appendix C Source Snapshot | TRANSCRIBED; no semantic change |
 | 9. Publication path | OMIT (process) | Omitted from the draft; release/review process, not protocol. Omission recorded here for the gate. |
 | 10. Change log | Appendix D Document History | Transcribe; no semantic change |
 | v0.1.1 — 2026-09-27 | Appendix D Document History | Transcribe as source history; add a line stating the draft-00 transcription made no semantic change |

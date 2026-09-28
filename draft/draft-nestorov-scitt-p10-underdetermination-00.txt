@@ -115,9 +115,9 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
 
    Source Snapshot . . . . . . . . . . . . . . . . . . . . . . . . .  32
-   Document History  . . . . . . . . . . . . . . . . . . . . . . . .  32
-   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  32
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  32
+   Document History  . . . . . . . . . . . . . . . . . . . . . . . .  33
+   Acknowledgments . . . . . . . . . . . . . . . . . . . . . . . . .  33
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  33
 
 1.  Introduction
 
@@ -1776,6 +1776,61 @@ Internet-Draft       P10 Underdetermination Profile       September 2026
 
 Source Snapshot
 
+   The following sources were inspected directly on 2026-09-23, with the
+   two identified Internet-Drafts added on 2026-09-27.  The verification
+   statements below are limited to the cited source versions and
+   inspected artifacts.
+
+   *Primary sources opened directly (Europe/Belgrade; inspection dates
+   stated above):* - Koomullil, arXiv 2605.16407v1 ([KOOMULLIL]),
+   complete HTML; linked GitHub repository at commit
+   8e5b718c4fc1a53678f1da9a94499df3b311d065, including README.txt,
+   MCR.lean, and AxiomAudit.lean. - Pramāṇa, arXiv 2605.20312v1
+
+
+
+Nestorov                  Expires 1 April 2027                 [Page 32]
+
+Internet-Draft       P10 Underdetermination Profile       September 2026
+
+
+   ([PRAMANA]), complete HTML. - ClaimReceipt, arXiv 2609.01992v1
+   ([CLAIMRECEIPT]), complete HTML. - draft-wadkins-agentproto-action-
+   determinability-00 ([WADKINS-00]), complete Datatracker HTML, dated
+   2026-09-10 and last updated 2026-09-11. - IETF Datatracker IPR
+   disclosure 7599, submitted 2026-09-11, naming unpublished pending
+   U.S. provisional application US64/147765; the submitter made no
+   licensing declaration at that time.  This is a source-reported
+   disclosure record, not a legal conclusion by P10. - draft-krausz-
+   verification-state-02 ([KRAUSZ-02]), complete Datatracker HTML,
+   published 2026-09-22. - RFC 9943 ([RFC9943]): §§3, 5.1.3, 6, 7, 9.1,
+   and 9.3.  Protected sub groups Transparent Statements and supports
+   subject completeness checks; VDS replayability permits checking every
+   registered structure only for an actor with content access.
+   Registration Policy can change and is not a soundness premise. §9.1
+   confirms that VDS registration order need not equal issuance order;
+   §9.3 confirms selective registration. - RFC 9943 ([RFC9943]) Figure 3
+   defines CWT iss and sub as tstr, places the standard SCITT Receipt in
+   COSE unprotected-header label 394, binds TS identity to a public key,
+   and leaves concrete VDS structures/proofs dependent on the selected
+   VDS profile.  P10 therefore additionally freezes LogIdentityV0 and
+   LeafEncodeV0. - in-toto Attestation v1 README and statement.md
+   ([IN-TOTO-STATEMENT]): Envelope/Statement/Predicate layers and the
+   rule that a consumer ignores unknown fields unless the predicate
+   specification says otherwise. - IETF Datatracker important dates:
+   IETF 127 Internet-Draft cutoff 2026-11-02 23:59 UTC, confirmed on
+   2026-09-23.
+
+   *Not independently executed:* Koomullil lake build, all pilot
+   experiments, and the ClaimReceipt reference verifier.  Their build/
+   test results remain primary-source self-reports.  Source inspection
+   confirms only the content of inspected files at the stated commit;
+   specifically, it found that MCR.lean contains neither paper-level
+   maximality nor an evidence anti-monotonicity theorem.
+
+   *Excluded:* existence of an automation task and any market/
+   commercial-priority claim.
+
 Document History
 
 Acknowledgments
@@ -1789,4 +1844,5 @@ Author's Address
 
 
 
-Nestorov                  Expires 1 April 2027                 [Page 32]
+
+Nestorov                  Expires 1 April 2027                 [Page 33]
