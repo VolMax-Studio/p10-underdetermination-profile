@@ -29,7 +29,7 @@
 | N13 | 324 | 3. Semantic bridges and declared limitations | Sec 10 Security Considerations | MUST | Every row of this table is included in the receipt's `limitations` field. The P10 predicate specification marks `limitations` as a mandatory **must-understand** field: a P10 verifier MUST reject a predicate without it, even though generic in-toto v1 rules otherwise require unknown fields to be ignored. | Sec 10 Security Considerations | TRANSCRIBED |
 | N14 | 363 | 4. Issuer-signed fields and post-registration verifier output (outline) | Sec 9 Statement and Predicate Structure | MUST | Before accepting the epistemic outcome, the verifier MUST establish `ActiveProfileBindingV0`. Registration order proves when the committed object entered `L`; it is not by itself evidence that the object was used. P10 establishes verifier-time use by independently resolving the unique instance-bound profile and its `VerifierManifestV0`, matching every required artifact, constructing `CertificateTargetV0` from the committed inputs, and type-checking the submitted certificate against that target under exactly that resolved combination. | Sec 9 Statement and Predicate Structure | TRANSCRIBED |
 | N15 | 418 | 7.1 Mutation tests (MUST yield REJECT or the stated outcome) | Appendix A.1 Mutation Tests | MUST | ### 7.1 Mutation tests (MUST yield REJECT or the stated outcome) | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| N16 | 451 | 7.1 Mutation tests (MUST yield REJECT or the stated outcome) | Appendix A.1 Mutation Tests | MUST | \| M30 \| Issuer-signed P10 payload contains `S_R`, receipt ref, or final replay/coverage result \| REJECT; post-registration values MUST remain outside the payload \| | — | TODO |
+| N16 | 451 | 7.1 Mutation tests (MUST yield REJECT or the stated outcome) | Appendix A.1 Mutation Tests | MUST | \| M30 \| Issuer-signed P10 payload contains `S_R`, receipt ref, or final replay/coverage result \| REJECT; post-registration values MUST remain outside the payload \| | Appendix A.1 Mutation Tests | TRANSCRIBED |
 | N17 | 479 | 7.4 Publication review requirement | OMIT (process) — deliberate omission of a process MUST; gate must confirm | MUST, MUST | An independent publication review MUST bind the exact SHA-256 of this artifact. The review MUST cover the complete document, including the formal core, closure and coverage semantics, declared trust boundaries, mutation tests, prior-art boundary, and publication metadata. A verdict over any other byte sequence does not apply to this artifact. | — | TODO |
 
 Note: the §7.1 heading row (source line 418) makes the mutation-test tables normative in aggregate. Each of M1–M35 and AP1 is traced individually in Table 3.
@@ -54,8 +54,8 @@ Every source line containing a lowercase modal word has its own row, including l
 | L12 | 377 | 5. Prior art | Appendix B Prior Art | may | \| **Pramāṇa (arXiv 2605.20312 v1)** \| Typed `ClaimAttestation`; `verify(claim, source)` returns VERIFIED/REJECTED/UNVERIFIABLE; a deterministic theorem prover may be an oracle for `InferenceClaim`; A2A/MCP wire extension and source-byte digest. \| Does not freeze a pre-evidence world class or compatibility semantics. UNVERIFIABLE is an outcome label without a concrete divergent witness pair. \| | Appendix B Relationship to Prior Work | TRANSCRIBED |
 | L13 | 378 | 5. Prior art | Appendix B Prior Art | must | \| **ClaimReceipt (arXiv 2609.01992 v1)** \| Claim sufficiency is defined over executions: identical retained evidence must imply an identical claim value (§2.1, Eq. 1). It explicitly describes the identification boundary/divergent executions, distinguishes contract and evidential abstention (`I_C`, `I_E`, §5.1), freezes the specification before implementation (§4.1), and places a signed manifest and assignment matrix with an OpenTimestamps proof before prospective ingress (§3.3). Coverage is a set property and requires manifest/ingress commitment before outcome. \| P10 closure/reconciliation follows the same broad prospective-ingress/terminal-reconciliation pattern; generic coverage is not novel to P10. The narrower remainder is that ClaimReceipt does not freeze an explicit world class with executable `Compatibleπ`, nor does INCONCLUSIVE carry a concrete divergent witness pair checked by the Lean kernel and registration-order-bound to the profile/instance. \| | Appendix B Relationship to Prior Work | TRANSCRIBED |
 | L14 | 432 | 7.1 Mutation tests (MUST yield REJECT or the stated outcome) | Appendix A.1 Mutation Tests | required | \| M11 \| Bare in-toto predicate, standalone signed in-toto envelope, or SCITT Statement without the required Receipt \| REJECT \| | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| L15 | 445 | 7.1 Mutation tests (MUST yield REJECT or the stated outcome) | Appendix A.1 Mutation Tests | required | \| M24 \| A detached/encrypted payload required by frozen admission rules is unavailable \| HALT, no epistemic verdict \| | — | TODO |
-| L16 | 454 | 7.1 Mutation tests (MUST yield REJECT or the stated outcome) | Appendix A.1 Mutation Tests | required | \| M33 \| Checker source, `.olean` artifact, dependency lock, Lean toolchain, axiom policy, acceptance command, or build manifest differs from `VerifierManifestV0` \| REJECT; unavailable required artifact → HALT, with no epistemic verdict \| | — | TODO |
+| L15 | 445 | 7.1 Mutation tests (MUST yield REJECT or the stated outcome) | Appendix A.1 Mutation Tests | required | \| M24 \| A detached/encrypted payload required by frozen admission rules is unavailable \| HALT, no epistemic verdict \| | Appendix A.1 Mutation Tests | TRANSCRIBED |
+| L16 | 454 | 7.1 Mutation tests (MUST yield REJECT or the stated outcome) | Appendix A.1 Mutation Tests | required | \| M33 \| Checker source, `.olean` artifact, dependency lock, Lean toolchain, axiom policy, acceptance command, or build manifest differs from `VerifierManifestV0` \| REJECT; unavailable required artifact → HALT, with no epistemic verdict \| | Appendix A.1 Mutation Tests | TRANSCRIBED |
 
 ## Table 3 — Mutation and adversarial tests
 
@@ -79,23 +79,23 @@ Every source line containing a lowercase modal word has its own row, including l
 | M16 | 437 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
 | M17 | 438 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
 | M18 | 439 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
-| M19 | 440 | Appendix A | — | TODO |
-| M20 | 441 | Appendix A | — | TODO |
-| M21 | 442 | Appendix A | — | TODO |
-| M22 | 443 | Appendix A | — | TODO |
-| M23 | 444 | Appendix A | — | TODO |
-| M24 | 445 | Appendix A | — | TODO |
-| M25 | 446 | Appendix A | — | TODO |
-| M26 | 447 | Appendix A | — | TODO |
-| M27 | 448 | Appendix A | — | TODO |
-| M28 | 449 | Appendix A | — | TODO |
-| M29 | 450 | Appendix A | — | TODO |
-| M30 | 451 | Appendix A | — | TODO |
-| M31 | 452 | Appendix A | — | TODO |
-| M32 | 453 | Appendix A | — | TODO |
-| M33 | 454 | Appendix A | — | TODO |
-| M34 | 455 | Appendix A | — | TODO |
-| M35 | 456 | Appendix A | — | TODO |
+| M19 | 440 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
+| M20 | 441 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
+| M21 | 442 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
+| M22 | 443 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
+| M23 | 444 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
+| M24 | 445 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
+| M25 | 446 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
+| M26 | 447 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
+| M27 | 448 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
+| M28 | 449 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
+| M29 | 450 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
+| M30 | 451 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
+| M31 | 452 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
+| M32 | 453 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
+| M33 | 454 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
+| M34 | 455 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
+| M35 | 456 | Appendix A.1 Mutation Tests | Appendix A.1 Mutation Tests | TRANSCRIBED |
 | AP1 | 462 | Appendix A | — | TODO |
 
 ## Table 4 — Section map (complete; every source section accounted for)

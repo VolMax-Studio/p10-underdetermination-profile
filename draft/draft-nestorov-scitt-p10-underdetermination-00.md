@@ -719,6 +719,108 @@ This document has no IANA actions.
 
   **Expected:** HALT, no epistemic verdict
 
+- **#:** M19
+
+  **Mutation:** Within committed L, another valid commitment or conflicting profile/claim exists for `(instance_owner_iss, request_id, instance_subject)`
+
+  **Expected:** REJECT
+
+- **#:** M20
+
+  **Mutation:** Statement has matching `sub`, but `iss` is outside the frozen authorized-admitter set
+
+  **Expected:** Not an admission; if cited by closure → REJECT
+
+- **#:** M21
+
+  **Mutation:** A replayed `RelevantAdmissionπ` is omitted from `ordered_admission_refs`
+
+  **Expected:** REJECT
+
+- **#:** M22
+
+  **Mutation:** `RelevantAdmissionπ` occurs after closure but before `size(S_R)`
+
+  **Expected:** REJECT
+
+- **#:** M23
+
+  **Mutation:** Admission reference is duplicated or references are not in strictly increasing leaf order
+
+  **Expected:** REJECT
+
+- **#:** M24
+
+  **Mutation:** A detached/encrypted payload required by frozen admission rules is unavailable
+
+  **Expected:** HALT, no epistemic verdict
+
+- **#:** M25
+
+  **Mutation:** A new relevant entry is registered only after `S_R`
+
+  **Expected:** Historical claim remains scoped to `S_R`; no claim of future absence
+
+- **#:** M26
+
+  **Mutation:** Same `(issuer_id, request_id)` exists in L1 and L2
+
+  **Expected:** Each receipt claims completeness only within its committed L; no global uniqueness claim
+
+- **#:** M27
+
+  **Mutation:** Receipt/replay uses a different TS `iss`, checkpoint key, VDS algorithm, or leaf encoding from committed `LogIdentityV0`
+
+  **Expected:** REJECT
+
+- **#:** M28
+
+  **Mutation:** Matching-`sub` profile/commitment/closure signed by an `iss` other than `instance_owner_iss`
+
+  **Expected:** Not a valid lifecycle entry; if cited by a valid object → REJECT
+
+- **#:** M29
+
+  **Mutation:** Admission registered after the pre-closure transcript but before the closure leaf
+
+  **Expected:** Closure candidate invalid; replay/rebuild/retry, with no epistemic verdict until a valid closure
+
+- **#:** M30
+
+  **Mutation:** Issuer-signed P10 payload contains `S_R`, receipt ref, or final replay/coverage result
+
+  **Expected:** REJECT; post-registration values MUST remain outside the payload
+
+- **#:** M31
+
+  **Mutation:** Mandatory cross-instance limitation bytes are absent, altered, or do not match `limitations_digest`
+
+  **Expected:** REJECT
+
+- **#:** M32
+
+  **Mutation:** The verifier loads, checks, or executes a profile whose digest differs from `InstanceCommitment.profile_digest`, even if that profile was registered before evidence admission
+
+  **Expected:** REJECT
+
+- **#:** M33
+
+  **Mutation:** Checker source, `.olean` artifact, dependency lock, Lean toolchain, axiom policy, acceptance command, or build manifest differs from `VerifierManifestV0`
+
+  **Expected:** REJECT; unavailable required artifact → HALT, with no epistemic verdict
+
+- **#:** M34
+
+  **Mutation:** Certificate proves a different, weaker, or certificate-supplied proposition instead of checker-constructed `CertificateTargetV0(π, e, c, w₀, w₁)`
+
+  **Expected:** REJECT
+
+- **#:** M35
+
+  **Mutation:** `receipt.verifier_digest ≠ profile.verifier_manifest_digest`
+
+  **Expected:** REJECT
+
 ## Adversarial-Profile Test
 <!-- SOURCE: §7.2 AP1 row + profile-adequacy review paragraph. -->
 
