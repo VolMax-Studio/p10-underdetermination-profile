@@ -75,7 +75,7 @@ Schema SHA-256:
 
 For `-01`, E02 is an **interpretive record**, not evidence that profile v0.1.1 gained a field or requirement.
 
-### 4.3 E03 — CANDIDATE, PENDING IVAN RATIFICATION
+### 4.3 E03 — CANDIDATE, RATIFIED by Ivan Nestorov on 2026-10-10
 
 **Source location:** profile v0.1.1 §2.6, the single use of `S_C`:
 

@@ -24,7 +24,7 @@ A required `YES` is a STOP condition and opens a possible new-profile-release de
 | D02 | v0.1.1 uses `receipt` for the P10 adjudication object in multiple places | Rename only occurrences classified `P10_OBJECT` | EDITORIAL TERMINOLOGY | NO, occurrence-by-occurrence only | receipt audit below | CANDIDATE |
 | D03 | v0.1.1 uses SCITT Receipt for `S_R` / COSE label 394 | Preserve term `SCITT Receipt` | UNCHANGED PROFILE | NO | RFC 9942/9943 terminology | REQUIRED |
 | D04 | `S₁` appears once without definition | Clarify as editorial outline notation; no new field/checkpoint/acceptance condition | HUMAN-RATIFIED INTERPRETIVE RECORD | NO | E02, ratified 2026-10-03 | RATIFIED RECORD |
-| D05 | `S_C` appears once without definition | Interpret as shorthand for already listed `evidence_closure_ref`, `evidence_admission_refs`, `preclosure_transcript_digest` | CANDIDATE E03 | NO if ratified as drafted | requires Ivan ratification | PENDING |
+| D05 | `S_C` appears once without definition | Interpret as shorthand for already listed `evidence_closure_ref`, `evidence_admission_refs`, `preclosure_transcript_digest` | HUMAN-RATIFIED INTERPRETIVE RECORD | NO | E03, `v0.1.1-draft01-e03-ratified` | RATIFIED RECORD |
 | D06 | Profile already requires full-prefix replay and authorized read access | Keep profile obligation unchanged | UNCHANGED PROFILE | NO | v0.1.1 §2.4 | REQUIRED |
 | D07 | S3 shows verifier/operator deployment needs auditor-equivalent content access | Describe in Appendix B.3 as substrate/operator requirement | INSTANCE PROSE | NO | S3 / RFC 9943 mapping | CANDIDATE |
 | D08 | S3 executed instance uses RFC9162_SHA256, LeafEncodeV0, LogIdentityV0, stable Receipt key, serialized registration | Describe as executed-instance parameters, not general P10 requirements | INSTANCE PROSE | NO | S3 accepted instance | CANDIDATE |
@@ -51,7 +51,7 @@ Ratified text:
 
 Classification for `-01`: `HUMAN-RATIFIED INTERPRETIVE RECORD`; `Changed semantics? NO`.
 
-### E03 — candidate, not ratified
+### E03 — ratified 2026-10-10
 
 Source text:
 
@@ -61,7 +61,9 @@ Candidate interpretation:
 
 > `S_C` is undefined editorial shorthand. It introduces no additional wire field, VDS checkpoint, digest, or acceptance condition. In context, the issuer-signed bindings are the already enumerated `evidence_closure_ref`, `evidence_admission_refs`, and `preclosure_transcript_digest`.
 
-Status: `PENDING IVAN RATIFICATION`.
+Status: `RATIFIED` by Ivan Nestorov on 2026-10-10.
+
+Signed tag: `v0.1.1-draft01-e03-ratified` → commit `ea055cce47de3f1e741d91cd921d5916a8a16936`.
 
 ## 4. Receipt terminology audit — INITIAL
 
