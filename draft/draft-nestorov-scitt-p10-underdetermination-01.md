@@ -11,7 +11,7 @@ keyword:
   - SCITT
   - in-toto
   - underdetermination
-  - receipt
+  - adjudication
   - Lean
 venue:
   mail: scitt@ietf.org
@@ -132,7 +132,7 @@ informative:
 
 --- abstract
 
-P10 defines a third-party-verifiable binding for NotDemonstrated(reason=underdetermined). A conforming receipt carries two canonical witness worlds that are compatible with the same closed evidence set and produce different values for the same frozen claim. The witness result is checked against committed profile semantics and bound into a SCITT Transparent Statement containing an in-toto Statement v1 predicate. The result establishes underdetermination only relative to the declared profile and does not identify the actual world or establish either claim value as true.
+P10 defines a third-party-verifiable binding for NotDemonstrated(reason=underdetermined). A conforming P10 Adjudication Statement carries two canonical witness worlds that are compatible with the same closed evidence set and produce different values for the same frozen claim. The witness result is checked against committed profile semantics and bound into a SCITT Transparent Statement containing an in-toto Statement v1 predicate. The result establishes underdetermination only relative to the declared profile and does not identify the actual world or establish either claim value as true.
 
 --- middle
 
@@ -141,7 +141,7 @@ P10 defines a third-party-verifiable binding for NotDemonstrated(reason=underdet
 > The proposed P10 Underdetermination Profile defines a third-party-verifiable binding for `NotDemonstrated(reason=underdetermined)`. Issuance is permitted only when:
 > (1) the world class, admissible-evidence-bundle space and item-admission rules, frozen bundle constructor, compatibility relation, claim interpretation, evidence scope and coverage rules, canonicalization, world codec, committed log identity, leaf encoding, lifecycle/admitter authorization, and verifier were committed in a profile and an identified `InstanceCommitment` before the first evidence admission for that instance;
 > (2) within the committed transparency log `L`, exactly one profile and claim are bound to the `(issuer_id, request_id)` subject, and an `EvidenceClosure` plus checkpoint-bounded `CoverageProof` binds every valid, registered, in-scope admission made by a frozen authorized admitter through `S_R`;
-> (3) the receipt carries two semantically distinct worlds from that frozen world class, represented in the profile's frozen canonical serialization;
+> (3) the P10 Adjudication Statement carries two semantically distinct worlds from that frozen world class, represented in the profile's frozen canonical serialization;
 > (4) the frozen verifier establishes that both witnesses are compatible with that same closed evidence set and assign different values to the same frozen claim; and
 > (5) the instance commitment, profile, claim, closed evidence set, witnesses, proof, verifier and mandatory limitations are SHA-256-bound in a SCITT Transparent Statement whose payload is an in-toto Statement v1 containing the P10 predicate, with complete VDS-prefix replay and registration/coverage verification satisfying {{full-prefix-replay}} through {{evidence-closure-and-checkpoint-bounded-coverage}}.
 > The result establishes underdetermination only relative to the declared profile and does not identify the actual world or establish either claim value as true.
@@ -155,7 +155,7 @@ The profile defines a third-party-verifiable underdetermination binding for SCIT
 ## Non-Claims {#non-claims}
 
 - That “two compatible models ⇒ underdetermination” is novel.
-- That the receipt identifies the actual world or establishes either claim value as true.
+- That the P10 Adjudication Statement identifies the actual world or establishes either claim value as true.
 - That `Compatibleπ`, `Evalπ`, or `Eπ` faithfully represents reality ({{security-considerations}}).
 - That `FormallyUnderdeterminationCapable` means the profile is operationally adequate or unbiased toward abstention (AP1).
 - That registration order represents issuance, creation, or first-observation order ({{full-prefix-replay}}, {{evidence-admission}}).
@@ -172,7 +172,7 @@ The profile defines a third-party-verifiable underdetermination binding for SCIT
 - That content-addressed evidence or local receipt recomputation is novel ({{KRAUSZ-02}}, {{relationship-to-prior-work}}).
 - That SCITT transport for a verification receipt is novel ({{KRAUSZ-02}} and existing SCITT profiles, {{relationship-to-prior-work}}).
 - That the general need for evidence-coverage or omission controls is novel ({{WADKINS-00}}, {{CLAIMRECEIPT}}, and {{KRAUSZ-02}}, {{relationship-to-prior-work}}).
-- That any downstream action was governed by the receipt's verdict. P10 establishes only that the certificate verifies under the uniquely committed profile and its transitively bound verifier artifacts.
+- That any downstream action was governed by the P10 Adjudication Statement's verdict. P10 establishes only that the certificate verifies under the uniquely committed profile and its transitively bound verifier artifacts.
 - Anything about market or commercial priority.
 
 # Conventions and Terminology {#conventions-and-terminology}
@@ -301,7 +301,7 @@ ActiveProfileBindingV0(ι, R) holds only if:
     resolved profile, verifier, and toolchain artifacts.
 ~~~
 
-The resolved checker MUST construct `CertificateTargetV0` exclusively from the committed profile, closed evidence set, committed claim, and canonical receipt witnesses. The certificate MUST NOT supply or select its own target proposition.
+The resolved checker MUST construct `CertificateTargetV0` exclusively from the committed profile, closed evidence set, committed claim, and canonical witnesses carried by the P10 Adjudication Statement. The certificate MUST NOT supply or select its own target proposition.
 
 Every artifact digest above binds both the exact bytes and its frozen artifact identifier or path and format. An unavailable required profile, manifest, checker, build, dependency, `.olean`, axiom-policy, acceptance-command, or toolchain artifact yields `HALT`, with no epistemic verdict. A digest mismatch, substitution, or certificate checked under any other profile, checker, build, axiom policy, or toolchain yields `REJECT`.
 
@@ -311,7 +311,7 @@ Every artifact digest above binds both the exact bytes and its frozen artifact i
 ¬ProfileAdmissible(π, c) →
   preflight HALT, no verdict
 ¬FormallyUnderdeterminationCapable(π, c) →
-  profile MUST NOT issue an underdetermination receipt
+  profile MUST NOT issue a P10 Adjudication Statement with an underdetermination outcome
 ~~~
 
 For infinite `Wπ`, `Underdeterminedπ` is still checked with a concrete witness pair and decidable `Compatibleπ` and `Evalπ`. `Determinateπ(eᵈ, c)` is a universal claim: the verifier accepts a Lean proof term, but generation of such a proof is not guaranteed. If no proof term is available, preflight MUST return `HALT`, not an epistemic verdict.
@@ -370,7 +370,7 @@ LeafEncodeV0(x) :=
   RFC9162 leaf input
 ~~~
 
-“The same L” means the same `LogIdentityV0`: the same TS `iss`, checkpoint verification key, VDS algorithm, and leaf-encoding profile. The commitment's `log_identity_digest` MUST match the L identified by the outer receipt; a mismatch yields `REJECT`.
+“The same L” means the same `LogIdentityV0`: the same TS `iss`, checkpoint verification key, VDS algorithm, and leaf-encoding profile. The commitment's `log_identity_digest` MUST match the L identified by the outer SCITT Receipt; a mismatch yields `REJECT`.
 
 ~~~ text
 FullPrefixReplay(L, S_R) :=
@@ -386,7 +386,7 @@ FullPrefixReplay(L, S_R) :=
 
 The verifier MUST have authorized read access to the leaf bytes and protected headers of the entire Statement Sequence through `S_R`, as well as all payload bytes of subject-view candidates needed for classification under the frozen rules. Payloads for unrelated subjects are not required. Trust in the commitment-bound checkpoint key, VDS algorithm, and `LeafEncodeV0` is an explicit premise. If the complete prefix or a required subject payload is unavailable, the result is `HALT`, with no epistemic verdict.
 
-Replay verifies that the profile and unique commitment were registered before the first relevant admission, that exactly one valid owner-signed closure precedes the final receipt, and that all those entries are in committed L. An entry or proof from another log identity yields `REJECT`; a separate parallel log is outside the claim and MUST be disclosed by the limitation. P10 v0 uses `RFC9162_SHA256` (VDS alg `1`, {{RFC9942}}; tree structure, {{RFC9162}}). Inclusion and consistency proofs may accompany the transcript, but do not by themselves prove the absence of other entries.
+Replay verifies that the profile and unique commitment were registered before the first relevant admission, that exactly one valid owner-signed closure precedes the final P10 Adjudication Statement, and that all those entries are in committed L. An entry or proof from another log identity yields `REJECT`; a separate parallel log is outside the claim and MUST be disclosed by the limitation. P10 v0 uses `RFC9162_SHA256` (VDS alg `1`, {{RFC9942}}; tree structure, {{RFC9162}}). Inclusion and consistency proofs may accompany the transcript, but do not by themselves prove the absence of other entries.
 
 An RFC 9943 Registration Policy can change, and its rejection of new entries is only defense in depth; it is not a soundness premise of P10 coverage.
 
@@ -460,12 +460,12 @@ CoverageProofπ(ι, S_R) verifies:
 - No closure, replay, or required payload bytes → `HALT`, with no epistemic verdict. A conflicting commitment/closure, or an omitted, duplicated, misordered, unauthorized, or post-closure relevant admission → `REJECT`.
 - `checkpoint_preclosure_transcript_digest` MUST describe the uninterrupted `ClosureTranscriptViewπ` subsequence immediately before the closure leaf. Entries for other subjects and unauthorized matching-`sub` entries do not invalidate closure. If a valid owner-signed lifecycle entry or `RelevantAdmissionπ` lands between transcript preparation and closure registration, that closure candidate is invalid (fail-closed). The issuer MUST replay the subject view, rebuild the references, and register a new closure; the invalid attempt is not counted as a valid closure.
 - The leaf index assigned by committed L is the authoritative total registration order, including entries received in the same batch. `Bundleπ` uses that strictly increasing order; the TS cannot present a different order for the same checkpoint without violating VDS integrity.
-- The receipt is computed over closed `e`, not an arbitrarily selected admission. The claim holds only through signed checkpoint `S_R`; a later entry does not retroactively change the historical claim and supports no claim of future absence.
-- To avoid a post-registration hash cycle, the issuer-signed P10 payload binds `evidence_closure_ref`, `evidence_admission_refs`, and `preclosure_transcript_digest`. The outer SCITT Receipt ({{RFC9942}}) supplies `S_R`; `S_R`, the final replay transcript, and the coverage-verification result are not fields in the issuer-signed payload. Full-prefix replay occurs after receipt acquisition.
+- The P10 Adjudication Statement is computed over closed `e`, not an arbitrarily selected admission. The claim holds only through signed checkpoint `S_R`; a later entry does not retroactively change the historical claim and supports no claim of future absence.
+- To avoid a post-registration hash cycle, the issuer-signed P10 payload binds `evidence_closure_ref`, `evidence_admission_refs`, and `preclosure_transcript_digest`. The outer SCITT Receipt ({{RFC9942}}) supplies `S_R`; `S_R`, the final replay transcript, and the coverage-verification result are not fields in the issuer-signed payload. Full-prefix replay occurs after SCITT Receipt acquisition.
 
 # Canonical Encoding {#canonical-encoding}
 
-- P10 v0 uses UTF-8 JSON Canonicalization Scheme (JCS, {{RFC8785}}) for claims, structured evidence objects, worlds, and the P10 predicate. The codec digest is part of the profile ({{introduction}}, item (1)) and receipt.
+- P10 v0 uses UTF-8 JSON Canonicalization Scheme (JCS, {{RFC8785}}) for claims, structured evidence objects, worlds, and the P10 predicate. The codec digest is part of the profile ({{introduction}}, item (1)) and the P10 Adjudication Statement.
 - Integers outside the safely interoperable JCS/JSON range, rational numbers, and exact decimal values are encoded as canonical strings under the frozen exact-number schema; they are not emitted as JSON numbers.
 - A **unique normal form** applies: `decode ∘ encode = id` on `Wπ`, with exactly one JCS form per decoded world. `Compatibleπ` and `Evalπ` operate on decoded semantic objects; the verifier rejects noncanonical witnesses.
 - A structured P10 `*_digest` uses SHA-256 over the corresponding JCS bytes. Binary artifacts are digested over raw bytes together with the frozen format/media-type identifier, not over a JCS reinterpretation. Noncryptographic or merely immutable identifiers are insufficient.
@@ -506,7 +506,7 @@ In the issuer-signed field list above, `instance_commitment_ref` is specified in
 receipt_checkpoint_ref
   -- SCITT Receipt in COSE unprotected label 394
 S_R
-  -- verified checkpoint from the receipt
+  -- verified checkpoint from the SCITT Receipt
 order_and_coverage_transcript_digest
   -- FullPrefixReplay through S_R
 coverage_verification_result
@@ -517,7 +517,7 @@ These post-registration values are P10 verifier output over the Transparent Stat
 
 Before accepting the epistemic outcome, the verifier MUST establish `ActiveProfileBindingV0`. Registration order proves when the committed object entered `L`; it is not by itself evidence that the object was used. P10 establishes verifier-time use by independently resolving the unique instance-bound profile and its `VerifierManifestV0`, matching every required artifact, constructing `CertificateTargetV0` from the committed inputs, and type-checking the submitted certificate against that target under exactly that resolved combination.
 
-**The only v0 envelope:** a SCITT Signed Statement ({{RFC9943}}) (`COSE_Sign1`, {{RFC9052}}) whose payload is an in-toto Statement v1 ({{IN-TOTO-STATEMENT}}) with the P10 predicate. After registration and attachment of a SCITT Receipt ({{RFC9942}}), it becomes a Transparent Statement. Profile commitment, instance commitment, evidence admissions, evidence closure, and final P10 adjudication statement use the same pattern, the same L, and the same protected CWT `sub`. A bare in-toto predicate, standalone signed in-toto envelope, or SCITT Statement without the required Receipt is insufficient. No new wire format is introduced.
+**The only v0 envelope:** a SCITT Signed Statement ({{RFC9943}}) (`COSE_Sign1`, {{RFC9052}}) whose payload is an in-toto Statement v1 ({{IN-TOTO-STATEMENT}}) with the P10 predicate. After registration and attachment of a SCITT Receipt ({{RFC9942}}), it becomes a Transparent Statement. Profile commitment, instance commitment, evidence admissions, evidence closure, and final P10 adjudication statement use the same pattern, the same L, and the same protected CWT `sub`. A bare in-toto predicate, standalone signed in-toto envelope, or SCITT Statement without the required SCITT Receipt is insufficient. No new wire format is introduced.
 
 # Security Considerations
 
@@ -562,11 +562,11 @@ Each item in the following list is one row of the semantic-bridges table.
   * **What Lean checks:** Kernel type-check plus `#print axioms` audit; the permitted axiom set is explicit in the profile
   * **What remains an oracle / limitation:** Trust in the Lean kernel and declared axioms; `sorryAx`, `Lean.ofReduceBool`, and `native_decide` are forbidden
 
-**AP1 limitation (verbatim, mandatory in the receipt):**
+**AP1 limitation (verbatim, mandatory in the P10 Adjudication Statement):**
 
 > `FormallyUnderdeterminationCapable` does not establish that the determining evidence fixture is practically obtainable, representative, or likely to occur under the deployed acquisition process. A formally valid profile may remain operationally abstention-biased.
 
-**Coverage/instance limitation (verbatim, mandatory in the receipt):**
+**Coverage/instance limitation (verbatim, mandatory in the P10 Adjudication Statement):**
 
 > This receipt establishes completeness only within the committed transparency log `L`, for valid, registered, in-scope admissions made by the frozen authorized admitters for the identified `(issuer, request)` subject through the signed checkpoint `S_R`. It does not establish that no commitment or admission for the same `request_id` exists in another transparency log, that no unregistered or out-of-scope evidence exists, that no semantically equivalent request was opened under a different `request_id`, or that no later statement was registered after `S_R`. Verification requires complete VDS-prefix replay of committed `L` and access to all subject payload bytes needed by the frozen admission rules. This receipt establishes uniqueness only for the identified instance tuple within committed `L` through `S_R`. It does not establish that the issuer did not create other instances for the same `claim_digest` under different `request_id` values, bind those instances to different profiles or world classes, or select the presented instance after observing evidence or outcomes.
 
@@ -574,11 +574,11 @@ Where sibling `InstanceCommitment` payloads are accessible, a verifier SHOULD re
 
 Introducing a `Reachableπ(e)` predicate does not solve AP1. Lean would check frozen `Reachableπ(eᵈ)`, but not whether that relation faithfully represents physical or practical availability. It would merely move the oracle boundary.
 
-Every row of this table is included in the receipt's `limitations` field. The P10 predicate specification marks `limitations` as a mandatory **must-understand** field: a P10 verifier MUST reject a predicate without it, even though generic in-toto v1 rules ({{IN-TOTO-V1}}) otherwise require unknown fields to be ignored.
+Every row of this table is included in the P10 Adjudication Statement's `limitations` field. The P10 predicate specification marks `limitations` as a mandatory **must-understand** field: a P10 verifier MUST reject a predicate without it, even though generic in-toto v1 rules ({{IN-TOTO-V1}}) otherwise require unknown fields to be ignored.
 
 # Privacy Considerations
 
-A P10 receipt contains or references claim, profile, evidence-admission, evidence-closure, witness, certificate, and verifier identifiers or digests. Cryptographic digests provide integrity binding but do not provide confidentiality, particularly for low-entropy or guessable inputs. Registration with a transparency service can create persistent and linkable metadata across receipts or instances. This profile does not define confidentiality, anonymization, unlinkability, access control, or retention policy.
+A P10 Adjudication Statement contains or references claim, profile, evidence-admission, evidence-closure, witness, certificate, and verifier identifiers or digests. Cryptographic digests provide integrity binding but do not provide confidentiality, particularly for low-entropy or guessable inputs. Registration with a transparency service can create persistent and linkable metadata across P10 Adjudication Statements or instances. This profile does not define confidentiality, anonymization, unlinkability, access control, or retention policy.
 
 # IANA Considerations
 This document has no IANA actions.
@@ -600,7 +600,7 @@ This document has no IANA actions.
 
   **Mutation:** `Compatible := fun _ _ => true`
 
-  **Expected:** Fails `FormallyUnderdeterminationCapable`: constant `Evalπ` gives no `eᵘ`; nonconstant `Evalπ` gives no `eᵈ`. Empty `Wπ` makes `Determinateπ` false via `NonemptyCompatibleπ`. No case yields an underdetermination receipt.
+  **Expected:** Fails `FormallyUnderdeterminationCapable`: constant `Evalπ` gives no `eᵘ`; nonconstant `Evalπ` gives no `eᵈ`. Empty `Wπ` makes `Determinateπ` false via `NonemptyCompatibleπ`. No case yields a P10 Adjudication Statement with an underdetermination outcome.
 
 - **#:** M3
 
@@ -616,7 +616,7 @@ This document has no IANA actions.
 
 - **#:** M5
 
-  **Mutation:** Receipt without an earlier profile-registration entry
+  **Mutation:** P10 Adjudication Statement without an earlier profile-registration entry
 
   **Expected:** REJECT
 
@@ -652,13 +652,13 @@ This document has no IANA actions.
 
 - **#:** M11
 
-  **Mutation:** Bare in-toto predicate, standalone signed in-toto envelope, or SCITT Statement without the required Receipt
+  **Mutation:** Bare in-toto predicate, standalone signed in-toto envelope, or SCITT Statement without the required SCITT Receipt
 
   **Expected:** REJECT
 
 - **#:** M12
 
-  **Mutation:** Receipt derived from self-reported timestamps instead of {{full-prefix-replay}}
+  **Mutation:** P10 Adjudication Statement derived from self-reported timestamps instead of {{full-prefix-replay}}
 
   **Expected:** REJECT
 
@@ -682,7 +682,7 @@ This document has no IANA actions.
 
 - **#:** M16
 
-  **Mutation:** Missing closure/proof, receipt not after closure or not over exactly the closed set, or relevant admission after closure and before `S_R`
+  **Mutation:** Missing closure/proof, P10 Adjudication Statement not after closure or not over exactly the closed set, or relevant admission after closure and before `S_R`
 
   **Expected:** Missing closure/proof → HALT; wrong order or omitted, duplicated, injected, or post-closure evidence through `S_R` → REJECT
 
@@ -744,11 +744,11 @@ This document has no IANA actions.
 
   **Mutation:** Same `(issuer_id, request_id)` exists in L1 and L2
 
-  **Expected:** Each receipt claims completeness only within its committed L; no global uniqueness claim
+  **Expected:** Each P10 Adjudication Statement claims completeness only within its committed L; no global uniqueness claim
 
 - **#:** M27
 
-  **Mutation:** Receipt/replay uses a different TS `iss`, checkpoint key, VDS algorithm, or leaf encoding from committed `LogIdentityV0`
+  **Mutation:** SCITT Receipt or replay input uses a different TS `iss`, checkpoint key, VDS algorithm, or leaf encoding from committed `LogIdentityV0`
 
   **Expected:** REJECT
 
@@ -766,7 +766,7 @@ This document has no IANA actions.
 
 - **#:** M30
 
-  **Mutation:** Issuer-signed P10 payload contains `S_R`, receipt ref, or final replay/coverage result
+  **Mutation:** Issuer-signed P10 payload contains `S_R`, SCITT Receipt reference, or final replay/coverage result
 
   **Expected:** REJECT; post-registration values MUST remain outside the payload
 
@@ -806,7 +806,7 @@ This document has no IANA actions.
 
   **Test:** `Compatibleπ` is strict only for frozen `eᵈ` and trivially `true` for all other evidence in `Eπ`
 
-  **Expected:** Formally passes `FormallyUnderdeterminationCapable`. **Not** a soundness hole in the Lean core or a claim counterexample: the issued receipt proves the true proposition `Underdeterminedπ(e, c)` relative to the profile. An independent profile-adequacy review catches it, and the receipt carries the AP1 limitation ({{security-considerations}}). Not part of the mathematical core.
+  **Expected:** Formally passes `FormallyUnderdeterminationCapable`. **Not** a soundness hole in the Lean core or a claim counterexample: the issued P10 Adjudication Statement proves the true proposition `Underdeterminedπ(e, c)` relative to the profile. An independent profile-adequacy review catches it, and the P10 Adjudication Statement carries the AP1 limitation ({{security-considerations}}). Not part of the mathematical core.
 
 **Profile-adequacy review** is mandatory for every concrete profile before first use, beginning with the Sandia EFC profile. It is a separate gate outside this document.
 
@@ -845,7 +845,7 @@ Each item in the following list is one row of the prior-art table.
 
   **Existing coverage:** Defines mechanism-independent determinability requirements for agent transitions. DET-2 requires the specific governing-condition revision to have governed the transition at decision time; prior signing or registration, or availability among multiple compatible candidates, is insufficient. Its candidates are governing-condition sets or policy revisions, not possible worlds assigning different values to an evidential claim. It also requires omission detection or an explicit result that completeness cannot be established when completeness is material.
 
-  **What it does not cover relative to {{introduction}}:** Defines no evidence format, token, audit system, registry, or transparency service. It does not specify a pre-evidence world class with executable `Compatibleπ` and `Evalπ`, a receipt-carried divergent-world pair, Lean certificate checking, or P10-style checkpoint-bounded evidence closure. P10 does not equate its verifier-time recomputation with Wadkins's claim that governing conditions controlled a downstream transition at decision time.
+  **What it does not cover relative to {{introduction}}:** Defines no evidence format, token, audit system, registry, or transparency service. It does not specify a pre-evidence world class with executable `Compatibleπ` and `Evalπ`, a divergent-world pair carried by a P10 Adjudication Statement, Lean certificate checking, or P10-style checkpoint-bounded evidence closure. P10 does not equate its verifier-time recomputation with Wadkins's claim that governing conditions controlled a downstream transition at decision time.
 
 - **Work / system:** **The `verification.*` Constraint Family (`draft-krausz-verification-state-02`)** ({{KRAUSZ-02}}) — inspected 2026-09-27
 
