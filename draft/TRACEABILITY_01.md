@@ -172,7 +172,7 @@ Interpretation: conservative liveness loss / soundness-preserving incompleteness
 
 ## 8. Preconditions before first `-01` prose edit
 
-- [ ] Ivan ratifies or rejects candidate E03.
+- [x] Ivan ratified E03 on 2026-10-10; signed tag `v0.1.1-draft01-e03-ratified`.
 - [ ] Machine-assisted exact-source `receipt` occurrence scan is recorded and reconciled with Section 4.
 - [ ] R40 is resolved.
 - [ ] Any identifier rename proposal (`receipt_checkpoint_ref`, `receipt.*`) is either explicitly rejected or separately authorized; default is preserve.

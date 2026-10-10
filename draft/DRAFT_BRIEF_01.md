@@ -75,7 +75,7 @@ Schema SHA-256:
 
 For `-01`, E02 is an **interpretive record**, not evidence that profile v0.1.1 gained a field or requirement.
 
-### 4.3 E03 — CANDIDATE, RATIFIED by Ivan Nestorov on 2026-10-10
+### 4.3 E03 — human-ratified interpretive record
 
 **Source location:** profile v0.1.1 §2.6, the single use of `S_C`:
 
@@ -91,7 +91,7 @@ For `-01`, E02 is an **interpretive record**, not evidence that profile v0.1.1 g
 
 **Why this is intended to be semantics-preserving:** the three fields already appear in the issuer-signed field list and in the closure/replay structure. E03 does not create a field, checkpoint, digest, acceptance condition, or new ordering rule.
 
-**Status:** `PENDING HUMAN RATIFICATION`. Until Ivan explicitly ratifies E03, `-01` MUST NOT label it as a ratified erratum.
+**Status:** `RATIFIED` by Ivan Nestorov on 2026-10-10. Signed tag: `v0.1.1-draft01-e03-ratified` → commit `ea055cce47de3f1e741d91cd921d5916a8a16936`. This ratification is limited to the E03 interpretation and changes no P10 v0.1.1 semantics.
 
 ## 5. Profile vs. executed instance
 
@@ -286,7 +286,7 @@ Rules:
 ## 11. Drafting / gate sequence
 
 1. Freeze this brief and the initial traceability matrix as candidate planning artifacts only.
-2. Ivan explicitly ratifies or rejects candidate E03.
+2. E03 ratification recorded: Ivan Nestorov, 2026-10-10, `v0.1.1-draft01-e03-ratified`.
 3. Complete the machine-assisted occurrence audit of `receipt` / `Receipt` against exact v0.1.1 bytes.
 4. Promote the occurrence matrix to gate-complete status.
 5. Create `draft-nestorov-scitt-p10-underdetermination-01.md` from `-00`; do not edit the profile source artifact.
@@ -302,7 +302,7 @@ Rules:
 
 The following are intentionally unresolved and block final `-01` prose where relevant:
 
-- E03 is **not ratified yet**.
+- E03 is **ratified**; no E03 ratification STOP remains.
 - Receipt terminology audit is **initial**, not gate-complete.
 - Exact public/private artifact set for Appendix C has not been selected by Ivan.
 - `-01` source/build hashes do not exist until the source is created and built.
