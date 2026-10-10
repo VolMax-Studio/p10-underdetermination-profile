@@ -287,8 +287,8 @@ Rules:
 
 1. Freeze this brief and the initial traceability matrix as candidate planning artifacts only.
 2. E03 ratification recorded: Ivan Nestorov, 2026-10-10, `v0.1.1-draft01-e03-ratified`.
-3. Complete the machine-assisted occurrence audit of `receipt` / `Receipt` against exact v0.1.1 bytes.
-4. Promote the occurrence matrix to gate-complete status.
+3. Machine-assisted `receipt` / `Receipt` audit completed against exact v0.1.1 bytes: 56/56 occurrences classified, 0 ambiguous.
+4. Resolve remaining terminology-edit prerequisites, including M13/M14 verbatim-byte compatibility.
 5. Create `draft-nestorov-scitt-p10-underdetermination-01.md` from `-00`; do not edit the profile source artifact.
 6. Apply only rows classified `NO semantic change` or informative instance/implementation prose.
 7. Update full BCP 14 traceability and lowercase-modal tables inherited from `-00`.
@@ -303,7 +303,7 @@ Rules:
 The following are intentionally unresolved and block final `-01` prose where relevant:
 
 - E03 is **ratified**; no E03 ratification STOP remains.
-- Receipt terminology audit is **initial**, not gate-complete.
+- Receipt occurrence classification is **machine-reconciled: 56/56, 0 ambiguous**; M13/M14 remain held for verbatim-byte compatibility.
 - Exact public/private artifact set for Appendix C has not been selected by Ivan.
 - `-01` source/build hashes do not exist until the source is created and built.
 

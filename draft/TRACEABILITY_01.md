@@ -65,11 +65,22 @@ Status: `RATIFIED` by Ivan Nestorov on 2026-10-10.
 
 Signed tag: `v0.1.1-draft01-e03-ratified` → commit `ea055cce47de3f1e741d91cd921d5916a8a16936`.
 
-## 4. Receipt terminology audit — INITIAL
+## 4. Receipt terminology audit — MACHINE-RECONCILED
 
 **Purpose:** prevent a mass rename from changing SCITT semantics or quoted/prior-art terminology.
 
-**Gate rule:** before any terminology edit, an automated exact-source scan must confirm the complete match count against the v0.1.1 SHA-256 above. This table is an initial manually grounded audit from the exact tagged source and the existing `-00` traceability. It MUST NOT be marked gate-complete until that machine scan is recorded.
+**Machine reconciliation:** the exact pinned v0.1.1 source was scanned case-insensitively for every `receipt` substring occurrence.
+
+- source SHA-256: `b92c0d689b9f16f2184ba2addb8653ed881595cc3a0117c62cadadf5c6dc6558`
+- raw occurrence inventory: `draft/RECEIPT_OCCURRENCES_01.tsv`
+- inventory SHA-256: `354b3d7856028e894ed39c7c3391cd3355de72c3e79b78cd59f907fcb479eac4`
+- exact raw occurrences: **56**
+- exact classifications: **56/56**
+- ambiguous classifications: **0**
+- authoritative candidate reconciliation: `draft/RECEIPT_RECONCILIATION_01.md`
+- reconciliation SHA-256: `e39304421ee160a8da64025dcb397beaba7642563bfa923bf1385506dedef9b8`
+
+The R01–R45 table below is retained as the initial human audit for provenance; where its grouping differs from the raw machine inventory, the 56-row reconciliation artifact is authoritative for `-01` terminology planning.
 
 Classes:
 
@@ -120,7 +131,7 @@ Classes:
 | R37 | M12: “Receipt derived from self-reported timestamps” | P10_OBJECT | Rename P10 referent only | NO |
 | R38 | M16: “receipt not after closure or not over exactly the closed set” | P10_OBJECT | Rename P10 referent only | NO |
 | R39 | M26: “Each receipt claims completeness only within its committed L” | P10_OBJECT | Rename P10 referent only | NO |
-| R40 | M27: “Receipt/replay uses a different TS iss, checkpoint key, VDS algorithm, or leaf encoding …” | AMBIGUOUS | STOP: resolve whether test names outer SCITT Receipt, P10 object, or combined verification input before editing | HOLD |
+| R40 | M27: “Receipt/replay uses a different TS iss, checkpoint key, VDS algorithm, or leaf encoding …” | SCITT_RECEIPT_OR_REPLAY_INPUT | Do not rename to P10 Adjudication Statement; mutation checks the transparency-log identity used by the SCITT Receipt/replay path | NO |
 | R41 | M30: “receipt ref” in issuer-signed payload | SCITT_RECEIPT / IDENTIFIER | Preserve semantics; use explicit `SCITT Receipt reference` in prose if rewritten | NO |
 | R42 | M35: `receipt.verifier_digest` | IDENTIFIER_OR_FIELD | Do not rename without schema/API compatibility decision | HOLD |
 | R43 | AP1 result text: “issued receipt proves …” | P10_OBJECT | Rename P10 referent only | NO |
@@ -137,7 +148,7 @@ These are not ordinary P10 `receipt` prose and MUST be protected from naive subs
 - `receipt.verifier_digest` — schema/formal identifier in mutation test M35.
 - plural `receipts` in descriptions of external JWS receipt systems / cross-instance metadata — classify by context, do not globally replace.
 
-**Initial gate finding:** R40 is intentionally `AMBIGUOUS`. Any global replacement is therefore prohibited.
+**Machine-reconciled gate finding:** former R40 is resolved as `SCITT_RECEIPT_OR_REPLAY_INPUT`. No `AMBIGUOUS` receipt occurrence remains. Global replacement remains prohibited because classifications are occurrence-specific.
 
 ## 5. S2a implementation limitation mapping
 
@@ -173,8 +184,8 @@ Interpretation: conservative liveness loss / soundness-preserving incompleteness
 ## 8. Preconditions before first `-01` prose edit
 
 - [x] Ivan ratified E03 on 2026-10-10; signed tag `v0.1.1-draft01-e03-ratified`.
-- [ ] Machine-assisted exact-source `receipt` occurrence scan is recorded and reconciled with Section 4.
-- [ ] R40 is resolved.
+- [x] Machine-assisted exact-source `receipt` occurrence scan recorded: 56/56 classified, 0 ambiguous.
+- [x] R40 resolved as `SCITT_RECEIPT_OR_REPLAY_INPUT`; no P10-object rename.
 - [ ] Any identifier rename proposal (`receipt_checkpoint_ref`, `receipt.*`) is either explicitly rejected or separately authorized; default is preserve.
 - [ ] Mandatory limitation-byte implications are resolved before changing wording inside text that is frozen/bound verbatim by an implementation/schema.
 - [ ] RFC 7942 section skeleton contains removal notice and exact artifact/license boundaries.
