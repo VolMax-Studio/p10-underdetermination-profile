@@ -104,8 +104,8 @@ Classes:
 | R10 | §2.7: “codec digest is part of the profile and receipt” | P10_OBJECT | Rename P10 referent only | NO |
 | R11 | §3 AP1 heading: “mandatory in the receipt” | P10_OBJECT | Rename to P10 Adjudication Statement | NO |
 | R12 | §3 coverage/instance heading: “mandatory in the receipt” | P10_OBJECT | Rename to P10 Adjudication Statement | NO |
-| R13 | §3 mandatory limitation text: “This receipt establishes completeness …” | P10_OBJECT | Rename P10 referent only; limitation bytes require separate byte-compatibility decision before any normative-byte claim | HOLD |
-| R14 | same limitation: “This receipt establishes uniqueness …” | P10_OBJECT | Same as R13 | HOLD |
+| R13 | §3 mandatory limitation text: “This receipt establishes completeness …” | P10_OBJECT | Preserve legacy `receipt` literal inside frozen P10 v0.1 limitation bytes; use `P10 Adjudication Statement` in descriptive prose | NO |
+| R14 | same limitation: “This receipt establishes uniqueness …” | P10_OBJECT | Same frozen-literal treatment as R13 | NO |
 | R15 | §3: “included in the receipt's limitations field” | P10_OBJECT | Rename P10 referent, but preserve actual `limitations` field | NO |
 | R16 | §4 identifier `receipt_checkpoint_ref` | IDENTIFIER_OR_FIELD | Preserve unless schema compatibility decision explicitly changes it | HOLD |
 | R17 | §4 comment: “SCITT Receipt in COSE unprotected label 394” | SCITT_RECEIPT | Preserve | NO |
@@ -137,6 +137,16 @@ Classes:
 | R43 | AP1 result text: “issued receipt proves …” | P10_OBJECT | Rename P10 referent only | NO |
 | R44 | AP1 result text: “receipt carries the AP1 limitation” | P10_OBJECT | Rename P10 referent only | NO |
 | R45 | §8 source snapshot: “standard SCITT Receipt in COSE … 394” | SCITT_RECEIPT | Preserve | NO |
+
+### Frozen M13/M14 compatibility decision
+
+M13/R13 and M14/R14 are semantically P10-object occurrences, but their exact wording is part of the frozen P10 v0.1 `limitations` constant.
+
+The frozen `StatementPayloadSchemaV0` r9 has SHA-256 `7fc847ea66114f87b22e79b5c93f55d80d3e92923b613a9ad8efee17df92a455`. The canonical bare `limitations` array is 5718 bytes with SHA-256 `7c9252664b112621087d0a74b3f8fd5ec50f9ed912cc0d1a611bc227d3d15214`. The S2b implementation checks those canonical bytes and digest exactly.
+
+Therefore `-01` MUST preserve the legacy literal `receipt` inside those two frozen strings. Outside the frozen constant, descriptive prose uses `P10 Adjudication Statement`. The retained legacy literal does not denote a SCITT Receipt.
+
+This is a compatibility-preserving editorial decision: **Changed semantics? NO**.
 
 ### Protected substring / name audit
 
@@ -186,9 +196,9 @@ Interpretation: conservative liveness loss / soundness-preserving incompleteness
 - [x] Ivan ratified E03 on 2026-10-10; signed tag `v0.1.1-draft01-e03-ratified`.
 - [x] Machine-assisted exact-source `receipt` occurrence scan recorded: 56/56 classified, 0 ambiguous.
 - [x] R40 resolved as `SCITT_RECEIPT_OR_REPLAY_INPUT`; no P10-object rename.
-- [ ] Any identifier rename proposal (`receipt_checkpoint_ref`, `receipt.*`) is either explicitly rejected or separately authorized; default is preserve.
-- [ ] Mandatory limitation-byte implications are resolved before changing wording inside text that is frozen/bound verbatim by an implementation/schema.
+- [x] Identifier renames are not authorized for the `-01` editorial pass; `receipt_checkpoint_ref` and `receipt.*` identifiers are preserved by default.
+- [x] Mandatory limitation-byte implications resolved: M13/M14 preserve the frozen P10 v0.1 literal; canonical bytes and digest remain unchanged.
 - [ ] RFC 7942 section skeleton contains removal notice and exact artifact/license boundaries.
 - [ ] Full inherited BCP 14 traceability from `-00` is carried forward and updated only after draft text exists.
 
-Until these checks are complete, the correct state is **PRE-DRAFT / PREPARED, NOT RATIFIED**.
+Remaining unchecked items are drafting/build/publication prerequisites; the receipt terminology gate itself is complete. The correct state remains **PRE-DRAFT / PREPARED, NOT RATIFIED**.

@@ -1,6 +1,6 @@
 # Receipt Occurrence Reconciliation — draft-01
 
-**Status:** CANDIDATE / MACHINE-RECONCILED, NOT YET GATE-COMPLETE.
+**Status:** CANDIDATE / MACHINE-RECONCILED, TERMINOLOGY GATE COMPLETE.
 
 - Source: `P10_Underdetermination_Profile_v0.1.1.md`
 - Source SHA-256: `b92c0d689b9f16f2184ba2addb8653ed881595cc3a0117c62cadadf5c6dc6558`
@@ -32,11 +32,33 @@ Former R40 corresponds to machine occurrence `M44`. It is classified as `SCITT_R
 
 - `CLARIFY_AS_SCITT_RECEIPT_REFERENCE`: 1
 - `CLARIFY_ONLY_NO_P10_RENAME`: 1
-- `HOLD_VERBATIM_BYTE_COMPATIBILITY`: 2
+- `PRESERVE_FROZEN_V0_1_LITERAL`: 2
 - `PRESERVE_EXTERNAL_TERM`: 20
 - `PRESERVE_IDENTIFIER`: 3
 - `PRESERVE_SCITT_RECEIPT`: 10
 - `RENAME_TO_P10_ADJUDICATION_TERM`: 19
+
+## Frozen limitation-byte compatibility decision — RESOLVED
+
+M13 and M14 are P10-object terminology occurrences, but both occur inside the mandatory `COVERAGE_INSTANCE` limitation value whose exact bytes are frozen by `StatementPayloadSchemaV0` r9.
+
+Compatibility pins:
+
+- S2b public implementation pin: commit `8e89f9a4192bdd0ab280556701dc595eb55539d2`
+- frozen schema SHA-256: `7fc847ea66114f87b22e79b5c93f55d80d3e92923b613a9ad8efee17df92a455`
+- canonical `limitations` length: **5718 bytes**
+- `SHA-256(JCS(limitations))`: `7c9252664b112621087d0a74b3f8fd5ec50f9ed912cc0d1a611bc227d3d15214`
+- the S2b implementation requires byte-exact `JCS(limitations) == LIMITATIONS_JCS` and exact `limitations_digest` equality.
+
+Decision for draft `-01`:
+
+- preserve the literal word `receipt` at M13 and M14 inside the frozen P10 v0.1 limitation value;
+- classify both treatments as `PRESERVE_FROZEN_V0_1_LITERAL`;
+- use `P10 Adjudication Statement` in descriptive prose outside that frozen constant;
+- the retained legacy word `receipt` in these two strings denotes the P10 adjudication object, not a SCITT Receipt;
+- `Changed semantics? = NO`.
+
+This resolves the byte-compatibility HOLD without changing frozen wire bytes, the limitations digest, or profile semantics.
 
 ## Exact occurrence matrix
 
@@ -54,8 +76,8 @@ Former R40 corresponds to machine occurrence `M44`. It is classified as `SCITT_R
 | M10 | L286:C190 | `receipt` | `P10_OBJECT` | `RENAME_TO_P10_ADJUDICATION_TERM` |
 | M11 | L312:C46 | `receipt` | `P10_OBJECT` | `RENAME_TO_P10_ADJUDICATION_TERM` |
 | M12 | L316:C60 | `receipt` | `P10_OBJECT` | `RENAME_TO_P10_ADJUDICATION_TERM` |
-| M13 | L318:C8 | `receipt` | `P10_OBJECT` | `HOLD_VERBATIM_BYTE_COMPATIBILITY` |
-| M14 | L318:C713 | `receipt` | `P10_OBJECT` | `HOLD_VERBATIM_BYTE_COMPATIBILITY` |
+| M13 | L318:C8 | `receipt` | `P10_OBJECT` | `PRESERVE_FROZEN_V0_1_LITERAL` |
+| M14 | L318:C713 | `receipt` | `P10_OBJECT` | `PRESERVE_FROZEN_V0_1_LITERAL` |
 | M15 | L324:C44 | `receipt` | `P10_OBJECT` | `RENAME_TO_P10_ADJUDICATION_TERM` |
 | M16 | L355:C1 | `receipt` | `IDENTIFIER_OR_FIELD` | `PRESERVE_IDENTIFIER` |
 | M17 | L355:C49 | `Receipt` | `SCITT_RECEIPT` | `PRESERVE_SCITT_RECEIPT` |
@@ -106,5 +128,6 @@ Former R40 corresponds to machine occurrence `M44`. It is classified as `SCITT_R
 - `AMBIGUOUS` occurrence classification: **0**
 - Former R40 semantic ambiguity resolved: **YES, candidate review**
 - Identifier renames authorized: **NO — preserve by default**
-- Mandatory limitation-byte wording resolved: **NO — M13/M14 remain HOLD**
+- Mandatory limitation-byte wording resolved: **YES — M13/M14 preserve the frozen P10 v0.1 literal**
+- Occurrence-level terminology treatment complete: **YES — 56/56, 0 ambiguous, 0 unresolved terminology occurrences**
 - Terminology edits to `-01` authorized by this file alone: **NO**
