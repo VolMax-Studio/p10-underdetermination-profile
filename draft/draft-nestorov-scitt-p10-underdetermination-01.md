@@ -477,7 +477,7 @@ CoverageProofπ(ι, S_R) verifies:
 ~~~ text
 instance_commitment_ref       -- before the first admission
 profile_commitment_ref
-  -- profile registration in L + checkpoint S₁
+  -- profile registration in L
 evidence_admission_refs
   -- all instance admissions covered by the closure
 evidence_closure_ref
@@ -499,6 +499,8 @@ outcome = NotDemonstrated(reason=underdetermined)
 ~~~
 
 In the issuer-signed field list above, `instance_commitment_ref` is specified in {{instance-commitment-and-subject}}; `evidence_closure_ref` and `preclosure_transcript_digest` in {{evidence-closure-and-checkpoint-bounded-coverage}}; `log_identity_digest` in {{full-prefix-replay}}; `codec_digest` in {{canonical-encoding}}; and the proofs bound by `capability_proof_digest` in {{issuance-conditions}}.
+
+Profile v0.1.1 used `S₁` as editorial outline notation. It introduces no additional wire field, VDS checkpoint, or acceptance condition. Profile v0.1.1 §2.6 also used undefined editorial shorthand `S_C`; it introduces no additional wire field, VDS checkpoint, digest, or acceptance condition. In context, the issuer-signed closure-related bindings are the already defined `evidence_closure_ref`, `evidence_admission_refs`, and `preclosure_transcript_digest`.
 
 **Outside the issuer-signed payload, obtained only after registration:**
 
@@ -912,7 +914,7 @@ The following sources were inspected directly on 2026-09-23, with the two identi
 # Document History
 {:numbered="false"}
 
-`-00`: Internet-Draft transcription of P10 Underdetermination Profile v0.1.1 ({{P10-V011}}), applying ratified Erratum E01 by replacing obsolete notation `S_C` in the evidence-closure section with the actual issuer-signed payload fields, plus citation repairs and informative IETF framing; no other normative change.
+`-00`: Internet-Draft transcription of P10 Underdetermination Profile v0.1.1 ({{P10-V011}}), applying ratified Erratum E01 by replacing the profile's undefined editorial notation `S_C` in the evidence-closure section with the actual issuer-signed payload fields, plus citation repairs and informative IETF framing; no other normative change. The earlier characterization of `S_C` as “obsolete notation” is corrected in `-01`; human-ratified E03 records that it was undefined editorial shorthand and introduced no additional wire field, VDS checkpoint, digest, or acceptance condition.
 
 ## v0.1.1 — 2026-09-27
 {:numbered="false"}

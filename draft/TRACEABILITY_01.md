@@ -1,6 +1,6 @@
-# Initial Traceability Matrix — `draft-nestorov-scitt-p10-underdetermination-01`
+# Traceability Matrix — `draft-nestorov-scitt-p10-underdetermination-01`
 
-**Status:** INITIAL / PRE-DRAFT. Not gate-complete. No `-01` source text has been authorized by this matrix.
+**Status:** ACTIVE / DRAFTING. The `-01` source exists and profile-derived edits remain constrained by `Changed semantics? = NO`. The draft is not ratified and publication is not authorized.
 
 **Primary source:** `P10_Underdetermination_Profile_v0.1.1.md`, SHA-256 `b92c0d689b9f16f2184ba2addb8653ed881595cc3a0117c62cadadf5c6dc6558`.
 
@@ -20,11 +20,11 @@ A required `YES` is a STOP condition and opens a possible new-profile-release de
 
 | ID | Source / baseline | Candidate `-01` treatment | Class | Changed semantics? | Authority / record | Status |
 |---|---|---|---|---|---|---|
-| D01 | I-D title contains “Receipts for SCITT” | Change document title to “P10 Underdetermination Profile: Adjudication Statements over SCITT”; keep I-D name unchanged | EDITORIAL | NO, subject to receipt occurrence audit | draft editorial decision | CANDIDATE |
-| D02 | v0.1.1 uses `receipt` for the P10 adjudication object in multiple places | Rename only occurrences classified `P10_OBJECT` | EDITORIAL TERMINOLOGY | NO, occurrence-by-occurrence only | receipt audit below | CANDIDATE |
+| D01 | I-D title contains “Receipts for SCITT” | Change document title to “P10 Underdetermination Profile: Adjudication Statements over SCITT”; keep I-D name unchanged | EDITORIAL | NO | `a1defd8` sterile `-01` baseline | APPLIED |
+| D02 | v0.1.1 uses `receipt` for the P10 adjudication object in multiple places | Rename only occurrences classified `P10_OBJECT`; preserve SCITT Receipt, identifiers, frozen literals, and external/prior-art terminology | EDITORIAL TERMINOLOGY | NO, occurrence-by-occurrence only | `3a60f77`; draft scan 65 total → 23 edited / 42 preserved | APPLIED |
 | D03 | v0.1.1 uses SCITT Receipt for `S_R` / COSE label 394 | Preserve term `SCITT Receipt` | UNCHANGED PROFILE | NO | RFC 9942/9943 terminology | REQUIRED |
-| D04 | `S₁` appears once without definition | Clarify as editorial outline notation; no new field/checkpoint/acceptance condition | HUMAN-RATIFIED INTERPRETIVE RECORD | NO | E02, ratified 2026-10-03 | RATIFIED RECORD |
-| D05 | `S_C` appears once without definition | Interpret as shorthand for already listed `evidence_closure_ref`, `evidence_admission_refs`, `preclosure_transcript_digest` | HUMAN-RATIFIED INTERPRETIVE RECORD | NO | E03, `v0.1.1-draft01-e03-ratified` | RATIFIED RECORD |
+| D04 | `S₁` appears once without definition | Clarify as editorial outline notation; no new field/checkpoint/acceptance condition | HUMAN-RATIFIED INTERPRETIVE RECORD | NO | E02, ratified 2026-10-03 | APPLIED FROM RATIFIED RECORD |
+| D05 | `S_C` appears once without definition | Interpret as shorthand for already listed `evidence_closure_ref`, `evidence_admission_refs`, `preclosure_transcript_digest` | HUMAN-RATIFIED INTERPRETIVE RECORD | NO | E03, `v0.1.1-draft01-e03-ratified` | APPLIED FROM RATIFIED RECORD |
 | D06 | Profile already requires full-prefix replay and authorized read access | Keep profile obligation unchanged | UNCHANGED PROFILE | NO | v0.1.1 §2.4 | REQUIRED |
 | D07 | S3 shows verifier/operator deployment needs auditor-equivalent content access | Describe in Appendix B.3 as substrate/operator requirement | INSTANCE PROSE | NO | S3 / RFC 9943 mapping | CANDIDATE |
 | D08 | S3 executed instance uses RFC9162_SHA256, LeafEncodeV0, LogIdentityV0, stable Receipt key, serialized registration | Describe as executed-instance parameters, not general P10 requirements | INSTANCE PROSE | NO | S3 accepted instance | CANDIDATE |
