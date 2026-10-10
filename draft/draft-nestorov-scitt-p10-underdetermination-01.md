@@ -49,6 +49,7 @@ normative:
     target: https://raw.githubusercontent.com/in-toto/attestation/06eafe3635bf8a425ad52cc82c6c90861e94a471/spec/v1/README.md
 
 informative:
+  RFC7942:
   P10-V011:
     title: "P10 Underdetermination Profile, version 0.1.1"
     author:
@@ -520,6 +521,95 @@ These post-registration values are P10 verifier output over the Transparent Stat
 Before accepting the epistemic outcome, the verifier MUST establish `ActiveProfileBindingV0`. Registration order proves when the committed object entered `L`; it is not by itself evidence that the object was used. P10 establishes verifier-time use by independently resolving the unique instance-bound profile and its `VerifierManifestV0`, matching every required artifact, constructing `CertificateTargetV0` from the committed inputs, and type-checking the submitted certificate against that target under exactly that resolved combination.
 
 **The only v0 envelope:** a SCITT Signed Statement ({{RFC9943}}) (`COSE_Sign1`, {{RFC9052}}) whose payload is an in-toto Statement v1 ({{IN-TOTO-STATEMENT}}) with the P10 predicate. After registration and attachment of a SCITT Receipt ({{RFC9942}}), it becomes a Transparent Statement. Profile commitment, instance commitment, evidence admissions, evidence closure, and final P10 adjudication statement use the same pattern, the same L, and the same protected CWT `sub`. A bare in-toto predicate, standalone signed in-toto envelope, or SCITT Statement without the required SCITT Receipt is insufficient. No new wire format is introduced.
+
+# Implementation Status {#implementation-status}
+
+This section records implementation status in the format recommended by {{RFC7942}}. It is intended to be removed before publication as an RFC.
+
+## Implementation {#implementation}
+
+A research prototype of the P10 verification chain has been implemented by VolMax Studio Lab d.o.o. The implementation comprises a Lean-checked S1 underdetermination component, the S2b replay verifier, the S2a coverage checker, post-S2a binding checks, and an S3 registration/capture path with replay tooling.
+
+The executed SCITT-facing instance used Tessera v1.0.4 as a transparency-log engine behind an S3-owned facade. Tessera itself was not treated as an off-the-shelf RFC 9943 Transparency Service, and the implementation does not claim general RFC 9943 or SCRAPI conformance for that facade.
+
+The Transparency Service registration path and the P10 verification path have distinct trust roles. A Transparency Service may verify a Signed Statement signature while processing registration as required by its registration procedure. P10 acceptance does not treat that operator-side check as verification evidence. During replay, S2b independently verifies the relevant Signed Statement signatures against the key-resolution material frozen for the instance.
+
+## Organization and Contact {#implementation-contact}
+
+The implementation is maintained by VolMax Studio Lab d.o.o.
+
+Contact: Ivan Nestorov, `volmax.core@gmail.com`
+
+## Maturity {#implementation-maturity}
+
+The implementation is a research prototype that has been exercised through an end-to-end P10-over-SCITT demonstration.
+
+It is not a production Transparency Service, a general-purpose SCITT implementation, or evidence of conformance for arbitrary P10 profiles or arbitrary SCITT deployments.
+
+## Implemented Functionality {#implemented-functionality}
+
+The implemented chain includes:
+
+* a Lean-checked S1 underdetermination certificate over the frozen demonstration profile, together with an instance-binding record subsequently checked against the target instance;
+* checkpoint-bounded replay over the authenticated ordered prefix committed by the executed instance;
+* verification of SCITT Receipt and checkpoint material against committed instance parameters;
+* independent verification of relevant Signed Statement signatures under frozen key-resolution material;
+* enforcement of the frozen `LogIdentityV0` and `LeafEncodeV0` parameters;
+* construction of the exact replay transcript `tB` consumed by S2a;
+* formally checked S2a coverage semantics over that transcript;
+* post-S2a validation of the target P10 Adjudication Statement, including consistency of the S1 certificate linkage, instance binding, evidence set, witnesses, profile, and accepted status; and
+* reproduction tooling for the executed demonstration.
+
+The execution order is S2b replay, followed by S2a coverage checking, followed by post-S2a binding. `ReplayResult::Verified` from S2b establishes only that replay reconstructed the exact `tB` required by S2a; it is not by itself an S2a acceptance result or a P10 epistemic verdict.
+
+For the executed instance, Tessera v1.0.4 supplied the transparency-log engine. A purpose-built S3 facade performed the P10-specific registration, SCITT Receipt construction, capture, and export functions required by that instance.
+
+## Demonstrated Execution {#demonstrated-execution}
+
+The prototype has been exercised against a captured P10-over-SCITT lifecycle and produced `BINDING_MATCH` for the accepted demonstration instance.
+
+In that execution, the target P10 Adjudication Statement was already a registered Signed Statement with a SCITT Receipt proving its inclusion in the selected VDS. It was an input to verification, not an output synthesized by the replay chain. S2b first reconstructed the replay transcript, S2a then checked coverage over that transcript, and post-S2a binding checked that the registered target statement matched the accepted S1 and S2a results.
+
+The accepted result was subsequently reproduced from retained artifacts through the offline replay path and through the Replay Workbench on a second host under the same operator. These reproductions establish reproducibility of the recorded demonstration under the pinned artifacts and implementation configuration. They do not constitute independent third-party attestation or general interoperability certification.
+
+## Implementation Experience {#implementation-experience}
+
+Two implementation findings are recorded here because they arose from executed verification paths rather than only from design analysis.
+
+First, the initially selected `serde_jcs` version 0.1.0 did not reproduce the RFC 8785 Section 3.2.3 property-ordering example in the executed probe. The observed implementation ordered object members using serialized key bytes rather than the UTF-16 code-unit ordering required by RFC 8785. The frozen dependency selection therefore failed its acceptance expectation and was replaced rather than compensated for inside the P10 logic.
+
+This finding is specific to `serde_jcs` 0.1.0. It is not a claim about later versions. Source review of version 0.2.0 shows UTF-16 key ordering, but that release requires a Rust toolchain newer than the Rust 1.82.0 toolchain frozen for the executed verifier. The implementation therefore selected `serde_json_canonicalizer` 0.3.2 and retained the frozen verifier semantics unchanged.
+
+Second, an early S3 integration dry run supplied RFC 9162 inclusion-proof material in a representation that did not satisfy the RFC 9942 Receipt encoding expected by the frozen replay decoder. The request was rejected with `ProofEntryNotBstr`. The facade-side representation was corrected so that the CBOR inclusion-proof content was wrapped in the required byte string, after which the subsequent dry run proceeded through that check.
+
+This second observation is an internal integration result, not an external validation result and not a finding against Tessera. Tessera supplied native transparency-log proof material; adapting that material into the RFC 9942 Receipt representation was the responsibility of the S3 facade. The observation illustrates an interoperability detail that implementations performing such adaptation need to handle explicitly.
+
+## Known Limitations and Non-Claims {#implementation-limitations}
+
+The demonstrated implementation has the following limitations and non-claims:
+
+* The demonstration instance uses deliberately minimal two-bit fixture semantics. It demonstrates execution and binding of the protocol chain, not adequacy of P10 over a realistic evidence domain.
+* The ratified S2a implementation has a liveness restriction that is stricter than the abstract profile. For an entry already present in the subject view, S2a attempts to obtain the payload before it can complete later semantic and authorization classification. An unavailable required payload therefore causes `HALT`, including when the entry might later have been classified as unauthorized. Where an attacker can cause such a same-subject entry to be registered and its required payload to remain unavailable, this can deny progress. It is an availability limitation, not a soundness failure: `HALT` produces no accepted epistemic verdict.
+* The S3 facade is not claimed to be generally conformant with RFC 9943 or SCRAPI.
+* The executed instance fixes `LeafEncodeV0` and its VDS identity. The demonstration therefore does not establish interoperability with arbitrary RFC 9162 or SCITT services that use a different leaf mapping.
+* The presence of a Registration Policy or other policy statement in the authenticated prefix proves only that those bytes were registered. P10 does not infer that the Transparency Service enforced the policy described by those bytes.
+* The demonstration does not establish independence of the implementation author, operator, evidence producer, or reproduction environment.
+* The demonstration does not establish unclean-crash consistency, multi-writer behavior, key rotation, or witness operation for the transparency-log configuration.
+* It does not establish absence of evidence outside the scope committed by the P10 instance.
+* It does not establish that registration order represents statement creation, issuance, or first-observation order.
+* It does not establish correctness of arbitrary P10 profiles beyond the profile and artifacts exercised by the recorded demonstration.
+
+## Code and Artifact Availability {#code-and-artifact-availability}
+
+The implementation is split across separately pinned repositories and does not have one common licensing status.
+
+* `VolMax-Studio/p10-underdetermination-profile` is public and is distributed under the MIT License.
+* `VolMax-Studio/p10-underdetermination-lean-s1` is public. At the ratified S1 tag used by the demonstration, the repository has no root license file; this document therefore infers no license grant from source availability.
+* `VolMax-Studio/p10-coverage-lean-s2` is public. At the ratified S2a tag, the repository states that no license has been selected, that rights are reserved, and that no license grant is provided.
+* `VolMax-Studio/p10-replay-verifier` has a public S2b export under the MIT OR Apache-2.0 licensing terms stated by that repository.
+* `VolMax-Studio/p10-scitt-transparency-s3`, including the demonstration facade and Replay Workbench evidence, is private. At the accepted S3 tag it has no root license file; no public license grant is claimed.
+
+Exact source commits, frozen specifications, manifests, capture artifacts, and reproduction pins for the executed instance are recorded separately in the reproduction material for this revision.
 
 # Security Considerations
 
