@@ -51,6 +51,23 @@ normative:
 informative:
   RFC7942:
   RFC2606:
+  RFC9679:
+    title: "CBOR Object Signing and Encryption (COSE) Key Thumbprint"
+    author:
+      - ins: K. Isobe
+        name: Kohei Isobe
+        org: SECOM CO., LTD.
+      - ins: H. Tschofenig
+        name: Hannes Tschofenig
+        org: University of Applied Sciences Bonn-Rhein-Sieg
+      - ins: O. Steele
+        name: Orie Steele
+        org: Transmute
+    date: 2024-12
+    seriesinfo:
+      RFC: "9679"
+      DOI: 10.17487/RFC9679
+    target: https://www.rfc-editor.org/info/rfc9679
   SCRAPI-11:
     title: "Supply Chain Integrity, Transparency, and Trust (SCITT) Reference APIs"
     author:
@@ -361,7 +378,8 @@ Every artifact digest above binds both the exact bytes and its frozen artifact i
 ¬ProfileAdmissible(π, c) →
   preflight HALT, no verdict
 ¬FormallyUnderdeterminationCapable(π, c) →
-  profile MUST NOT issue a P10 Adjudication Statement with an underdetermination outcome
+  profile MUST NOT issue a P10 Adjudication Statement
+    with an underdetermination outcome
 ~~~
 
 For infinite `Wπ`, `Underdeterminedπ` is still checked with a concrete witness pair and decidable `Compatibleπ` and `Evalπ`. `Determinateπ(eᵈ, c)` is a universal claim: the verifier accepts a Lean proof term, but generation of such a proof is not guaranteed. If no proof term is available, preflight MUST return `HALT`, not an epistemic verdict.
@@ -969,7 +987,7 @@ The executed instance used `RFC9162_SHA256` as its VDS algorithm and the frozen 
 
 The Receipt issuer identifier was `https://ts.example/volmax-s3`. The `.example` namespace is reserved for documentation and examples ({{RFC2606}}); the Transparency Service used for this demonstration was not publicly reachable and is not offered as a public service.
 
-The deployment used detached-payload ES256 Receipts with low-S signatures and one committed Receipt key for the complete capture. The RFC 9679 thumbprint of that key was `6bc5b0ae47f8726379ffbfb0e0858fe10ef74ba5b8801edeba0b3d3b89944056`. The retained checks verified each of the eight returned Receipts under that same committed key. This does not mean that the thumbprint was carried as a field in every Receipt.
+The deployment used detached-payload ES256 Receipts with low-S signatures and one committed Receipt key for the complete capture. The {{RFC9679}} thumbprint of that key was `6bc5b0ae47f8726379ffbfb0e0858fe10ef74ba5b8801edeba0b3d3b89944056`. The retained checks verified each of the eight returned Receipts under that same committed key. This does not mean that the thumbprint was carried as a field in every Receipt.
 
 ## Transparency-Service Access Requirements {#executed-ts-access}
 
@@ -987,9 +1005,11 @@ The executed bootstrap used an issuer table supplied to the facade out of band. 
 
 For registration, the facade authenticated submitted Signed Statements with ES256 against the preconfigured issuer table before append. This was an operator-side registration check only. The P10 replay path did not accept that check as verifier evidence; S2b independently verified relevant Signed Statement signatures against the key-resolution material frozen for the instance.
 
-The actual eight-leaf layout was as follows. `S` denotes the instance subject `p10s2sub:0fe1be115beb770330930911e69e4f2026c80809c64ada16e87fe63e7f9150d2`.
+The actual eight-leaf layout was as follows. `S` denotes the instance subject formed by concatenating the `p10s2sub:` prefix with this suffix:
 
-| Index | Role | `iss` | `sub` |
+    0fe1be115beb770330930911e69e4f2026c80809c64ada16e87fe63e7f9150d2
+
+| Index | Role | iss | sub |
 |---:|---|---|---|
 | 0 | policy declaration | `volmax-s3-operator` | `urn:volmax:s3:policy-declaration` |
 | 1 | verification-material declaration | `volmax-s3-operator` | `urn:volmax:s3:verification-material-declaration` |
@@ -1515,6 +1535,8 @@ The following sources were inspected directly on 2026-09-23, with the two identi
 
 # Document History
 {:numbered="false"}
+
+`-01`: Clarifies the profile/instance/deployment boundary; uses “P10 Adjudication Statement” consistently for the P10 object while reserving “SCITT Receipt” for the RFC 9942 transparency proof; applies the ratified E02/E03 editorial clarifications; adds the RFC 7942 Implementation Status section, the informative executed-instance appendix, and the reproduction/artifact-pin appendix; records the executed S1/S2a/S2b/S3 demonstration and later same-operator reproductions with explicit evidence ceilings; and repairs/extends informative references including SCRAPI and RFC 9679. No profile semantics change is introduced by this revision.
 
 `-00`: Internet-Draft transcription of P10 Underdetermination Profile v0.1.1 ({{P10-V011}}), applying ratified Erratum E01 by replacing the profile's undefined editorial notation `S_C` in the evidence-closure section with the actual issuer-signed payload fields, plus citation repairs and informative IETF framing; no other normative change. The earlier characterization of `S_C` as “obsolete notation” is corrected in `-01`; human-ratified E03 records that it was undefined editorial shorthand and introduced no additional wire field, VDS checkpoint, digest, or acceptance condition.
 
