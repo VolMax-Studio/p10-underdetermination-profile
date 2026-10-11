@@ -50,6 +50,7 @@ normative:
 
 informative:
   RFC7942:
+  RFC2606:
   P10-V011:
     title: "P10 Underdetermination Profile, version 0.1.1"
     author:
@@ -901,6 +902,110 @@ This document has no IANA actions.
   **Expected:** Formally passes `FormallyUnderdeterminationCapable`. **Not** a soundness hole in the Lean core or a claim counterexample: the issued P10 Adjudication Statement proves the true proposition `Underdeterminedπ(e, c)` relative to the profile. An independent profile-adequacy review catches it, and the P10 Adjudication Statement carries the AP1 limitation ({{security-considerations}}). Not part of the mathematical core.
 
 **Profile-adequacy review** is mandatory for every concrete profile before first use, beginning with the Sandia EFC profile. It is a separate gate outside this document.
+
+# Executed P10-over-SCITT Instance {#executed-instance}
+
+This appendix is informative. It describes one executed P10-over-SCITT instance and does not add conformance requirements beyond the body of this document. Exact reproduction and artifact pins are recorded separately in Appendix C.
+
+## Instance Boundary {#executed-instance-boundary}
+
+The executed instance was bounded by three repository states. Commit `7c3b2d4b919c356a566f8f5d3628d4f546e41afa`, referenced by the signed `v0.1.0-s3a-frozen` tag, froze the S3-A deployment definition. Commit `149953c29780e566b0b23f7a1b975dc93349daf2` recorded the normative S3-B capture and its operator-generated anchor before verification. Commit `5acc277a13dc122e39fcb5f9f3e646b06cc95009`, referenced by the signed `v0.1.0-s3-accepted` tag, recorded the accepted verification result.
+
+The capture commit is a direct descendant of the frozen deployment definition, and the result commit is the next repository state after the capture commit. This ordering is repository provenance for capture-before-verification. The anchor was generated and recorded by the same operator; it is not an independent timestamp, external notarization, or third-party anchor.
+
+Later offline packaging, second-host replay, and Replay Workbench evidence were produced after the accepted result. They are reproduction evidence and are not part of the executed-instance boundary defined above.
+
+## Statement and Encoding Parameters {#executed-statement-parameters}
+
+The executed instance used `RFC9162_SHA256` as its VDS algorithm and the frozen `LeafEncodeV0` mapping for the exact pre-Receipt Signed Statement bytes. Its committed `LogIdentityV0` digest was `6a510bcf3a122ae9af2714939d60a6a4e997ff9751836024dd480ebd60cd37c9`. The checkpoint origin was `volmax-s3/ts`.
+
+The Receipt issuer identifier was `https://ts.example/volmax-s3`. The `.example` namespace is reserved for documentation and examples ({{RFC2606}}); the Transparency Service used for this demonstration was not publicly reachable and is not offered as a public service.
+
+The deployment used detached-payload ES256 Receipts with low-S signatures and one committed Receipt key for the complete capture. The RFC 9679 thumbprint of that key was `6bc5b0ae47f8726379ffbfb0e0858fe10ef74ba5b8801edeba0b3d3b89944056`. The retained checks verified each of the eight returned Receipts under that same committed key. This does not mean that the thumbprint was carried as a field in every Receipt.
+
+## Transparency-Service Access Requirements {#executed-ts-access}
+
+P10 replay for this instance consumed the exact, complete, checkpoint-bounded `[0,8)` sequence of registered Signed Statement bytes as deterministic replay input. The retained capture also included the retained Receipts, signed checkpoints, response material, required payloads, and the public log export needed to reconstruct and check that prefix.
+
+This is an operational requirement of the executed P10-over-SCITT instance. It does not change the abstract P10 profile and does not prescribe the storage architecture of a SCITT deployment.
+
+The S3 facade used a leaf-input cap of 65535 bytes, corresponding to a maximum Signed Statement size of 65474 bytes under the selected `LeafEncodeV0` wrapper. Detached payloads used for signature verification were handled separately, with a 1 MiB limit. These are deployment limits of the executed facade, not general P10 limits.
+
+The capture digest was recorded by the operator in the capture commit before the verification-result commit. That record establishes the repository ordering described in {{executed-instance-boundary}}; it does not establish an external observation time.
+
+## Registration Path {#executed-registration-path}
+
+The executed bootstrap used an issuer table supplied to the facade out of band. Two declaration statements were then registered as leaves 0 and 1. The logged declarations were not the source of registration authority: the facade used its preconfigured issuer table, and the declarations were published bytes.
+
+For registration, the facade authenticated submitted Signed Statements with ES256 against the preconfigured issuer table before append. This was an operator-side registration check only. The P10 replay path did not accept that check as verifier evidence; S2b independently verified relevant Signed Statement signatures against the key-resolution material frozen for the instance.
+
+The actual eight-leaf layout was as follows. `S` denotes the instance subject `p10s2sub:0fe1be115beb770330930911e69e4f2026c80809c64ada16e87fe63e7f9150d2`.
+
+| Index | Role | `iss` | `sub` |
+|---:|---|---|---|
+| 0 | policy declaration | `volmax-s3-operator` | `urn:volmax:s3:policy-declaration` |
+| 1 | verification-material declaration | `volmax-s3-operator` | `urn:volmax:s3:verification-material-declaration` |
+| 2 | profile commitment | `volmax-owner` | `S` |
+| 3 | operator note | `volmax-s3-operator` | `urn:volmax:s3:operator-note` |
+| 4 | instance commitment | `volmax-owner` | `S` |
+| 5 | evidence admission | `admitter-one` | `S` |
+| 6 | evidence closure | `volmax-owner` | `S` |
+| 7 | P10 Adjudication Statement | `volmax-owner` | `S` |
+
+Registration was serialized for this deployment. Each registration was fresh, each returned index equaled the retained log position, and the public checkpoint retained after each registration had size `index + 1`. These observations describe this execution; they are not a general claim that SCITT registration order represents issuance or creation order.
+
+The declarations at leaves 0 and 1 did not establish key authority or prove policy enforcement. Registration authentication was rooted in the out-of-band issuer table, while P10 replay authorization and signature interpretation were rooted in the frozen profile and its `key_resolution`.
+
+## Executed Lifecycle {#executed-lifecycle}
+
+The target P10 Adjudication Statement was registered at leaf 7 before the verification chain ran. Its selected SCITT Receipt established inclusion in the selected VDS at checkpoint size 8. It did not substitute for issuer signature verification by P10.
+
+The executed verification flow was:
+
+    registered target P10 Adjudication Statement at leaf 7
+            +
+    SCITT Receipt / checkpoint
+            +
+    exact retained Signed Statement bytes [0,8)
+            |
+            v
+    S2b replay verifier
+            |
+            +-- independently verifies relevant statement signatures
+            +-- verifies Receipt/checkpoint against committed parameters
+            +-- reconstructs the exact replay transcript tB
+            |
+            v
+    S2a coverage checker
+            |
+            v
+    S2a ACCEPT
+            |
+            v
+    post-S2a binding
+      TargetAdjudicationValidV0 T1-T6
+      closureAt
+      AdjudicationBindingV0 A1-A15
+            |
+            v
+    BINDING_MATCH
+
+The accepted run executed in an ephemeral Linux x86_64 cloud container. CPython 3.13.16 was recorded for that run but was not a pinned acceptance input. Rust 1.82.0 and the selected Lean 4.33.0 executable identities were checked by the frozen runner path.
+
+The accepted capture was later replayed on an operator-controlled workstation as a second host and produced the same accepted verdict. That later replay used CPython 3.12.3. The two observed interpreter versions with the same verdict are reproduction evidence; they are not a claim of Python-version independence.
+
+## Demonstration Boundary {#executed-demonstration-boundary}
+
+This appendix describes only the executed demonstration instance. The limitations and non-claims in {{implementation-limitations}} remain in force. In particular:
+
+* the P10 semantics exercised by the instance were the deliberately minimal two-bit fixture semantics, not a realistic evidence domain;
+* the S3-owned facade is not claimed to be a generally conformant RFC 9943 Transparency Service or SCRAPI implementation;
+* fixing `LeafEncodeV0` and the VDS identity for this instance does not demonstrate interoperability with arbitrary SCITT Transparency Services;
+* the same operator controlled the demonstration infrastructure and the later workstation replay, so the second-host result is not independent third-party attestation;
+* the operator-generated capture anchor is not an external timestamp or independent observation; and
+* the Receipt issuer identifier uses the reserved `.example` namespace and does not identify a publicly reachable service.
+
+The executed result therefore demonstrates one pinned P10-over-SCITT composition through `BINDING_MATCH`; it does not enlarge the claims stated in the body of this document.
 
 # Relationship to Prior Work
 {:numbered="false"}
