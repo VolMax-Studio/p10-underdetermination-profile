@@ -170,6 +170,38 @@ P10 defines a third-party-verifiable binding for NotDemonstrated(reason=underdet
 
 The profile defines a third-party-verifiable underdetermination binding for SCITT ({{RFC9943}}) using an in-toto Statement v1 ({{IN-TOTO-STATEMENT}}) predicate; the envelope structure is specified in {{statement-and-predicate-structure}}.
 
+## Profile, Instance, and Deployment {#profile-instance-deployment}
+
+This document distinguishes three layers.
+
+The *profile* is the abstract P10 Underdetermination Profile specified in
+{{formal-core}} through {{statement-and-predicate-structure}}. It defines what
+must be committed before the first evidence admission, what a verifier must
+check, and when a P10 Adjudication Statement may be issued. Conformance
+statements in this document refer only to the profile.
+
+An *instance* is one identified `InstanceCommitment` together with the concrete
+values that fill the profile's committed slots: for example the world class
+and claim semantics, the statement payload schema, the specific byte mapping
+selected for `LeafEncodeV0`, the VDS and `LogIdentityV0`, the key-resolution
+material, and the authorized admitter set. These values are chosen by the
+instance owner. A value selected for one instance is not thereby a requirement
+of the profile.
+
+A *deployment* is the operational environment in which an instance is
+executed, such as a particular Transparency Service implementation, its
+registration and bootstrap configuration, and the hosts and toolchains used
+for replay. Deployment properties are outside the profile.
+
+{{executed-instance}} and {{reproduction-pins}} are informative. They describe
+one executed instance and its deployment, and they neither add profile
+requirements nor establish properties of other instances, other world
+classes, or other SCITT Transparency Services. In particular, a Transparency
+Service may satisfy {{RFC9943}} without supporting the exact,
+checkpoint-bounded statement-byte replay used by the executed instance; that
+replay capability is a property of the P10-over-SCITT composition, not a
+SCITT conformance criterion.
+
 ## Non-Claims {#non-claims}
 
 - That “two compatible models ⇒ underdetermination” is novel.
@@ -1268,7 +1300,9 @@ The historical HP records are under `packaging/offline-package/evidence/hp-repla
 | Lake executable | `E09` | preflight | PINNED |
 | Lean shared lib | `E10` | preflight | PINNED |
 | Leanchecker | `E11` | preflight; not used on chain | PINNED |
-| HP `tB` artifact/hash | — | absent from historical run-info/preflight | OPEN |
+| Pinned-input artifact | — | absent from retained HP evidence | OPEN |
+| HP `tB` digest | `E12` | `verdict.json` | RECORDED |
+| HP `tB` artifact | — | absent from retained HP evidence | OPEN |
 
 The exact identifiers used above are:
 
@@ -1294,8 +1328,15 @@ The exact identifiers used above are:
       0df64f2384d4152ccb675b2e6b9ad4769d71c8ce168f6e2c24324df0db897c4d
     E11 HP Leanchecker executable SHA-256
       612915adfd75d37c27ade001eb287eebf24268b720f597f4f8ea16e9a5c55f33
+    E12 HP-recorded tB SHA-256
+      8711346a69c601b424da736bf890cc627170c1181616d08029f08c132129d14e
 
-The HP `tB` field is not filled from the byte-identical verdict. A later run would be a separate reproduction and would not retroactively alter this retained record.
+The retained HP `verdict.json` itself records E12. The corresponding `tB`
+artifact is not retained in the HP evidence, so the digest is `RECORDED` while
+the artifact remains `OPEN`. No `PINNED_INPUTS.json` file or retained digest
+for that artifact was found in the standalone HP evidence or its retained
+evidence archive. A later run would be a separate reproduction and would not
+retroactively alter this retained record.
 
 ## Replay Workbench Reproduction {#reproduction-workbench}
 
@@ -1355,13 +1396,19 @@ The exact identifiers used above are:
     F14 Workbench-recorded tB SHA-256
       8711346a69c601b424da736bf890cc627170c1181616d08029f08c132129d14e
 
+E03 and F05 are intentionally identical: the Workbench export retained the
+same byte-identical second-host `preflight.json` record as the HP evidence.
+That JSON record contains no timestamp field. D09 belongs to the earlier cloud
+execution and has a different digest.
+
 The Workbench report records the accepted `tB` digest in its verdict, but the report archive does not retain the `tB` artifact itself. The artifact field therefore remains `OPEN`.
 
 ## Remaining Open Fields {#reproduction-open}
 
 | Item | Value | Source | Status |
 |---|---|---|---|
-| HP second-host `tB` | — | no `tB` field in retained HP run-info/preflight | OPEN |
+| HP pinned inputs | — | no file/digest in retained HP evidence | OPEN |
+| HP `tB` artifact | — | digest retained in verdict; artifact absent | OPEN |
 | Workbench pinned inputs | — | file absent from successful report archive | OPEN |
 | Workbench `tB` artifact | — | file absent; verdict records only digest | OPEN |
 
