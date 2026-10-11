@@ -51,6 +51,22 @@ normative:
 informative:
   RFC7942:
   RFC2606:
+  SCRAPI-11:
+    title: "Supply Chain Integrity, Transparency, and Trust (SCITT) Reference APIs"
+    author:
+      - ins: H. Birkholz
+        name: Henk Birkholz
+        org: Fraunhofer SIT
+      - ins: J. Geater
+        name: Jon Geater
+        org: Bowball Technologies Ltd
+      - ins: A. Delignat-Lavaud
+        name: Antoine Delignat-Lavaud
+        org: Microsoft Research
+    date: 2026-06-26
+    seriesinfo:
+      Internet-Draft: draft-ietf-scitt-scrapi-11
+    target: https://datatracker.ietf.org/doc/draft-ietf-scitt-scrapi/11/
   P10-V011:
     title: "P10 Underdetermination Profile, version 0.1.1"
     author:
@@ -531,7 +547,7 @@ This section records implementation status in the format recommended by {{RFC794
 
 A research prototype of the P10 verification chain has been implemented by VolMax Studio Lab d.o.o. The implementation comprises a Lean-checked S1 underdetermination component, the S2b replay verifier, the S2a coverage checker, post-S2a binding checks, and an S3 registration/capture path with replay tooling.
 
-The executed SCITT-facing instance used Tessera v1.0.4 as a transparency-log engine behind an S3-owned facade. Tessera itself was not treated as an off-the-shelf RFC 9943 Transparency Service, and the implementation does not claim general RFC 9943 or SCRAPI conformance for that facade.
+The executed SCITT-facing instance used Tessera v1.0.4 as a transparency-log engine behind an S3-owned facade. Tessera itself was not treated as an off-the-shelf RFC 9943 Transparency Service, and the implementation claims neither general RFC 9943 conformance nor conformance with the SCITT Reference APIs (SCRAPI) {{SCRAPI-11}} for that facade.
 
 The Transparency Service registration path and the P10 verification path have distinct trust roles. A Transparency Service may verify a Signed Statement signature while processing registration as required by its registration procedure. P10 acceptance does not treat that operator-side check as verification evidence. During replay, S2b independently verifies the relevant Signed Statement signatures against the key-resolution material frozen for the instance.
 
@@ -905,7 +921,7 @@ This document has no IANA actions.
 
 # Executed P10-over-SCITT Instance {#executed-instance}
 
-This appendix is informative. It describes one executed P10-over-SCITT instance and does not add conformance requirements beyond the body of this document. Exact reproduction and artifact pins are recorded separately in Appendix C.
+This appendix is informative. It describes one executed P10-over-SCITT instance and does not add conformance requirements beyond the body of this document. Exact reproduction and artifact pins are recorded in {{reproduction-pins}}.
 
 ## Instance Boundary {#executed-instance-boundary}
 
@@ -1006,6 +1022,350 @@ This appendix describes only the executed demonstration instance. The limitation
 * the Receipt issuer identifier uses the reserved `.example` namespace and does not identify a publicly reachable service.
 
 The executed result therefore demonstrates one pinned P10-over-SCITT composition through `BINDING_MATCH`; it does not enlarge the claims stated in the body of this document.
+
+# Reproduction and Artifact Pins {#reproduction-pins}
+
+This appendix is informative. It records the retained source, capture, execution, and reproduction identifiers for the executed demonstration. The status column has three meanings:
+
+* `PINNED`: a frozen input or executable identity that was checked as part of the recorded execution path;
+* `RECORDED`: a value retained in the evidence but not used as a frozen acceptance input; and
+* `OPEN`: the retained evidence does not contain the artifact or value needed to make the stronger statement.
+
+No `OPEN` field is inferred from an identical downstream verdict. To keep the RFC text rendering within the available page width, each matrix uses short identifier labels in the `Value` column. The complete identifier values follow each matrix verbatim.
+
+## Upstream Source and Manifest Pins {#reproduction-upstream}
+
+| Item | Value | Source | Status |
+|---|---|---|---|
+| P10 v0.1.1 | `A01/A02/A03` | `v0.1.1` | PINNED |
+| S1 source | `A04/A05` | `v0.1.0-s1-ratified` | PINNED |
+| S1 manifest | `A06` | `manifest/VerifierManifestS1.json @ e4db3747` | PINNED |
+| S2a source | `A07/A08` | `v0.1.0-s2a-ratified` | PINNED |
+| S2a verifier manifest | `A09` | `manifest/VerifierManifestS2aV0.json @ 741d56d3` | PINNED |
+| S2a vector manifest | `A10` | `manifest/VectorManifestS2aV0.json @ 741d56d3` | PINNED |
+| LeafEncode spec | `A11` | `profile/LeafEncodeV0_SPEC.md @ 741d56d3` | PINNED |
+| LeafEncode digest | `A12` | `LeafEncodeSpecArtifactDigestV0` | PINNED |
+| S2b source | `A13/A14` | `v0.1.0-s2b-complete` | PINNED |
+| S2b exec manifest | `A15` | `manifest/S2bExecutionManifestV0.json @ 8eaa91ca` | PINNED |
+| S2b vector manifest | `A16` | `manifest/VectorManifestS2bV0.json @ 8eaa91ca` | PINNED |
+| S2b Cargo.lock | `A17` | `Cargo.lock @ 8eaa91ca` | PINNED |
+| S2b toolchain file | `A18` | `rust-toolchain.toml @ 8eaa91ca` | PINNED |
+| S2b public export | `A19/A20` | `v0.1.1-s2b-public` | RECORDED |
+
+The exact identifiers used above are:
+
+    A01 profile commit
+      e2a02a73df9e50f624512043dcb007fc337ba587
+    A02 profile tag object
+      caa53b854367cf1253e431246e725dcd88570e9b
+    A03 profile SHA-256
+      b92c0d689b9f16f2184ba2addb8653ed881595cc3a0117c62cadadf5c6dc6558
+    A04 S1 commit
+      e4db3747eaeeb1a07227bb9029f9a9c3b566cdb1
+    A05 S1 tag object
+      7c3df437de454466b932a5d0dc889b3287c64e05
+    A06 S1 verifier-manifest SHA-256
+      06bf9129bf480c79ed5281ec2e944ac5613d1c340552ce5a415f5bf4c8965907
+    A07 S2a commit
+      741d56d36d7b2bfe2e9e0080a1cba4393e4a47da
+    A08 S2a tag object
+      c356cde5295dc82860b70305e3048db8f2717db3
+    A09 S2a verifier-manifest SHA-256
+      f8380b19b43334925e7f7621e1f7d7912f36c789199d3f8d069b87f5ea176d46
+    A10 S2a vector-manifest SHA-256
+      dd2d567e04fae52244feec988a56df26e4721f833f072dd7073959d9170e39ec
+    A11 LeafEncodeV0 specification SHA-256
+      d142e636a9a92fdc57bbc49e77e077607ff12e96c19b79ad539b2f6b17b16008
+    A12 LeafEncodeSpecArtifactDigestV0
+      571765530870e4a6c028a54ec48aab8153411a15cfe30c44611c11c02925f9d5
+    A13 S2b ratified commit
+      8eaa91cad1ffa963158b365c6d0d7316f4965e89
+    A14 S2b complete tag object
+      83fad0063443aa5d43620d82550dff9cbf3dd3a8
+    A15 S2b execution-manifest SHA-256
+      b027765dcc1d330886f0ab4a4daf29ced273fdb3a35dec859b752a63ae689495
+    A16 S2b vector-manifest SHA-256
+      2582c560abe2e7e0b5af63f0ba0428e3a4d2f625f36f6da430ef5b015bf27762
+    A17 S2b Cargo.lock SHA-256
+      e2214ae0e751a61d8480c6894d2868d1eb09e62d9d180c30fd743270494f995f
+    A18 S2b rust-toolchain.toml SHA-256
+      8e0c5bd6d955bff9fcb7d2028bc78d6cd5c66c74ea8586a9a56afe4c03939af4
+    A19 S2b public-export commit
+      8e89f9a4192bdd0ab280556701dc595eb55539d2
+    A20 S2b public-export tag object
+      d98179fb060ddf94f138bd5bb9720afdcb58ddcf
+
+The public S2b distribution changes licensing, notice, README, security, and integration-documentation files relative to the ratified source. The manifest-covered implementation files listed above are identical at the ratified and public commits.
+
+## Accepted S3 Capture and Identity Pins {#reproduction-s3-identity}
+
+The capture-relative paths in this subsection are rooted at `ts-prototype/evidence/s3b-capture/capture/`.
+
+| Item | Value | Source | Status |
+|---|---|---|---|
+| Frozen S3-A | `B01/B02` | `v0.1.0-s3a-frozen` | PINNED |
+| Capture commit | `B03` | S3-B capture state | RECORDED |
+| Accepted result | `B04/B05` | `v0.1.0-s3-accepted` | RECORDED |
+| Capture index | `B06` | `capture.json @ 149953c` | PINNED |
+| Replay request | `B07` | `request.cbor @ 149953c` | PINNED |
+| Target Receipt | `B08` | `receipts/000007.receipt.cbor @ 149953c` | PINNED |
+| Final checkpoint | `B09` | `provenance/public-checkpoints/000007.checkpoint @ 149953c` | PINNED |
+| Log identity | `B10` | frozen `pB.json` | PINNED |
+| Receipt key | `B11` | `public-keys/ts.public.cose_key.cbor @ 149953c` | PINNED |
+| Owner key | `B12` | `public-keys/volmax-owner.public.cose_key.cbor @ 149953c` | PINNED |
+| Admitter-one key | `B13` | `public-keys/admitter-one.public.cose_key.cbor @ 149953c` | PINNED |
+| Admitter-two key | `B14` | `public-keys/admitter-two.public.cose_key.cbor @ 149953c` | PINNED |
+| Operator key | `B15` | `public-keys/operator.public.cose_key.cbor @ 149953c` | PINNED |
+| Non-target subjects | `B16` | prefix leaves 0, 1, 3 | PINNED |
+
+The exact identifiers used above are:
+
+    B01 S3-A commit
+      7c3b2d4b919c356a566f8f5d3628d4f546e41afa
+    B02 S3-A tag object
+      8f0c97f3745131f79936dec71ebe09316332f5ab
+    B03 normative capture commit
+      149953c29780e566b0b23f7a1b975dc93349daf2
+    B04 accepted-result commit
+      5acc277a13dc122e39fcb5f9f3e646b06cc95009
+    B05 accepted-result tag object
+      4148a7403e8d5ed0a30ca878d617323bb3a75b3a
+    B06 capture-index SHA-256
+      2662c2daf912d2ce4796a26b13464d7bc2df6ba8825fa399fed3a87185d700a7
+    B07 request.cbor SHA-256
+      f577f382607c6956e4c724ff37e19f55581bd4c3a06e075ebb3cb0baed569c83
+    B08 target Receipt SHA-256
+      b1a0868ea05ceea2b9b9e5478ccc859e2117068b01b910844480872da13e9957
+    B09 final checkpoint SHA-256
+      81b3e19484e6e1f1b6dc5d4a553c35f8bcef7e3976ac09fbdec48f127d9aeaad
+    B10 LogIdentityV0 digest
+      6a510bcf3a122ae9af2714939d60a6a4e997ff9751836024dd480ebd60cd37c9
+    B11 Receipt-key RFC 9679 thumbprint
+      6bc5b0ae47f8726379ffbfb0e0858fe10ef74ba5b8801edeba0b3d3b89944056
+    B12 volmax-owner key thumbprint
+      63759d03f57a34801b4405f54c6dd9a2ab6bf47e120fa8660f548e202dbce512
+    B13 admitter-one key thumbprint
+      d670cdd06104880626929398bb2bfad40103801a7ba156393ef9d1cac6172f62
+    B14 admitter-two key thumbprint
+      43e39148af008041703b0ab2f5cd86071e94b3bc1364d319bfff9a4ea8bd9ac1
+    B15 volmax-s3-operator key thumbprint
+      f7cae36222deeaccc01ed6cf2508d7d5f9e7d8e323c17ab2f3a70a264620a45e
+    B16 non-target subjects
+      urn:volmax:s3:policy-declaration
+      urn:volmax:s3:verification-material-declaration
+      urn:volmax:s3:operator-note
+
+The `intruder-x` public key was retained in the profile material but was not configured as a facade registration issuer for this execution.
+
+## Captured Prefix and Transparency Export {#reproduction-capture}
+
+The paths in this subsection are relative to the same accepted capture root.
+
+| Item | Value | Source | Status |
+|---|---|---|---|
+| Capture index | `C01` | `capture.json @ 149953c` | PINNED |
+| Prefix `[0]` | `C02` | `prefix/000000.cose @ 149953c` | PINNED |
+| Prefix `[1]` | `C03` | `prefix/000001.cose @ 149953c` | PINNED |
+| Prefix `[2]` | `C04` | `prefix/000002.cose @ 149953c` | PINNED |
+| Prefix `[3]` | `C05` | `prefix/000003.cose @ 149953c` | PINNED |
+| Prefix `[4]` | `C06` | `prefix/000004.cose @ 149953c` | PINNED |
+| Prefix `[5]` | `C07` | `prefix/000005.cose @ 149953c` | PINNED |
+| Prefix `[6]` | `C08` | `prefix/000006.cose @ 149953c` | PINNED |
+| Prefix `[7]` | `C09` | `prefix/000007.cose @ 149953c` | PINNED |
+| Tessera bundle | `C10` | `provenance/public-http-responses/tile/entries/000.p/8 @ 149953c` | RECORDED |
+
+The exact SHA-256 values are:
+
+    C01 capture index
+      2662c2daf912d2ce4796a26b13464d7bc2df6ba8825fa399fed3a87185d700a7
+    C02 prefix statement 0
+      0fdf53c19413959063ad9a2a7afc6f906ff6f7aa3c65a1200c25eb6307fb0af1
+    C03 prefix statement 1
+      b9c37da56d55da6a68f99cc621edc396c2e50bdcd5cfbef6d6b9100c03a4edb9
+    C04 prefix statement 2
+      9bc7ef1d0960efaf68ce771dfce254c78f26a0ac7b390c383451821770cb2a4f
+    C05 prefix statement 3
+      7cd73a51bb2baaa7773cd2eaed2c99869598500f641c5d2905b316ec949979cb
+    C06 prefix statement 4
+      4d36d91f29883d605fe486c1e4e2e5cf1d548c9a8154d69db944510c5d8eb6a2
+    C07 prefix statement 5
+      75abeea5728102a286327505dba979b38e8383d95056ac1d0c72cea63daf7119
+    C08 prefix statement 6
+      5406abf0d14906c2b986556acb060e92af11e0d4812be42239ba99892283f491
+    C09 prefix statement 7
+      73273d96f81aebfa35ff2298f99198328664a1ab6bec442ba5f4ce0003f8a16e
+    C10 Tessera public entry-bundle export
+      555c1820a210c7cfeacbb77d0dc60a0c93fe1cb132855115a4fb834951a48e50
+
+The Tessera entry-bundle digest is the digest of the retained transparency-log export. It is not a digest of a newly defined aggregate P10 prefix object. No additional aggregate prefix digest is introduced here.
+
+## Accepted Replay Execution {#reproduction-accepted-run}
+
+The accepted runner records in this subsection are under `ts-prototype/evidence/s3b-capture/runner/` at commit `5acc277`.
+
+| Item | Value | Source | Status |
+|---|---|---|---|
+| Pinned inputs | `D01` | `PINNED_INPUTS.json` | PINNED |
+| Entry executable | `D02` | pinned inputs / run-info | PINNED |
+| G5 executable | `D03` | pinned inputs / run-info | PINNED |
+| Rust toolchain | `1.82.0` | pinned inputs / preflight | PINNED |
+| Lean executable | `D04` | manifests / preflight | PINNED |
+| Lake executable | `D05` | S1 manifest / preflight | PINNED |
+| Lean shared lib | `D06` | S1 manifest / preflight | PINNED |
+| Leanchecker | `D07` | manifest / preflight; not used on chain | PINNED |
+| Run-info | `D08` | `run-info.json` | RECORDED |
+| Preflight | `D09` | `preflight.json` | RECORDED |
+| Platform | `D10` | run-info | RECORDED |
+| Python | `3.13.16` | run-info; not pinned | RECORDED |
+| Network isolation | `true/{lo}` | run-info | RECORDED |
+| Replay `tB` digest | `D11` | verdict | RECORDED |
+| Accepted verdict | `D12` | `verdict.json`; `BINDING_MATCH` | RECORDED |
+
+The exact identifiers used above are:
+
+    D01 PINNED_INPUTS.json SHA-256
+      3a1550f8230a70431ca8c7d4905db9d486b2ca7fc6cde1bbc66265ced7ec9912
+    D02 entry executable SHA-256
+      53ba44408b1de7322010681f45bb4aa576931f0974c448d9e6b7a662683ca863
+    D03 G5 executable SHA-256
+      a2b4b1efeda26302ec5f0710905c46f7c180ad862035959d47ba1e33305ee0bd
+    D04 Lean executable SHA-256
+      9842f89b9a1874db969cc58933e4117c397338f795eb8febffeb79edd5272847
+    D05 Lake executable SHA-256
+      8c57ee92ed8547a8508b61bce38fc14da56e2856a4ed5a574d73e8f62647d7d2
+    D06 Lean shared-library SHA-256
+      0df64f2384d4152ccb675b2e6b9ad4769d71c8ce168f6e2c24324df0db897c4d
+    D07 Leanchecker executable SHA-256
+      612915adfd75d37c27ade001eb287eebf24268b720f597f4f8ea16e9a5c55f33
+    D08 accepted run-info SHA-256
+      9eee4e60cf634087934c78c997139c4507d3d12aac51a91fb7e1535668aa71c1
+    D09 accepted preflight SHA-256
+      14ddf44f342d8fed8330619b4cb52f86dc33046ff8486be0e99a9cdc35f875d1
+    D10 accepted platform
+      Linux-6.18.44-fc-v80-x86_64-with-glibc2.39
+    D11 replay transcript tB SHA-256
+      8711346a69c601b424da736bf890cc627170c1181616d08029f08c132129d14e
+    D12 accepted verdict SHA-256
+      6368022f06cc6ef6e4c9698cd45e71c44db505b4bf8b5812aaf0cbe26f41db22
+
+## HP Second-Host Reproduction {#reproduction-hp}
+
+The historical HP records are under `packaging/offline-package/evidence/hp-replay-20261008T214835Z/`. A new replay is not used to fill any field in this subsection.
+
+| Item | Value | Source | Status |
+|---|---|---|---|
+| Evidence commit | `E01` | retained HP evidence | RECORDED |
+| Run-info | `E02` | `run-info.json` | RECORDED |
+| Preflight | `E03` | `preflight.json` | RECORDED |
+| Verdict | `E04` | `verdict.json`; `BINDING_MATCH` | RECORDED |
+| Platform | `E05` | run-info | RECORDED |
+| Python | `3.12.3` | run-info; not pinned | RECORDED |
+| Network isolation | `true/{lo}` | run-info | RECORDED |
+| Entry executable | `E06` | verdict / run-info | PINNED |
+| G5 executable | `E07` | verdict / run-info | PINNED |
+| Rust toolchain | `1.82.0` | preflight | PINNED |
+| Lean executable | `E08` | preflight / run-info | PINNED |
+| Lake executable | `E09` | preflight | PINNED |
+| Lean shared lib | `E10` | preflight | PINNED |
+| Leanchecker | `E11` | preflight; not used on chain | PINNED |
+| HP `tB` artifact/hash | — | absent from historical run-info/preflight | OPEN |
+
+The exact identifiers used above are:
+
+    E01 HP evidence commit
+      fe6edac4bb26784d55afc2b253846854607d2a5b
+    E02 HP run-info SHA-256
+      4c82c728e1b9bfeedbd1c66445e8c728fae3903c7893b945b29ac3227b1d8a3b
+    E03 HP preflight SHA-256
+      1c3ba055f0724a77eb03859fc8728376a9e30040702004c11a45fd96f398fd9f
+    E04 HP verdict SHA-256
+      6368022f06cc6ef6e4c9698cd45e71c44db505b4bf8b5812aaf0cbe26f41db22
+    E05 HP platform
+      Linux-7.0.0-34-generic-x86_64-with-glibc2.39
+    E06 HP entry executable SHA-256
+      53ba44408b1de7322010681f45bb4aa576931f0974c448d9e6b7a662683ca863
+    E07 HP G5 executable SHA-256
+      a2b4b1efeda26302ec5f0710905c46f7c180ad862035959d47ba1e33305ee0bd
+    E08 HP Lean executable SHA-256
+      9842f89b9a1874db969cc58933e4117c397338f795eb8febffeb79edd5272847
+    E09 HP Lake executable SHA-256
+      8c57ee92ed8547a8508b61bce38fc14da56e2856a4ed5a574d73e8f62647d7d2
+    E10 HP Lean shared-library SHA-256
+      0df64f2384d4152ccb675b2e6b9ad4769d71c8ce168f6e2c24324df0db897c4d
+    E11 HP Leanchecker executable SHA-256
+      612915adfd75d37c27ade001eb287eebf24268b720f597f4f8ea16e9a5c55f33
+
+The HP `tB` field is not filled from the byte-identical verdict. A later run would be a separate reproduction and would not retroactively alter this retained record.
+
+## Replay Workbench Reproduction {#reproduction-workbench}
+
+The retained successful report archive is `apps/replay-workbench/evidence/hp-20261009/replay-report-20261009T225843Z-56b012c1.tar.gz`. Paths beginning with `runner/` below are relative to the archive's `replay-report/` root.
+
+| Item | Value | Source | Status |
+|---|---|---|---|
+| Workbench source | `F01` | exported report | RECORDED |
+| Evidence commit | `F02` | retained HP evidence | RECORDED |
+| Report archive | `F03` | retained export | RECORDED |
+| Member integrity | `10/PASS` | `REPORT_SHA256SUMS` | RECORDED |
+| Run-info | `F04` | `runner/run-info.json` | RECORDED |
+| Preflight | `F05` | `runner/preflight.json` | RECORDED |
+| Verdict | `F06` | `runner/verdict.json`; `BINDING_MATCH` | RECORDED |
+| Platform | `F07` | run-info | RECORDED |
+| Python | `3.12.3` | run-info; not pinned | RECORDED |
+| Network isolation | `true/{lo}` | run-info | RECORDED |
+| Entry executable | `F08` | verdict / run-info | PINNED |
+| G5 executable | `F09` | verdict / run-info | PINNED |
+| Rust toolchain | `1.82.0` | preflight required check | PINNED |
+| Lean executable | `F10` | preflight required check | PINNED |
+| Lake executable | `F11` | preflight required check | PINNED |
+| Lean shared lib | `F12` | preflight required check | PINNED |
+| Leanchecker | `F13` | preflight check; not used on chain | PINNED |
+| Pinned-input artifact | — | absent from report archive | OPEN |
+| `tB` digest | `F14` | verdict | RECORDED |
+| `tB` artifact | — | absent from report archive | OPEN |
+
+The exact identifiers used above are:
+
+    F01 Workbench source commit
+      b264bb956c413a35750f86ac9a1d785f5a853930
+    F02 Workbench evidence commit
+      7f9a85c7000b31cd2af5daa15af0e7246514d516
+    F03 successful report archive SHA-256
+      bb97a2e3825970ac1a55d13b2f7937e3131709062875ced0b4672cfdc59b2820
+    F04 Workbench run-info SHA-256
+      bf1fdff9cfbacd31f5675466a8ff0726dc0c3a0ddda347834020e9882d9286dd
+    F05 Workbench preflight SHA-256
+      1c3ba055f0724a77eb03859fc8728376a9e30040702004c11a45fd96f398fd9f
+    F06 Workbench verdict SHA-256
+      6368022f06cc6ef6e4c9698cd45e71c44db505b4bf8b5812aaf0cbe26f41db22
+    F07 Workbench platform
+      Linux-7.0.0-34-generic-x86_64-with-glibc2.39
+    F08 Workbench entry executable SHA-256
+      53ba44408b1de7322010681f45bb4aa576931f0974c448d9e6b7a662683ca863
+    F09 Workbench G5 executable SHA-256
+      a2b4b1efeda26302ec5f0710905c46f7c180ad862035959d47ba1e33305ee0bd
+    F10 Workbench Lean executable SHA-256
+      9842f89b9a1874db969cc58933e4117c397338f795eb8febffeb79edd5272847
+    F11 Workbench Lake executable SHA-256
+      8c57ee92ed8547a8508b61bce38fc14da56e2856a4ed5a574d73e8f62647d7d2
+    F12 Workbench Lean shared-library SHA-256
+      0df64f2384d4152ccb675b2e6b9ad4769d71c8ce168f6e2c24324df0db897c4d
+    F13 Workbench Leanchecker executable SHA-256
+      612915adfd75d37c27ade001eb287eebf24268b720f597f4f8ea16e9a5c55f33
+    F14 Workbench-recorded tB SHA-256
+      8711346a69c601b424da736bf890cc627170c1181616d08029f08c132129d14e
+
+The Workbench report records the accepted `tB` digest in its verdict, but the report archive does not retain the `tB` artifact itself. The artifact field therefore remains `OPEN`.
+
+## Remaining Open Fields {#reproduction-open}
+
+| Item | Value | Source | Status |
+|---|---|---|---|
+| HP second-host `tB` | — | no `tB` field in retained HP run-info/preflight | OPEN |
+| Workbench pinned inputs | — | file absent from successful report archive | OPEN |
+| Workbench `tB` artifact | — | file absent; verdict records only digest | OPEN |
+
+These fields are intentionally not inferred from the identical `BINDING_MATCH` verdict. A newly executed replay would constitute a new reproduction record rather than retroactive evidence for the retained HP or Workbench runs.
 
 # Relationship to Prior Work
 {:numbered="false"}
