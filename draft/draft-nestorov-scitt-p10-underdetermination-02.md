@@ -1504,7 +1504,7 @@ Each item in the following list is one row of the prior-art table.
 
 - **Work / system:** **The `verification.*` Constraint Family (`draft-krausz-verification-state-03`)** ({{KRAUSZ-03}}) — current revision inspected 2026-10-30
 
-  **Existing coverage:** Defines signed claim/ruleset/evidence-bound JWS receipts; `verified`, `contradicted`, `indeterminate`, and `not_evaluated` states; content-addressed evidence sets; local recomputation; immutable content-addressed mapping resolution with digest verification before use and fail-closed mismatch handling; and SCITT-compatible transport. It explicitly states that a pinned evidence set records what the issuer listed but cannot prove disclosure completeness or detect an omission.
+  **Existing coverage:** Defines signed claim/ruleset/evidence-bound JWS receipts; `verified`, `contradicted`, `indeterminate`, and `not_evaluated` states; content-addressed evidence sets; local recomputation; immutable content-addressed mapping resolution with digest verification before use and fail-closed mismatch handling; and SCITT-compatible transport. Under `indeterminate`, reason codes distinguish causes including `divergence`, where the check found divergence between sources or signals that the verifier cannot attribute to either side. It explicitly states that a pinned evidence set records what the issuer listed but cannot prove disclosure completeness or detect an omission.
 
   **What it does not cover relative to {{introduction}}:** Does not establish checkpoint-complete evidence coverage and does not require a pre-evidence committed `Wπ` with executable `Compatibleπ` and `Evalπ`, a concrete divergent-world pair, or a Lean proof that both worlds remain compatible with the same closed evidence set while assigning different claim values. P10's narrower remainder is instance-unique profile resolution plus transitive verifier-toolchain/build binding, not digest-checked ruleset resolution as such.
 
@@ -1522,7 +1522,7 @@ Each item in the following list is one row of the prior-art table.
 
 - **Work / system:** **Decision Provenance for SCITT (`draft-lemonnier-scitt-decision-provenance-00`)** ({{LEMONNIER-DP-00}}) — inspected 2026-10-30
 
-  **Existing coverage:** Decision records and action-binding attachments that bind an action or release to the decision behind it, including authority, presented material, reasoning, offline verification, and optional approver signatures, with SCITT anchoring for witness checkpoints.
+  **Existing coverage:** Defines decision records and action-binding attachments that link an action or release to a decision record. The attachment records what its issuer says was presented and may carry an authority reference and reasoning; those assertions are not thereby independently established without separate verification. The draft also describes verification procedures and optional approver signatures, with SCITT anchoring for witness checkpoints.
 
   **What it does not cover relative to {{introduction}}:** Establishes decision provenance rather than evidential underdetermination. It does not define a pre-evidence compatible-world class or require a concrete pair of compatible worlds assigning different values to the same frozen claim.
 

@@ -66,6 +66,8 @@ Inspected on 2026-10-30:
 
 These sources strengthen adjacent SCITT capabilities but do not, in the inspected revisions, require the concrete P10 divergent-world pair under a pre-evidence committed executable model class.
 
+Gate precision review on the first `-02` candidate additionally required two editorial clarifications: the `verification.*` row now names its `indeterminate` / `divergence` reason-code boundary explicitly, and the Decision Provenance row now distinguishes issuer-asserted authority/presented-material fields from independently verified facts. Neither change alters the P10 profile semantics.
+
 ## 7. Package-layer boundary
 
 Separate P10 research has since developed package-level formal-binding and rule-re-execution contracts. Those mechanisms are deliberately **not imported** into this Internet-Draft revision.

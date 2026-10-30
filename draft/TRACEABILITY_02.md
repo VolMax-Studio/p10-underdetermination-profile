@@ -17,10 +17,10 @@ A required `YES` is a STOP condition and must be handled as a separate profile r
 | ID | `-01` state | `-02` candidate treatment | Class | Semantics changed? |
 |---|---|---|---|---|
 | D02-01 | `docname ...-01` | advance document revision to `...-02` | I-D REVISION | NO |
-| D02-02 | `draft-krausz-verification-state-02` | cite and describe current `-03` revision | PRIOR-ART UPDATE | NO |
+| D02-02 | `draft-krausz-verification-state-02` | cite and describe current `-03` revision, including the `indeterminate` / `divergence` reason-code boundary | PRIOR-ART UPDATE | NO |
 | D02-03 | Agent Action Capsule `-02` | cite current `-05` and replace the old terse comparison with a bounded current description | PRIOR-ART UPDATE | NO |
 | D02-04 | no CLL row | add `draft-mih-scitt-checkpointed-local-log-02` and its payload-neutral order/completeness boundary | NEW INFORMATIVE PRIOR ART | NO |
-| D02-05 | no Decision Provenance row | add `draft-lemonnier-scitt-decision-provenance-00` and distinguish decision provenance from claim underdetermination | NEW INFORMATIVE PRIOR ART | NO |
+| D02-05 | no Decision Provenance row | add `draft-lemonnier-scitt-decision-provenance-00`, preserving its issuer-assertion boundary for authority/presented-material fields, and distinguish decision provenance from claim underdetermination | NEW INFORMATIVE PRIOR ART | NO |
 | D02-06 | no CIRIS CEG row | add `draft-moore-scitt-ciris-ceg-00` and distinguish signed claim grammar from P10 divergent-world proof | NEW INFORMATIVE PRIOR ART | NO |
 | D02-07 | package-level work not explicitly separated | add one Non-Claims bullet separating package `formal_binding` / rule re-execution from `ActiveProfileBindingV0` | SCOPE CLARIFICATION | NO |
 | D02-08 | source snapshot ends with 2026-09 sweep | record focused 2026-10-30 IETF sweep and exact revisions | SOURCE PROVENANCE | NO |
