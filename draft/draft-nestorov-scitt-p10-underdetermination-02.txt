@@ -3219,14 +3219,15 @@ Internet-Draft       P10 Underdetermination Profile         October 2026
       scitt-decision-provenance-00)* ([LEMONNIER-DP-00]) — inspected
       2026-10-30
 
-      *Existing coverage:* Defines decision records and action-binding
-      attachments that link an action or release to a decision record.
-      The attachment records what its issuer says was presented and may
-      carry an authority reference and reasoning; those assertions are
-      not thereby independently established without separate
-      verification.  The draft also describes verification procedures
-      and optional approver signatures, with SCITT anchoring for witness
-      checkpoints.
+      *Existing coverage:* Describes how decision records and action-
+      binding attachments, as defined by the Decision Provenance
+      Standard extensions, link an action or release to the decision
+      behind it.  The attachment records what its issuer says was
+      presented and may carry an authority reference and reasoning;
+      those assertions are not thereby independently established without
+      separate verification.  The draft also describes verification
+      procedures and optional approver signatures, with SCITT anchoring
+      for witness checkpoints.
 
       *What it does not cover relative to Section 1:* Establishes
       decision provenance rather than evidential underdetermination.  It
@@ -3241,7 +3242,6 @@ Internet-Draft       P10 Underdetermination Profile         October 2026
       claim/delegation/replacement/withdrawal/recantation rows with
       fixed admission checks and named refusal reasons, together with an
       explicit comparison to SCITT roles and transparency mechanisms.
-
 
 
 

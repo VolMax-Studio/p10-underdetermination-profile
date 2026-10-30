@@ -1522,7 +1522,7 @@ Each item in the following list is one row of the prior-art table.
 
 - **Work / system:** **Decision Provenance for SCITT (`draft-lemonnier-scitt-decision-provenance-00`)** ({{LEMONNIER-DP-00}}) — inspected 2026-10-30
 
-  **Existing coverage:** Defines decision records and action-binding attachments that link an action or release to a decision record. The attachment records what its issuer says was presented and may carry an authority reference and reasoning; those assertions are not thereby independently established without separate verification. The draft also describes verification procedures and optional approver signatures, with SCITT anchoring for witness checkpoints.
+  **Existing coverage:** Describes how decision records and action-binding attachments, as defined by the Decision Provenance Standard extensions, link an action or release to the decision behind it. The attachment records what its issuer says was presented and may carry an authority reference and reasoning; those assertions are not thereby independently established without separate verification. The draft also describes verification procedures and optional approver signatures, with SCITT anchoring for witness checkpoints.
 
   **What it does not cover relative to {{introduction}}:** Establishes decision provenance rather than evidential underdetermination. It does not define a pre-evidence compatible-world class or require a concrete pair of compatible worlds assigning different values to the same frozen claim.
 
